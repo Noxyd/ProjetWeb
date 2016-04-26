@@ -1,4 +1,4 @@
-#Projet Web STRI
+#Projet Web STRI :
 ##Une plateforme collaborative de recherche
 
 ####Objectif
