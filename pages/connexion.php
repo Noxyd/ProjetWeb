@@ -17,45 +17,33 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link href="/css/squelette.css" rel="stylesheet">
+    <link href="/css/connexion.css" rel="stylesheet">
   </head>
   <body>
     <div id="wrap-container">
       <header>
-        <a href="#"><img id="logo" src="images/logo/logo-transparent-nom.png"/></a>
-        <fieldset id="fieldset-header" >
-          <legend>Bonjour Machin</legend>
-          <a href="#" class="btn-fieldset btn btn-primary">Mon profil</a>
-          <a href="/pages/connexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
-        </fieldset>
+        <center><a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a></center>
       </header>
-      <nav>
-        <center>
-        <ul id="wrap-li">
-          <li><a href="#" class="actif">Accueil</a></li>
-          <li><a href="#" ><strong>Présentation</strong></a></li>
-          <li><a href="#"><strong>Publications</strong></a></li>
-          <li><a href="#"><strong>Evénements</strong></a></li>
-          <li><a href="#"><strong>Messages</strong></a></li>
-          <li><a href="#"><strong>Annuaire</strong></a></li>
-          <li><a href="#"><strong>Budget</strong></a></li>
-        </ul>
-        </center>
-      </nav>
       <div id="wrap-content">
-        <div id="left-panel">
-          <div class="left-sub-panel">
 
-          </div>
-          <div class="left-sub-panel">
-
-          </div>
-        </div>
-        <div id="right-panel">
-
-        </div>
+        <form id="form-cnx" action="/index.php">
+          <h1>Connectez-vous</h1>
+          <table>
+            <tr>
+              <td><p>Adresse mail:</p></td>
+              <td><input type="email" name="mail" ></td>
+            </tr>
+            <tr>
+              <td><p>Mot de passe :</p></td>
+              <td><input type="password" name="password"></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><input type="submit" class="btn btn-success" value="Connexion"></td>
+            </tr>
+          </table>
+        </form>
       </div>
-
-
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
