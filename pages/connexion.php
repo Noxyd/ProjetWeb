@@ -26,7 +26,7 @@
       </header>
       <div id="wrap-content">
 
-        <form id="form-cnx" action="/index.php">
+        <form id="form-cnx" method="post" action="/index.php">
           <h1>Connectez-vous</h1>
           <table>
             <tr>
