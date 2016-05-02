@@ -7,6 +7,6 @@ Fournir un outil de partage et de centralisation de connaissance pour une équip
 ####Changelog
 **02/05/16**
 
-+Création du fichier index.css.
-+Design des "panels" qui recevront les publications récentes.
-+Ajout des commentaires dans le css.
++ Création du fichier index.css.
++ Design des "panels" qui recevront les publications récentes.
++ Ajout des commentaires dans le css.
