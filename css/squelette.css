@@ -1,3 +1,4 @@
+/* === Général === */
 @font-face {
   font-family: 'Glyphicons Halflings';
 
@@ -10,11 +11,31 @@ body{
 
 }
 
-#wrap-container{
-  width:900px;
-  margin: auto;
+h1{
+  font-size: 36px;
+  color: #0C0C2A;
 }
 
+h2{
+  font-size: 30px;
+  color: #096485;
+}
+
+h3{
+  font-size: 24px;
+  color: #000000;
+}
+
+h4{
+  font-size: 18px;
+  color: black;
+}
+
+p{
+  color: #0C1B2A;
+}
+
+/* === Header === */
 header{
   width:900px;
   margin: auto;
@@ -34,6 +55,7 @@ header{
   margin-left: 150px;
 }
 
+/* === Nav === */
 nav{
   background-color: #181A18;
   border-radius: 10px;
@@ -54,7 +76,6 @@ nav{
 
 #wrap-li li a{
   color:#E6E6E6;
-  box-sizing: border-box;
 }
 
 #wrap-li li a:hover{
@@ -65,29 +86,29 @@ nav{
   font-size: 1.5em;
 }
 
-#wrap-content{
-  min-height: 300px;
+/* === Conteneur principal === */
+#wrap-container{
+  width:900px;
+  margin: auto;
 }
 
+/* === Conteneur gauche === */
 #left-panel{
   width: 500px;
   display: inline-block;
   margin-left: 20px;
 }
 
-.left-sub-panel{
-  min-height: 400px;
-  background-color: white;
-  margin-bottom: 40px;
-  box-shadow: 1px 1px 7px ;
-}
-
+/* === Conteneur droit === */
 #right-panel{
   width: 300px;
-  min-height: 500px;
-  background-color: white;
   display: inline-block;
   vertical-align: top;
   margin-left: 45px;
-  box-shadow: 1px 1px 7px ;
+
+}
+
+/* === Footer === */
+footer{
+  min-height: 200px;
 }
