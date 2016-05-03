@@ -38,7 +38,7 @@
         <fieldset id="fieldset-header" >
           <legend>Bonjour Machin</legend>
           <a href="#" class="btn-fieldset btn btn-primary">Mon profil</a>
-          <a href="/pages/connexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
+          <a href="pages/connexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
       <nav>
