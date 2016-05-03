@@ -1,5 +1,11 @@
 <?php
-  session_start();
+session_start();
+  if (isset($_SESSION["idusers"]) ) {
+    header('location: ../index.php');
+  }
+  
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -39,11 +45,18 @@
             if (isset($_COOKIE["auth_error"])){
               echo " <u style=\"color:red;\">echec d'authentification</u>";
               }
+              if (isset($_COOKIE["logout"])){
+              echo " <u style=\"color:green;\">Vous êtes bien déconnecté !</u>";
+              }
+              if (isset($_COOKIE["nonconnecte"])){
+              echo " <u style=\"color:red;\">Veuillez vous authentifier !</u>";
+              }
+
           ?>
             </td>
           </tr>
             <tr>
-              <td><p>Adresse mail:</p></td>
+              <td><p>Adresse mail :</p></td>
               <td><input type="email" name="mail" ></td>
             </tr>
             <tr>

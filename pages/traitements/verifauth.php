@@ -10,7 +10,7 @@
 	$bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
 	// formulation et execution de la requette
-	$result= pg_query($bdd,"select statut,idusers,nom,mdp,mail from users where mdp = '$password' and mail ='$identifiant'");
+	$result= pg_query($bdd,"select statut,idusers,nom,mdp,mail,prenom from users where mdp = '$password' and mail ='$identifiant'");
 	// recupération du resultat de la requette
 	$i=pg_num_rows($result)	;
 		
@@ -21,10 +21,11 @@
 	else{ 
 		$row=pg_fetch_row($result);
 
-		$_SESSION["start"]=$row[0];
+		$_SESSION["statut"]=$row[0];
 		$_SESSION["idusers"]=$row[1];
 		$_SESSION["nom"]=$rom[2];
 		$_SESSION["mail"]=$row[4];
+		$_SESSION["prenom"]=$row[5];
 
 		header('location: ../index.php');
 	}

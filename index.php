@@ -3,6 +3,12 @@
 
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
 
+  /* === A décommenter dès que possible ===
+  if (!isset($_SESSION["idusers"]) ) {
+  	setcookie(nonconnecte,1,time()+4);
+  	    header('location: pages/connexion.php');
+
+  }*/
 ?>
 <!DOCTYPE html>
 <html lang="fr">
