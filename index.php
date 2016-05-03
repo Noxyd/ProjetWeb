@@ -1,5 +1,8 @@
 <?php
   session_start();
+
+  $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -43,17 +46,13 @@
           <li><a href="#"> Budget </a></li>
         </ul>
       </nav>
-      <div id="wrap-content">
+      <div class="wrap-content">
         <div id="left-panel">
-          <div class="left-sub-panel">
+          <div id="un" class="left-sub-panel">
             <a href="#" class="inside-panel-link"><h2 class="inside-panel">Texte H2</h2></a>
             <p class="inside-panel horodatage"><i>publié le 17.03.16 à 14h00</i></p>
             <p class="panel-text">
-              Accenderat super his incitatum propositum ad nocendum aliqua mulier vilis,
-              quae ad palatium ut poposcerat intromissa insidias ei latenter obtendi prodiderat a
-              militibus obscurissimis. quam Constantina exultans ut in tuto iam locata mariti salute
-              muneratam vehiculoque inpositam per regiae ianuas emisit in publicum, ut his inlecebris
-              alios quoque ad indicanda proliceret paria vel maiora.
+              <?php echo substr($string, 0, 120).'<a href="#">...</a>'; ?>
             </p>
             <a href="#" class="inside-panel btn-lire-plus">Lire plus</a>
           </div>
@@ -61,11 +60,7 @@
             <a href="#" class="inside-panel-link"><h2 class="inside-panel">Texte H2</h2></a>
             <p class="inside-panel horodatage"><i>publié le 17.03.16 à 14h00</i></p>
             <p class="panel-text">
-              Accenderat super his incitatum propositum ad nocendum aliqua mulier vilis,
-              quae ad palatium ut poposcerat intromissa insidias ei latenter obtendi prodiderat a
-              militibus obscurissimis. quam Constantina exultans ut in tuto iam locata mariti salute
-              muneratam vehiculoque inpositam per regiae ianuas emisit in publicum, ut his inlecebris
-              alios quoque ad indicanda proliceret paria vel maiora.
+              <?php echo substr($string, 0, 120).'<a href="#">...</a>'; ?>
             </p>
             <a href="#" class="inside-panel btn-lire-plus">Lire plus</a>
           </div>
@@ -73,11 +68,7 @@
             <a href="#" class="inside-panel-link"><h2 class="inside-panel">Texte H2</h2></a>
             <p class="inside-panel horodatage"><i>publié le 17.03.16 à 14h00</i></p>
             <p class="panel-text">
-              Accenderat super his incitatum propositum ad nocendum aliqua mulier vilis,
-              quae ad palatium ut poposcerat intromissa insidias ei latenter obtendi prodiderat a
-              militibus obscurissimis. quam Constantina exultans ut in tuto iam locata mariti salute
-              muneratam vehiculoque inpositam per regiae ianuas emisit in publicum, ut his inlecebris
-              alios quoque ad indicanda proliceret paria vel maiora.
+              <?php echo substr($string, 0, 120).'<a href="#">...</a>'; ?>
             </p>
             <a href="#" class="inside-panel btn-lire-plus">Lire plus</a>
           </div>
@@ -102,5 +93,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/squelette.js"></script>
   </body>
 </html>

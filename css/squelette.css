@@ -40,6 +40,7 @@ header{
   width:900px;
   margin: auto;
   padding: 30px 0px 40px 0px;
+  height: 170px;
 }
 
 #logo{
@@ -58,8 +59,24 @@ header{
 /* === Nav === */
 nav{
   background-color: #181A18;
-  border-radius: 10px;
+  border-radius: 5px;
   margin-bottom: 20px;
+}
+
+.nav-fixed{
+  background-color: #181A18;
+  margin-bottom: O;
+  position: fixed;
+  top:0;
+  width: 900px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.nav-fixed ul{
+  margin-bottom: 0;
 }
 
 #wrap-li{
@@ -95,6 +112,10 @@ nav{
 }
 
 /* === Conteneur gauche === */
+.wrap-content-fixed{
+  margin-top: 76px;
+}
+
 #left-panel{
   width: 500px;
   display: inline-block;
