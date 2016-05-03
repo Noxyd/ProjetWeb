@@ -1,3 +1,6 @@
+<?php
+  session_start();
+?>
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -25,9 +28,20 @@
         <center><a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a></center>
       </header>
       <div id="wrap-content">
-        <form id="form-cnx" method="post" action="../index.php">
+        <form id="form-cnx" method="post" action="verifauth.php">
           <h1>Connectez-vous</h1>
+           
           <table>
+          <tr>
+            <td></td>
+            <td>
+                <?php
+            if (isset($_COOKIE["auth_error"])){
+              echo " <u style=\"color:red;\">echec d'authentification</u>";
+              }
+          ?>
+            </td>
+          </tr>
             <tr>
               <td><p>Adresse mail:</p></td>
               <td><input type="email" name="mail" ></td>
@@ -39,9 +53,11 @@
             <tr>
               <td></td>
               <td><input type="submit" class="btn btn-success" value="Connexion"></td>
+             
             </tr>
           </table>
         </form>
+        	
       </div>
     </div>
 
