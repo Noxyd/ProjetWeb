@@ -38,6 +38,14 @@ text-decoration: none;
   text-align: justify;
   width:400px;
   margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.btn-lire-plus{
+  border: solid 1px;
+  padding: 5px 10px 5px 10px;
+  margin-left: 42px;
+  border-radius: 7px;
 }
 
 /* === Bloc "Vos messages" === */

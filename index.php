@@ -1,3 +1,6 @@
+<?php
+  session_start();
+?>
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -54,7 +57,7 @@
               muneratam vehiculoque inpositam per regiae ianuas emisit in publicum, ut his inlecebris
               alios quoque ad indicanda proliceret paria vel maiora.
             </p>
-            <a href="#" class="inside-panel">Lire plus</a>
+            <a href="#" class="inside-panel btn-lire-plus">Lire plus</a>
           </div>
           <div class="left-sub-panel">
             <a href="#" class="inside-panel-link"><h2 class="inside-panel">Texte H2</h2></a>
@@ -66,7 +69,7 @@
               muneratam vehiculoque inpositam per regiae ianuas emisit in publicum, ut his inlecebris
               alios quoque ad indicanda proliceret paria vel maiora.
             </p>
-            <a href="#" class="inside-panel">Lire plus</a>
+            <a href="#" class="inside-panel btn-lire-plus">Lire plus</a>
           </div>
           <div class="left-sub-panel" style="margin-bottom:20px;">
             <a href="#" class="inside-panel-link"><h2 class="inside-panel">Texte H2</h2></a>
@@ -78,7 +81,7 @@
               muneratam vehiculoque inpositam per regiae ianuas emisit in publicum, ut his inlecebris
               alios quoque ad indicanda proliceret paria vel maiora.
             </p>
-            <a href="#" class="inside-panel">Lire plus</a>
+            <a href="#" class="inside-panel btn-lire-plus">Lire plus</a>
           </div>
           <a href="publications.php" style="float:right;" class="btn btn-warning"><u><b>Voir plus</b></u></a>
         </div>
