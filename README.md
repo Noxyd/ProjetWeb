@@ -4,6 +4,9 @@
 ####Objectif
 Fournir un outil de partage et de centralisation de connaissance pour une équipe de recherche.
 
+####Avancement du codage
+0%[#___________________]100%
+
 ####Changelog
 **03/05/16**
 
