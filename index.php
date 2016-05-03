@@ -33,17 +33,15 @@
         </fieldset>
       </header>
       <nav>
-        <center>
         <ul id="wrap-li">
-          <li><a href="#" class="actif">Accueil</a></li>
-          <li><a href="#" ><strong>Présentation</strong></a></li>
-          <li><a href="#"><strong>Publications</strong></a></li>
-          <li><a href="#"><strong>Evénements</strong></a></li>
-          <li><a href="#"><strong>Messages</strong></a></li>
-          <li><a href="#"><strong>Annuaire</strong></a></li>
-          <li><a href="#"><strong>Budget</strong></a></li>
+          <li class="actif"><a href="#">Accueil</a></li>
+          <li><a href="#" >Présentation</a></li>
+          <li><a href="#"> Publications </a></li>
+          <li><a href="#"> Evénements </a></li>
+          <li><a href="#"> Messages </a></li>
+          <li><a href="#"> Annuaire </a></li>
+          <li><a href="#"> Budget </a></li>
         </ul>
-        </center>
       </nav>
       <div id="wrap-content">
         <div id="left-panel">
@@ -83,7 +81,7 @@
             </p>
             <a href="#" class="inside-panel btn-lire-plus">Lire plus</a>
           </div>
-          <a href="publications.php" style="float:right;" class="btn btn-warning"><u><b>Voir plus</b></u></a>
+          <a href="publications.php" style="float:right;" class="btn btn-warning">Voir plus</a>
         </div>
         <div id="right-panel">
           <div id="newmessages" >

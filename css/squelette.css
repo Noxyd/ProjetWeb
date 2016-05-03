@@ -64,26 +64,28 @@ nav{
 
 #wrap-li{
   list-style-type: none;
-  padding-top: 20px;
-  padding-bottom: 20px;
 }
 
 #wrap-li li{
   display: inline-block;
-  margin-right: 30px;
   color:#E6E6E6;
+  padding:15px 10px 15px 10px;
 }
 
 #wrap-li li a{
   color:#E6E6E6;
 }
 
+#wrap-li li:hover{
+  background-color: #0C0E0C;
+}
+
 #wrap-li li a:hover{
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .actif{
-  font-size: 1.5em;
+  background-color: #0C0E0C;
 }
 
 /* === Conteneur principal === */
