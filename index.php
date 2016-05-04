@@ -5,7 +5,7 @@
 
   /* === A décommenter dès que possible ===
   if (!isset($_SESSION["idusers"]) ) {
-  	setcookie(nonconnecte,1,time()+4);
+  	setcookie(nonconnecte,1,time()+4,'/');
   	    header('location: pages/connexion.php');
 
   }*/
@@ -38,7 +38,7 @@
         <fieldset id="fieldset-header" >
           <legend>Bonjour Machin</legend>
           <a href="#" class="btn-fieldset btn btn-primary">Mon profil</a>
-          <a href="pages/connexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
+          <a href="pages/traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
       <nav>

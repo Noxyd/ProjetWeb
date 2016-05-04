@@ -15,8 +15,9 @@
 	$i=pg_num_rows($result)	;
 		
 	if ($i === 0){
-		setcookie("auth_error",2,time()+4);
-		header('location: connexion.php');
+		setcookie("auth_error",1,time()+4, '/');
+		//echo "PAS OK";
+		header('location: ../connexion.php');
 	}
 	else{ 
 		$row=pg_fetch_row($result);
@@ -26,8 +27,9 @@
 		$_SESSION["nom"]=$rom[2];
 		$_SESSION["mail"]=$row[4];
 		$_SESSION["prenom"]=$row[5];
+		echo "OK";
 
-		header('location: ../index.php');
+		//header('location: ../../index.php');
 	}
 
 

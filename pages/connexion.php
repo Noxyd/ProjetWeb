@@ -34,7 +34,7 @@ session_start();
         <center><a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a></center>
       </header>
       <div id="wrap-content">
-        <form id="form-cnx" method="post" action="verifauth.php">
+        <form id="form-cnx" method="post" action="traitements/verifauth.php">
           <h1>Connectez-vous</h1>
            
           <table>
@@ -42,17 +42,17 @@ session_start();
             <td></td>
             <td>
                 <?php
-            if (isset($_COOKIE["auth_error"])){
-              echo " <u style=\"color:red;\">echec d'authentification</u>";
-              }
-              if (isset($_COOKIE["logout"])){
-              echo " <u style=\"color:green;\">Vous êtes bien déconnecté !</u>";
-              }
-              if (isset($_COOKIE["nonconnecte"])){
-              echo " <u style=\"color:red;\">Veuillez vous authentifier !</u>";
-              }
+            	if (isset($_COOKIE["auth_error"])){
+             	 echo " <u style=\"color:red;\">echec d'authentification</u>";
+              	}
+              	if (isset($_COOKIE["logout"])){
+              	echo " <u style=\"color:green;\">Vous êtes bien déconnecté !</u>";
+              	}
+              	if (isset($_COOKIE["nonconnecte"])){
+              	echo " <u style=\"color:red;\">Veuillez vous authentifier !</u>";
+              	}
 
-          ?>
+          		?>
             </td>
           </tr>
             <tr>
