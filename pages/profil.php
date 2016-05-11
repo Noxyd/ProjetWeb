@@ -34,22 +34,25 @@
   <body>
     <div id="wrap-container">
       <header>
-        <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
+        <a href="#"><img id="logo" src="images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
-          <legend>Bonjour Machin</legend>
-          <a href="../pages/profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
+          <legend>Bonjour <?php echo ucfirst($_SESSION['prenom']); ?></legend>
+          <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
           <a href="pages/traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
       <nav>
         <ul id="wrap-li">
-          <li><a href="#">Accueil</a></li>
-          <li><a href="../pages/presentation.php">Présentation</a></li>
-          <li><a href="#"> Publications </a></li>
-          <li><a href="#"> Evénements </a></li>
-          <li><a href="#"> Messages </a></li>
-          <li><a href="#"> Annuaire </a></li>
-          <li><a href="#"> Budget </a></li>
+          <li ><a href="/index.php">Accueil</a></li>
+          <li ><a href="/pages/presentation.php">Présentation</a></li>
+          <li><a href="/pages/Publications.php"> Publications </a></li>
+          <li><a href="/pages/evenements.php"> Evénements </a></li>
+          <li ><a href="/pages/messages.php"> Messages </a></li>
+          <li><a href="/pages/annuaire.php"> Annuaire </a></li>
+          <?php
+          if ($_SESSION["statut"] = 1)
+            echo "<li><a href=\"/pages/budget.php\"> Budget </a></li>\n"
+          ?>
         </ul>
       </nav>
       <div class="wrap-content">

@@ -1,14 +1,31 @@
 <?php
   session_start();
-
-  $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
-
-
+  //On vérifie que l'utilisateur est passé apr le formulaire de connexion
   if (!isset($_SESSION["iduser"]) ) {
-  	setcookie(nonconnecte,1,time()+4,'/');
-  	    header('location: pages/connexion.php');
-
+  	header('location: pages/connexion.php');
   }
+  //Uniquement pour les tests
+  $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
+  //Intérrogation de la base de données
+  //connexion à la bdd
+	$bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
+	// formulation et execution de la requette
+	$result= pg_prepare($bdd,"query",'SELECT idpub, titre, datepub, contenu, etat, ideq FROM publications WHERE etat = 1 ORDER BY datepub DESC FETCH FIRST 3 ROWS ONLY');
+	// recupération du resultat de la requette
+	$result = pg_execute($bdd, "query",array ());
+  //Comptage du nombre de résultats
+	$nbresults=pg_num_rows($result)	;
+  //Récupération des résultats
+  for ($i=0; $i < $nbresults; $i++) {
+    $tabres = pg_fetch_array($result, $i);
+    $publi['idpub'][$i] = $tabres[0];
+    $publi['titre'][$i] = $tabres[1];
+    $publi['datepub'][$i] = $tabres[2];
+    $publi['contenu'][$i] = $tabres[3];
+    $publi['etat'][$i] = $tabres[4];
+    $publi['ideq'][$i] = $tabres[5];
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -36,52 +53,37 @@
       <header>
         <a href="#"><img id="logo" src="images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
-          <legend>Bonjour <?php echo $_SESSION['prenom']; ?></legend>
-          <a href="#" class="btn-fieldset btn btn-primary">Mon profil</a>
+          <legend>Bonjour <?php echo ucfirst($_SESSION['prenom']); ?></legend>
+          <a href="pages.profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
           <a href="pages/traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
       <nav>
         <ul id="wrap-li">
-          <li class="actif"><a href="#">Accueil</a></li>
-          <li><a href="pages/presentation.php" >Présentation</a></li>
-          <li><a href="pages/Publications.php"> Publications </a></li>
-          <li><a href="pages/evenement.php"> Evénements </a></li>
-          <li><a href="pages/messages.php"> Messages </a></li>
-          <li><a href="pages/annuaire.php"> Annuaire </a></li>
+          <li class="actif"><a href="../index.php">Accueil</a></li>
+          <li ><a href="presentation.php">Présentation</a></li>
+          <li><a href="Publications.php"> Publications </a></li>
+          <li><a href="evenements.php"> Evénements </a></li>
+          <li><a href="messages.php"> Messages </a></li>
+          <li><a href="annuaire.php"> Annuaire </a></li>
           <?php
           if ($_SESSION["statut"] = 1)
-            echo "<li><a href=\"budget.php\"> Budget </a></li>"
+            echo "<li><a href=\"/pages/budget.php\"> Budget </a></li>\n"
           ?>
         </ul>
       </nav>
       <div class="wrap-content">
         <div id="left-panel">
-          <div id="un" class="left-sub-panel">
-            <a href="#" class="inside-panel-link"><h2 class="inside-panel">Texte H2</h2></a>
-            <p class="inside-panel horodatage"><i>publié le 17.03.16 à 14h00</i></p>
-            <p class="panel-text">
-              <?php echo substr($string, 0, 120).'<a href="#">...</a>'; ?>
-            </p>
-            <a href="#" class="inside-panel btn-lire-plus">Lire plus</a>
-          </div>
-          <div class="left-sub-panel">
-            <a href="#" class="inside-panel-link"><h2 class="inside-panel">Texte H2</h2></a>
-            <p class="inside-panel horodatage"><i>publié le 17.03.16 à 14h00</i></p>
-            <p class="panel-text">
-              <?php echo substr($string, 0, 120).'<a href="#">...</a>'; ?>
-            </p>
-            <a href="#" class="inside-panel btn-lire-plus">Lire plus</a>
-          </div>
-          <div class="left-sub-panel" style="margin-bottom:20px;">
-            <a href="#" class="inside-panel-link"><h2 class="inside-panel">Texte H2</h2></a>
-            <p class="inside-panel horodatage"><i>publié le 17.03.16 à 14h00</i></p>
-            <p class="panel-text">
-              <?php echo substr($string, 0, 120).'<a href="#">...</a>'; ?>
-            </p>
-            <a href="#" class="inside-panel btn-lire-plus">Lire plus</a>
-          </div>
-          <a href="publications.php" style="float:right;" class="btn btn-warning">Voir plus</a>
+          <?php
+          for ($i=0; $i < $nbresults; $i++) {
+            echo "<div id=\"un\" class=\"left-sub-panel\">";
+            echo "\n\t\t<a href=\"#\" class=\"inside-panel-link\"><h2 class=\"inside-panel\">".$publi['titre'][$i]."</h2></a>";
+            echo "\n\t\t<p class=\"inside-panel horodatage\"><i>publié ".$publi['datepub'][$i]."</i></p>";
+            echo "\n\t\t<p class=\"panel-text\">".substr($publi['contenu'][$i],0,120)."<a href=\"#\">...</a></p>";
+            echo "\n\t\t<a href=\"#\" class=\"inside-panel btn-lire-plus\">Lire plus</a>";
+            echo "\n\t</div>";
+          }
+          ?>
         </div>
         <div id="right-panel">
           <div id="newmessages" >

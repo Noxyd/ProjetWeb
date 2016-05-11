@@ -43,13 +43,16 @@
       </header>
       <nav>
         <ul id="wrap-li">
-          <li class="actif"><a href="#">Accueil</a></li>
-          <li><a href="#" >Présentation</a></li>
-          <li><a href="#"> Publications </a></li>
-          <li><a href="#"> Evénements </a></li>
-          <li><a href="#"> Messages </a></li>
-          <li><a href="#"> Annuaire </a></li>
-          <li><a href="#"> Budget </a></li>
+          <li ><a href="/index.php">Accueil</a></li>
+          <li ><a href="/pages/presentation.php">Présentation</a></li>
+          <li><a href="/pages/Publications.php"> Publications </a></li>
+          <li><a href="/pages/evenements.php"> Evénements </a></li>
+          <li class="actif"><a href="/pages/messages.php"> Messages </a></li>
+          <li><a href="/pages/annuaire.php"> Annuaire </a></li>
+          <?php
+          if ($_SESSION["statut"] = 1)
+            echo "<li><a href=\"/pages/budget.php\"> Budget </a></li>\n"
+          ?>
         </ul>
       </nav>
       <div class="wrap-content">
