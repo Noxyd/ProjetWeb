@@ -3,7 +3,7 @@
 
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
 
-  
+
   if (!isset($_SESSION["iduser"]) ) {
   	setcookie(nonconnecte,1,time()+4,'/');
   	    header('location: pages/connexion.php');
@@ -36,10 +36,7 @@
       <header>
         <a href="#"><img id="logo" src="images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
-          <legend>Bonjour <?php
-                    echo $_SESSION['prenom'];
-
-              ?></legend>
+          <legend>Bonjour <?php echo $_SESSION['prenom']; ?></legend>
           <a href="#" class="btn-fieldset btn btn-primary">Mon profil</a>
           <a href="pages/traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
@@ -47,12 +44,15 @@
       <nav>
         <ul id="wrap-li">
           <li class="actif"><a href="#">Accueil</a></li>
-          <li><a href="#" >Présentation</a></li>
-          <li><a href="#"> Publications </a></li>
+          <li><a href="pages/presentation.php" >Présentation</a></li>
+          <li><a href="pages/Publications.php"> Publications </a></li>
           <li><a href="pages/evenement.php"> Evénements </a></li>
-          <li><a href="#"> Messages </a></li>
-          <li><a href="#"> Annuaire </a></li>
-          <li><a href="#"> Budget </a></li>
+          <li><a href="pages/messages.php"> Messages </a></li>
+          <li><a href="pages/annuaire.php"> Annuaire </a></li>
+          <?php
+          if ($_SESSION["statut"] = 1)
+            echo "<li><a href=\"budget.php\"> Budget </a></li>"
+          ?>
         </ul>
       </nav>
       <div class="wrap-content">
