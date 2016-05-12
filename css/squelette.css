@@ -93,12 +93,9 @@ nav{
   color:#E6E6E6;
 }
 
-#wrap-li li:hover{
-  background-color: #0C0E0C;
-}
-
 #wrap-li li a:hover{
   text-decoration: none;
+  color:   grey;
 }
 
 .actif{

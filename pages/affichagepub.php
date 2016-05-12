@@ -8,7 +8,8 @@
   //connexion à la bdd
 	$bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 	// formulation et execution de la requette
-	$result= pg_prepare($bdd,"query",'SELECT idpub, titre, datepub, contenu, etat, ideq FROM publications WHERE etat = 1 ORDER BY datepub DESC FETCH FIRST 3 ROWS ONLY');
+	$result= pg_prepare($bdd,"query",'SELECT idpub, titre, datepub, contenu, etat, ideq FROM publications WHERE etat = 1 AND
+  ');
 	// recupération du resultat de la requette
 	$result = pg_execute($bdd, "query",array ());
   //Comptage du nombre de résultats
@@ -16,12 +17,12 @@
   //Récupération des résultats
   for ($i=0; $i < $nbresults; $i++) {
     $tabres = pg_fetch_array($result, $i);
-    $publi['idpub'][$i] = $tabres[0];
-    $publi['titre'][$i] = $tabres[1];
-    $publi['datepub'][$i] = $tabres[2];
-    $publi['contenu'][$i] = $tabres[3];
-    $publi['etat'][$i] = $tabres[4];
-    $publi['ideq'][$i] = $tabres[5];
+    $publi['idpub'] = $tabres[0];
+    $publi['titre'] = $tabres[1];
+    $publi['datepub'] = $tabres[2];
+    $publi['contenu'] = $tabres[3];
+    $publi['etat'] = $tabres[4];
+    $publi['ideq'] = $tabres[5];
   }
 
 ?>
@@ -73,14 +74,12 @@
       <div class="wrap-content">
         <div id="left-panel">
           <?php
-          for ($i=0; $i < $nbresults; $i++) {
             echo "<div id=\"un\" class=\"left-sub-panel\">";
-            echo "\n\t\t<a href=\"#\" class=\"inside-panel-link\"><h2 class=\"inside-panel\">".$publi['titre'][$i]."</h2></a>";
-            echo "\n\t\t<p class=\"inside-panel horodatage\"><i>publié ".$publi['datepub'][$i]."</i></p>";
-            echo "\n\t\t<p class=\"panel-text\">".substr($publi['contenu'][$i],0,120)."<a href=\"#\">...</a></p>";
-            echo "\n\t\t<a href=\"pages/affichagepub.php?id=".$publi['idpub'][$i]."\" class=\"inside-panel btn-lire-plus\">Lire plus</a>";
+            echo "\n\t\t<a href=\"#\" class=\"inside-panel-link\"><h2 class=\"inside-panel\">".$publi['titre']."</h2></a>";
+            echo "\n\t\t<p class=\"inside-panel horodatage\"><i>publié ".$publi['datepub']."</i></p>";
+            echo "\n\t\t<p class=\"panel-text\">".$publi['contenu']."</p>";
+            echo "\n\t\t<a href=\"pages/affichagepub.php?id=".$publi['idpub']."\" class=\"inside-panel btn-lire-plus\">Lire plus</a>";
             echo "\n\t</div>";
-          }
           ?>
         </div>
         <div id="right-panel">
