@@ -4,7 +4,7 @@
   if (!isset($_SESSION["iduser"]) ) {
   	header('location: pages/connexion.php');
   }
-  //Intérrogation de la base de données
+  //Intérrogation BDD pour voir les publications
   //connexion à la bdd
 	$bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 	// formulation et execution de la requette
@@ -18,12 +18,32 @@
     $tabres = pg_fetch_array($result, $i);
     $publi['idpub'][$i] = $tabres[0];
     $publi['titre'][$i] = $tabres[1];
-    $publi['datepub'][$i] = $tabres[2];
+    $publi['datepub'][$i] = strtotime($tabres[2]);
     $publi['contenu'][$i] = $tabres[3];
     $publi['etat'][$i] = $tabres[4];
     $publi['ideq'][$i] = $tabres[5];
   }
 
+  //Intérrogation BDD pour voir les messages
+  // formulation et execution de la requette
+  $result2= pg_prepare($bdd,"query2",'SELECT idmessage, objet, contenu, dateenvoi, etat, idemetteur,idrecepteur, nom, prenom FROM messages, utilisateurs WHERE messages.idemetteur = utilisateurs.iduser AND idrecepteur = $1 ORDER BY dateenvoi DESC FETCH FIRST 5 ROWS ONLY;');
+  // recupération du resultat de la requette
+  $result2= pg_execute($bdd, "query2",array ($_SESSION['iduser']));
+  //Comptage du nombre de résultats
+  $nbresults2=pg_num_rows($result2)	;
+  //Récupération des résultats
+  for ($i=0; $i < $nbresults2; $i++) {
+    $tabres = pg_fetch_array($result2, $i);
+    $messages['idmessage'][$i] = $tabres[0];
+    $messages['objet'][$i] = $tabres[1];
+    $messages['contenu'][$i] = $tabres[2];
+    $messages['dateenvoi'][$i] = strtotime($tabres[3]);
+    $messages['etat'][$i] = $tabres[4];
+    $messages['idemetteur'][$i] = $tabres[5];
+    $messages['idrecepteur'][$i] = $tabres[6];
+    $messages['nom'][$i] = $tabres[7];
+    $messages['prenom'][$i] = $tabres[8];
+  }
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -76,8 +96,8 @@
           for ($i=0; $i < $nbresults; $i++) {
             echo "<div id=\"un\" class=\"left-sub-panel\">";
             echo "\n\t\t<a href=\"#\" class=\"inside-panel-link\"><h2 class=\"inside-panel\">".$publi['titre'][$i]."</h2></a>";
-            echo "\n\t\t<p class=\"inside-panel horodatage\"><i>publié ".$publi['datepub'][$i]."</i></p>";
-            echo "\n\t\t<p class=\"panel-text\">".substr($publi['contenu'][$i],0,120)."<a href=\"#\">...</a></p>";
+            echo "\n\t\t<p class=\"inside-panel horodatage\"><i>publié le ".date('d/m/Y',$publi['datepub'][$i])."</i></p>";
+            echo "\n\t\t<p class=\"panel-text\">".substr($publi['contenu'][$i],0,120)."<a href=\"pages/affichagepub.php?id=".$publi['idpub'][$i]."\">...</a></p>";
             echo "\n\t\t<a href=\"pages/affichagepub.php?id=".$publi['idpub'][$i]."\" class=\"inside-panel btn-lire-plus\">Lire plus</a>";
             echo "\n\t</div>";
           }
@@ -86,6 +106,17 @@
         <div id="right-panel">
           <div id="newmessages" >
             <h3 class="right-side-h3">Vos messages</h3>
+            <?php
+            for ($i=0; $i < $nbresults2; $i++) {
+              echo "<table class=\"table table-striped\">";
+              echo "\n\t\t<tr>";
+              echo "\n\t\t\t<td>".ucfirst($messages['prenom'][$i])." ".ucfirst($messages['nom'][$i])."</td>";
+              echo "\n\t\t\t<td>".$messages['objet'][$i]."</td>";
+              echo "\n\t\t\t<td>".date('d/m/Y',$messages['dateenvoi'][$i])."</td>";
+              echo "\n\t\t</tr>";
+              echo "\n\t</table>\n";
+            }
+            ?>
           </div>
           <div id="calendrier">
             <h3 class="right-side-h3">Calendrier</h3>
