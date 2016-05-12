@@ -10,7 +10,6 @@
   	    header('location: connexion.php');
 
   }
-  $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
   
 ?>
 
@@ -57,78 +56,38 @@
         </ul>
       </nav>
       <div class="wrap-content">
-       <h2>A venir</h2>
+
        
-       <div id="evenements">
-       
-       <table class="table">
-       <thead>
-      <tr>
-        <th>intitulé </th>
-        <th>Date</th>
-        <th>lieu</th>
-      </tr>
-    </thead>
-
-       <?php
-       //reuperation des evenements a venir en requette preparé
-        $result = pg_prepare($bdd, "my_query", 'SELECT * FROM evenements WHERE ideq = $1 and statut=0');
-        // recuperation des eveneents passés en requette preparé
-        $result1 = pg_prepare($bdd, "query", 'SELECT * FROM evenements WHERE ideq = $1 and statut=1');
-        //execution des requettes
-        $result1 = pg_execute($bdd, "my_query",array ($_SESSION["iduser"]));
-
-        $result = pg_execute($bdd, "query",array ($_SESSION["iduser"]));
-
-        // recuperation nombre de lignes
-        $nb_res=pg_num_rows($result);
-        
-        for ( $i=1 ; $i <= $nb_res ; $i++ ){
-                $row=pg_fetch_row($result);//mettre sous forme de tableau                  
-                  echo"<tr><td>";
-                  echo "<a href=\"detailsevenements.php?id=$row[0]\">". $row[1]."</a></u>";
-                  echo "</td> <td> ";
-                  echo $row[2]." </td><td> " ;
-             
-                  echo $row[3]."</td></tr>" ;
-              
-        }
-      
-       ?>
-       
-      </table>
-      
-    </div>
-
-      <br>
-      <h2>Récémment passés</h2>
       <div id="evenements">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>intitulé </th>
-              <th>Date</th>
-              <th>lieu</th>
-              </tr>
-          </thead>
-          <?php
-          $nb_res=pg_num_rows($result1);
+        <?php
+           $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
-            for ( $i=1 ; $i <= $nb_res ; $i++ ){
-              $row=pg_fetch_row($result1);
-            
-                echo"<tr><td>";
-                  echo "<a href=\"detailsevenements.php?id=$row[0]\">". $row[1]."</a></u>";
-                  echo "</td> <td> ";
-                  echo $row[2]." </td><td> " ;
-             
-                  echo $row[3]."</td></tr>" ;
-               
-          }
+           $result = pg_prepare($bdd, "my_query", 'SELECT * FROM evenements WHERE ideven = $1 ');
+         $result = pg_execute($bdd, "my_query",array ($_GET["id"]));
 
-          ?>
-          </table>
-      </div>
+         $row=pg_fetch_row($result);
+
+         echo "<center><H2> $row[1]</H2><br>";
+         echo "<u>le:</u> $row[2] <u><br>";
+         echo "lieu:</u><b> $row[3]</b><br><br>";
+         echo "$row[4]</center>";
+          
+
+        ?>
+
+
+
+
+
+
+
+
+
+
+      </div></div>
+    
+      
+      
 
       </div>
       <footer>

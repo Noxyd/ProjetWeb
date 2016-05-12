@@ -61,11 +61,11 @@
       <nav>
         <ul id="wrap-li">
           <li class="actif"><a href="../index.php">Accueil</a></li>
-          <li ><a href="presentation.php">Présentation</a></li>
-          <li><a href="Publications.php"> Publications </a></li>
-          <li><a href="evenements.php"> Evénements </a></li>
-          <li><a href="messages.php"> Messages </a></li>
-          <li><a href="annuaire.php"> Annuaire </a></li>
+          <li ><a href="pages/presentation.php">Présentation</a></li>
+          <li><a href="pages/Publications.php"> Publications </a></li>
+          <li><a href="pages/evenements.php"> Evénements </a></li>
+          <li><a href="pages/messages.php"> Messages </a></li>
+          <li><a href="pages/annuaire.php"> Annuaire </a></li>
           <?php
           if ($_SESSION["statut"] = 1)
             echo "<li><a href=\"/pages/budget.php\"> Budget </a></li>\n"
