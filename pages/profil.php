@@ -3,11 +3,9 @@
 
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
 
-  
   if (!isset($_SESSION["iduser"]) ) {
   	setcookie(nonconnecte,1,time()+4,'/');
   	    header('location: connexion.php');
-
   }
 ?>
 <!DOCTYPE html>
@@ -37,19 +35,19 @@
         <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
           <legend>Bonjour Machin</legend>
-          <a href="../pages/profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
+          <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
           <a href="pages/traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
       <nav>
         <ul id="wrap-li">
-           <li class="actif"><a href="../index.php">Accueil</a></li>
-          <li><a href="presentation.php" >Présentation</a></li>
-          <li><a href="#"> Publications </a></li>
-          <li><a href="evenement.php"> Evénements </a></li>
+          <li><a href="../index.php">Accueil</a></li>
+          <li><a href="presentation.php">Présentation</a></li>
+          <li><a href="publications.php"> Publications </a></li>
+          <li><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
-          <li><a href="#"> Annuaire </a></li>
-          <li><a href="#"> Budget </a></li>
+          <li><a href="annuaire.php"> Annuaire </a></li>
+          <li><a href="budget.php"> Budget </a></li>
         </ul>
       </nav>
       <div class="wrap-content">
@@ -63,7 +61,7 @@
                 <div class="sub-pane2">
                   <p class="panel-text">Nom :</p>
                   <p class="panel-text">Prénom :</p>
-                  <p class="panel-text">Labo :</p>
+                  <p class="panel-text">Description :</p>
                   <p class="panel-text">Adresse mail :</p>
                 </div>
               </div>
