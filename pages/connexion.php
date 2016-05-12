@@ -3,7 +3,7 @@ session_start();
   if (isset($_SESSION["iduser"]) ) {
     header('location: ../index.php');
   }
-  
+
 
 
 ?>
@@ -36,22 +36,16 @@ session_start();
       <div id="wrap-content">
         <form id="form-cnx" method="post" action="traitements/verifauth.php">
           <h1>Connectez-vous</h1>
-           
+
           <table>
           <tr>
             <td></td>
             <td>
-                <?php
-            	if (isset($_COOKIE["auth_error"])){
-             	 echo " <u style=\"color:red;\">echec d'authentification</u>";
-              	}
-              	if (isset($_COOKIE["logout"])){
+              <?php
+            	if (isset($_COOKIE["auth_error"]))
+             	  echo " <u style=\"color:red;\">echec d'authentification</u>";
+              if (isset($_COOKIE["logout"]))
               	echo " <u style=\"color:green;\">Vous êtes bien déconnecté !</u>";
-              	}
-              	if (isset($_COOKIE["nonconnecte"])){
-              	echo " <u style=\"color:red;\">Veuillez vous authentifier !</u>";
-              	}
-
           		?>
             </td>
           </tr>
@@ -66,11 +60,11 @@ session_start();
             <tr>
               <td></td>
               <td><input type="submit" class="btn btn-success" value="Connexion"></td>
-             
+
             </tr>
           </table>
         </form>
-        	
+
       </div>
     </div>
 
