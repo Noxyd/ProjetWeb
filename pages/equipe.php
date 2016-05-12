@@ -4,11 +4,18 @@
 
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
 
-
   if (!isset($_SESSION["iduser"]) ) {
   	setcookie(nonconnecte,1,time()+4,'/');
-  	    header('location: pages/connexion.php');
-      }
+  	    header('location: connexion.php');
+  }
+
+  $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
+
+	// formulation et execution de la requette
+	$result= pg_prepare($bdd,"query",'select * from utilisateurs where ideq = $1');
+	// recupération du resultat de la requette
+	$result = pg_execute($bdd, "query",array ($_GET["id"]));
+  $nbresults = pg_num_rows($result);
 ?>
 <!-- Debut HTML -->
 <!DOCTYPE html>
@@ -30,7 +37,8 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link href="../css/squelette.css" rel="stylesheet">
-    <link href="../css/presentation.css" rel="stylesheet">
+    <link href="../css/equipe.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
   </head>
   <body>
     <div id="wrap-container">
@@ -45,7 +53,7 @@
       <nav>
         <ul id="wrap-li">
           <li><a href="../index.php">Accueil</a></li>
-          <li class="actif"><a href="presentation.php">Présentation</a></li>
+          <li><a href="presentation.php">Présentation</a></li>
           <li><a href="publications.php"> Publications </a></li>
           <li><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
@@ -54,31 +62,27 @@
         </ul>
       </nav>
       <div class="wrap-content">
-        <div id="left-panel">
-          <div id="un" class="left-sub-panel">
-            <h2 class="inside-panel">Présentation du projet</h2>
-            <p class="panel-text">
-              Ce site a été conçu dans l'optique de proposer une plateforme
-              collaborative de recherche pour que les chercheurs puissent
-              travailler autour d'un projet et ce, même éloigné l'un de l'autre
-              géographiquement.
-            </p>
-          </div>
-          <div class="left-sub-pane2">
-            <h2 class="inside-panel">Nos partenaires</h2>
-            <p class="panel-text">
-              <?php echo ($string) ?>
-            </p>
-          </div>
-        </div>
-        <div id="right-panel">
-          <div id="newmessages" >
-            <h3 class="right-side-h3">Vos messages</h3>
-          </div>
-          <div id="calendrier">
-            <h3 class="right-side-h3">Calendrier</h3>
-          </div>
-
+        <div id="main-panel">
+            <h2 class="inside-panel">Equipe</h2>
+            <div class="sub-pane1">
+              <?php
+              // On fait une boucle pour afficher tous les utilisateurs de l'équipe
+                for($i=1 ; $i <= $nbresults ; $i++){
+                  $row=pg_fetch_row($result);
+                    echo "<div class=\"wrap-profil\">";
+                    echo "<div class=\"round-image\">";
+                    echo "<img id=\"profilpic\" src=\"../images/sam.jpg\"/>";
+                    echo "</div>";
+                    echo "<div class=\"sub-pane2\">";
+                    echo "<p class=\"panel-text\">Nom : ".ucfirst($row[1])."</p>";
+                    echo "<p class=\"panel-text\">Prénom : ".ucfirst($row[2])."</p>";
+                    echo "<p class=\"panel-text\">Description : ".$row[5]."</p>";
+                    echo "<p class=\"panel-text\">Adresse mail : ".$row[3]."</p>";
+                    echo "</div>";
+                  echo "</div>";
+                }
+              ?>
+            </div>
         </div>
       </div>
       <footer>

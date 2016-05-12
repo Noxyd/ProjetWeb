@@ -1,15 +1,23 @@
+<!-- Scripts PHP -->
 <?php
   session_start();
 
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
 
-  
   if (!isset($_SESSION["iduser"]) ) {
   	setcookie(nonconnecte,1,time()+4,'/');
   	    header('location: connexion.php');
-
   }
+
+  $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
+
+	// formulation et execution de la requette
+	$result= pg_prepare($bdd,"query",'select description from utilisateurs where iduser = $1');
+	// recupération du resultat de la requette
+	$result = pg_execute($bdd, "query",array ($_SESSION["iduser"]));
+  $row=pg_fetch_row($result);
 ?>
+<!-- Debut HTML -->
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -30,26 +38,27 @@
     <![endif]-->
     <link href="../css/squelette.css" rel="stylesheet">
     <link href="../css/profil.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
   </head>
   <body>
     <div id="wrap-container">
       <header>
         <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
-          <legend>Bonjour Machin</legend>
-          <a href="../pages/profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
-          <a href="pages/traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
+          <legend>Bonjour <?php echo ucfirst($_SESSION['prenom']); ?></legend>
+          <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
+          <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
       <nav>
         <ul id="wrap-li">
-           <li class="actif"><a href="../index.php">Accueil</a></li>
-          <li><a href="presentation.php" >Présentation</a></li>
-          <li><a href="#"> Publications </a></li>
-          <li><a href="evenement.php"> Evénements </a></li>
+          <li><a href="../index.php">Accueil</a></li>
+          <li><a href="presentation.php">Présentation</a></li>
+          <li><a href="publications.php"> Publications </a></li>
+          <li><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
-          <li><a href="#"> Annuaire </a></li>
-          <li><a href="#"> Budget </a></li>
+          <li><a href="annuaire.php"> Annuaire </a></li>
+          <li><a href="budget.php"> Budget </a></li>
         </ul>
       </nav>
       <div class="wrap-content">
@@ -61,13 +70,13 @@
                   <img id="profilpic" src="../images/sam.jpg"/>
                 </div>
                 <div class="sub-pane2">
-                  <p class="panel-text">Nom :</p>
-                  <p class="panel-text">Prénom :</p>
-                  <p class="panel-text">Labo :</p>
-                  <p class="panel-text">Adresse mail :</p>
+                  <p class="panel-text">Nom : <?php echo ucfirst($_SESSION["nom"]); ?></p>
+                  <p class="panel-text">Prénom : <?php echo ucfirst($_SESSION["prenom"]); ?></p>
+                  <p class="panel-text">Description : <?php echo $row[0]; ?></p>
+                  <p class="panel-text">Adresse mail : <?php echo $_SESSION["mail"]; ?></p>
                 </div>
               </div>
-              <a href="../pages/equipe.php" class="btn btn-default">Mon équipe</a>
+              <?php echo "<a href=\"equipe.php?id=".$_SESSION['ideq']."\" class=\"btn btn-default\">Mon équipe</a>"; ?>
             </div>
         </div>
       </div>

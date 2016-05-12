@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.2
 -- Dumped by pg_dump version 9.5.2
 
--- Started on 2016-05-11 20:39:40
+-- Started on 2016-05-12 17:31:44
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -287,14 +287,15 @@ ALTER SEQUENCE publications_idpub_seq OWNED BY publications.idpub;
 
 CREATE TABLE utilisateurs (
     iduser integer NOT NULL,
-    nom character varying(50) NOT NULL,
     prenom character varying(50) NOT NULL,
+    nom character varying(50) NOT NULL,
     mail character varying(50) NOT NULL,
     mdp character varying(16) NOT NULL,
     description character varying(200),
     statut integer,
     photo character varying(25),
-    ideq integer
+    ideq integer,
+    lastloggindate date
 );
 
 
@@ -475,6 +476,8 @@ SELECT pg_catalog.setval('flux_idflux_seq', 2, true);
 COPY messages (idmessage, objet, contenu, dateenvoi, etat, idemetteur, idrecepteur) FROM stdin;
 1	dossier de conception	bonjour, le dossier est complet a 85%	10/05/2016 11:01	0	1	3
 2	codage bdd	bonjour, la base de données a été codé entierement	10/05/2016 11:01	0	3	1
+3	Premier test des messages.	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ultrices id risus vel vestibulum. Donec ac malesuada nulla. Nulla facilisi. Etiam rhoncus eleifend mauris in posuere. Sed ut tristique est. Suspendisse sagittis quam ut dolor imperdiet laoreet. Etiam dictum ac enim sit amet suscipit. Cras in interdum nibh. Donec in tristique felis. Aliquam erat volutpat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Quisque ut lacus sed sem varius ullamcorper. In sollicitudin augue in dui vehicula, ut egestas enim dapibus. 	2006-05-23	2	3	2
+4	2nd message 	In vehicula est ac nulla convallis convallis. Suspendisse placerat dolor vitae urna molestie, ac vehicula mi efficitur. Vestibulum ut rhoncus nunc. Morbi semper tempus turpis quis semper. Nullam tempor aliquam sodales. Sed mi nisl, iaculis ut ante ut, euismod ornare elit. Sed id interdum ex. Mauris vestibulum massa eget nunc fringilla pretium. Donec non metus quis diam scelerisque lobortis vitae vitae arcu. Nunc rutrum ac ex a mattis. 	2012-03-18	2	1	2
 \.
 
 
@@ -484,7 +487,7 @@ COPY messages (idmessage, objet, contenu, dateenvoi, etat, idemetteur, idrecepte
 -- Name: messages_idmessage_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('messages_idmessage_seq', 2, true);
+SELECT pg_catalog.setval('messages_idmessage_seq', 4, true);
 
 
 --
@@ -494,9 +497,9 @@ SELECT pg_catalog.setval('messages_idmessage_seq', 2, true);
 --
 
 COPY publications (idpub, titre, datepub, contenu, etat, ideq) FROM stdin;
-1	dossier de conception de la plateforme	2002-05-01	voici le dossier de notre conception voici le dossier de notre concep	1	1
 2	resultat du teste du prototype	2002-05-01	voici les resultat des recherches voici les resultat des recherches	0	2
 3	Ceci est une publication	2005-08-27	Ceci est un article issue de la base de donn‚es. Voici son affichage.	1	3
+1	dossier de conception de la plateforme	2007-11-24	voici le dossier de notre conception voici le dossier de notre concep	1	1
 \.
 
 
@@ -515,10 +518,10 @@ SELECT pg_catalog.setval('publications_idpub_seq', 2, true);
 -- Data for Name: utilisateurs; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY utilisateurs (iduser, nom, prenom, mail, mdp, description, statut, photo, ideq) FROM stdin;
-1	nadjim	mehdioui	nadjim@mehdioui	nadjim	salut je suis beau	1	lien1	1
-2	samuel	garcia	samuel@garcia	samuel	faire des sites c ‘est ma vie…	0	lien2	3
-3	said	sarma	said@sarma	said	à la téte de cybersherif	0	lien3	2
+COPY utilisateurs (iduser, prenom, nom, mail, mdp, description, statut, photo, ideq, lastloggindate) FROM stdin;
+1	nadjim	mehdioui	nadjim@mehdioui	nadjim	salut je suis beau	1	lien1	1	\N
+2	samuel	garcia	samuel@garcia	samuel	faire des sites c ‘est ma vie…	0	lien2	3	\N
+3	said	sarma	said@sarma	said	à la téte de cybersherif	0	lien3	2	\N
 \.
 
 
@@ -669,7 +672,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2016-05-11 20:39:41
+-- Completed on 2016-05-12 17:31:45
 
 --
 -- PostgreSQL database dump complete
