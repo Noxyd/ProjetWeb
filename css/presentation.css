@@ -11,7 +11,7 @@
 
 /* === Panels === */
 .left-sub-panel{
-  min-height: 400px;
+  min-height: 200px;
   background-color: white;
   margin-bottom: 40px;
   border: solid 1px grey;
@@ -20,7 +20,7 @@
 }
 
 .left-sub-pane2{
-  min-height: 200px;
+  min-height: 400px;
   background-color: white;
   margin-bottom: 40px;
   border: solid 1px grey;

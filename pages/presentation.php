@@ -37,14 +37,14 @@
         <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
           <legend>Bonjour Machin</legend>
-          <a href="../pages/profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
-          <a href="pages/traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
+          <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
+          <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
       <nav>
         <ul id="wrap-li">
           <li><a href="../index.php">Accueil</a></li>
-          <li class="actif"><a href="../pages/presentation.php">Présentation</a></li>
+          <li class="actif"><a href="presentation.php">Présentation</a></li>
           <li><a href="publications.php"> Publications </a></li>
           <li><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
@@ -59,8 +59,8 @@
             <p class="panel-text">
               Ce site a été conçu dans l'optique de proposer une plateforme
               collaborative de recherche pour que les chercheurs puissent
-              travailler autour d'un projet même si ils sont géographiquement
-              distant. Vous trouverez sur ce site l'ensemble des
+              travailler autour d'un projet et ce, même éloigné l'un de l'autre
+              géographiquement. 
             </p>
           </div>
           <div class="left-sub-pane2">

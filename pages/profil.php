@@ -1,3 +1,4 @@
+<!-- Scripts PHP -->
 <?php
   session_start();
 
@@ -7,7 +8,16 @@
   	setcookie(nonconnecte,1,time()+4,'/');
   	    header('location: connexion.php');
   }
+
+  $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=stri") or die("impossible de se connecter a la bdd");
+
+	// formulation et execution de la requette
+	$result= pg_prepare($bdd,"query",'select description from utilisateurs where iduser = $1');
+	// recupération du resultat de la requette
+	$result = pg_execute($bdd, "query",array ($_SESSION["iduser"]));
+  $row=pg_fetch_row($result);
 ?>
+<!-- Debut HTML -->
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -36,7 +46,7 @@
         <fieldset id="fieldset-header" >
           <legend>Bonjour Machin</legend>
           <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
-          <a href="pages/traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
+          <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
       <nav>
@@ -59,10 +69,10 @@
                   <img id="profilpic" src="../images/sam.jpg"/>
                 </div>
                 <div class="sub-pane2">
-                  <p class="panel-text">Nom :</p>
-                  <p class="panel-text">Prénom :</p>
-                  <p class="panel-text">Description :</p>
-                  <p class="panel-text">Adresse mail :</p>
+                  <p class="panel-text">Nom : <?php echo $_SESSION["nom"]; ?></p>
+                  <p class="panel-text">Prénom : <?php echo $_SESSION["prenom"]; ?></p>
+                  <p class="panel-text">Description : <?php echo $row[0]; ?></p>
+                  <p class="panel-text">Adresse mail : <?php echo $_SESSION["mail"]; ?></p>
                 </div>
               </div>
               <a href="../pages/equipe.php" class="btn btn-default">Mon équipe</a>
