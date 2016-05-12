@@ -6,8 +6,8 @@
   
   if (!isset($_SESSION["iduser"]) ) {
 
-  	setcookie(nonconnecte,1,time()+4,'/');
-  	    header('location: pages/connexion.php');
+  	    setcookie(nonconnecte,1,time()+4,'/');
+  	    header('location: connexion.php');
 
   }
   
@@ -40,17 +40,17 @@
         <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
           <legend>Bonjour  <?php echo $_SESSION["prenom"]; ?></legend>
-          <a href="#" class="btn-fieldset btn btn-primary">Mon profil</a>
+          <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
           <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
       <nav>
         <ul id="wrap-li">
-          <li class="actif"><a href="#">Accueil</a></li>
-          <li><a href="#" >Présentation</a></li>
+          <li class="actif"><a href="../index.php">Accueil</a></li>
+          <li><a href="presentation.php" >Présentation</a></li>
           <li><a href="#"> Publications </a></li>
-          <li><a href="#"> Evénements </a></li>
-          <li><a href="#"> Messages </a></li>
+          <li><a href="evenement.php"> Evénements </a></li>
+          <li><a href="messages.php"> Messages </a></li>
           <li><a href="#"> Annuaire </a></li>
           <li><a href="#"> Budget </a></li>
         </ul>
@@ -58,27 +58,56 @@
       <div class="wrap-content">
        
        A venir:
+       <div id="evenement">
        <?php
        $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
 
-      $result = pg_prepare($bdd, "my_query", 'SELECT * FROM evenements WHERE ideq = $1');
-
+      $result = pg_prepare($bdd, "my_query", 'SELECT * FROM evenements WHERE ideq = $1 and statut=0');
+      $result1 = pg_prepare($bdd, "query", 'SELECT * FROM evenements WHERE ideq = $1 and statut=1');
       // Exécute la requête préparée. Notez qu'il n'est pas nécessaire d'échapper
-
-      $result = pg_execute($bdd, "my_query",array ($_SESSION["iduser"]));
+      $result1 = pg_execute($bdd, "my_query",array ($_SESSION["iduser"]));
+      $result = pg_execute($bdd, "query",array ($_SESSION["iduser"]));
 
       // Exécute la même requête préparée, cette fois avec un paramètre différent
-      echo "le nombre de resultats est de ".pg_num_rows($result);
-      $row=pg_fetch_row($result);
-      echo $row [2];
+      $nb_res=pg_num_rows($result);
+      
+      for ( $i=1 ; $i <= $nb_res ; $i++ ){
+          $row=pg_fetch_row($result);
+                
+                echo"<u><a href=\"detailspublication.php?id=$row[0]\">". $row[1]."</a></u> le ";
+                echo $row[2]." <u>lieu </u>: " ;
+           
+                echo $row[3]."<br><br>" ;
+            
+      }
+      
        ?>
        
-      <div id="evenement">
+      
       
       </div>
+      <br>
       recemment passé:
+
       <div id="evenement">
+      <?php
+      $nb_res=pg_num_rows($result1);
+
+         for ( $i=1 ; $i <= $nb_res ; $i++ ){
+          $row=pg_fetch_row($result1);
+                
+                echo"<u><a href=\"detailspublication.php?id=$row[0]\">". $row[1]."</a></u> le ";
+            
+                echo $row[2]."<u> lieu </u>: " ;
+           
+                echo $row[3]."<br><br>" ;
+            
+      }
+
+      ?>
+
+
 
       </div>
 

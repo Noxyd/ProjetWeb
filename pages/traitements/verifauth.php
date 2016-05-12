@@ -2,6 +2,7 @@
 
 <?php
 	session_start();
+	//phpinfo();
 
 	//recuperation des champs du formulaire
 	$password=$_POST["password"];
@@ -30,7 +31,7 @@
 		$_SESSION["prenom"]=$row[5];
 		$_SESSION["ideq"]=$row[6];
 
-	;
+	echo $_SESSION["nom"];
 		header('location: ../../index.php');
 	}
 

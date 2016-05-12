@@ -3,12 +3,12 @@
 
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
 
-  /* === A décommenter dès que possible ===
-  if (!isset($_SESSION["idusers"]) ) {
+  
+  if (!isset($_SESSION["iduser"]) ) {
   	setcookie(nonconnecte,1,time()+4,'/');
-  	    header('location: pages/connexion.php');
+  	    header('location: connexion.php');
 
-  }*/
+  }
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -43,11 +43,11 @@
       </header>
       <nav>
         <ul id="wrap-li">
-          <li><a href="#">Accueil</a></li>
-          <li class="actif"><a href="../pages/presentation.php">Présentation</a></li>
+           <li class="actif"><a href="../index.php">Accueil</a></li>
+          <li><a href="presentation.php" >Présentation</a></li>
           <li><a href="#"> Publications </a></li>
-          <li><a href="#"> Evénements </a></li>
-          <li><a href="#"> Messages </a></li>
+          <li><a href="evenement.php"> Evénements </a></li>
+          <li><a href="messages.php"> Messages </a></li>
           <li><a href="#"> Annuaire </a></li>
           <li><a href="#"> Budget </a></li>
         </ul>
