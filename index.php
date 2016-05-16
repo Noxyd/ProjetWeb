@@ -72,7 +72,7 @@
         <a href="#"><img id="logo" src="images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
           <legend>Bonjour <?php echo ucfirst($_SESSION['prenom']); ?></legend>
-          <a href="pages.profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
+          <a href="pages/profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
           <a href="pages/traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
@@ -105,18 +105,24 @@
         </div>
         <div id="right-panel">
           <div id="newmessages" >
-            <h3 class="right-side-h3">Vos messages</h3>
+            <h3 class="right-side-h3" style="border-bottom:none;">Vos messages</h3>
             <?php
+            echo "<table class=\"table \">";
+            echo "\n\t\t<tr>";
+            echo "\n\t\t\t<th style=\"width:70px;\">De</td>";
+            echo "\n\t\t\t<th>Objet</td>";
+            echo "\n\t\t\t<th style=\"width:80px;\">Reçu le</td>";
+            echo "\n\t\t</tr>";
             for ($i=0; $i < $nbresults2; $i++) {
-              echo "<table class=\"table table-striped\">";
               echo "\n\t\t<tr>";
-              echo "\n\t\t\t<td>".ucfirst($messages['prenom'][$i])." ".ucfirst($messages['nom'][$i])."</td>";
+              echo "\n\t\t\t<td style=\"width:70px;\">".ucfirst($messages['prenom'][$i])." </td>";
               echo "\n\t\t\t<td>".$messages['objet'][$i]."</td>";
-              echo "\n\t\t\t<td>".date('d/m/Y',$messages['dateenvoi'][$i])."</td>";
+              echo "\n\t\t\t<td style=\"width:80px;\">".date('d/m/Y',$messages['dateenvoi'][$i])."</td>";
               echo "\n\t\t</tr>";
-              echo "\n\t</table>\n";
             }
+            echo "\n\t</table>\n";
             ?>
+            <center><a href="pages/profil.php" class="btn btn-warning">Tous les messages</a></center>
           </div>
           <div id="calendrier">
             <h3 class="right-side-h3">Calendrier</h3>

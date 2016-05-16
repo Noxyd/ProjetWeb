@@ -26,12 +26,10 @@
 
 		$_SESSION["statut"]=$row[0];
 		$_SESSION["iduser"]=$row[1];
-		$_SESSION["prenom"]=$row[2];
+		$_SESSION["nom"]=$row[2];
 		$_SESSION["mail"]=$row[4];
-		$_SESSION["nom"]=$row[5];
+		$_SESSION["prenom"]=$row[5];
 		$_SESSION["ideq"]=$row[6];
-
-	echo $_SESSION["nom"];
 		header('location: ../../index.php');
 	}
 
