@@ -52,11 +52,12 @@ text-decoration: none;
 #newmessages{
   background-color: white;
   box-shadow: 1px 1px 7px ;
-  min-height: 300px;
+  min-height: 100px;
   margin-bottom: 40px;
   border-bottom-left-radius: 10px;
   border-top-right-radius: 10px;
   font-size: 0.9em;
+  padding-bottom: 20px;
 }
 
 
@@ -65,7 +66,8 @@ text-decoration: none;
 #calendrier{
   background-color: white;
   box-shadow: 1px 1px 7px ;
-  min-height: 300px;
+  min-height: 200px;
   border-bottom-left-radius: 10px;
   border-top-right-radius: 10px;
+  padding-bottom: 10px;
 }
