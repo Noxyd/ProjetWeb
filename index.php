@@ -1,5 +1,6 @@
 <?php
   session_start();
+  include "scripts/calandar.php";
   //On vérifie que l'utilisateur est passé apr le formulaire de connexion
   if (!isset($_SESSION["iduser"]) ) {
   	header('location: pages/connexion.php');
@@ -126,6 +127,8 @@
           </div>
           <div id="calendrier">
             <h3 class="right-side-h3">Calendrier</h3>
+            <p><center><strong>Mai 2016</strong></center></p>
+            <?php calculateDays('mai'); ?>
           </div>
 
         </div>
