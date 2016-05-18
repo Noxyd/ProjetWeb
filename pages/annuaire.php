@@ -12,9 +12,9 @@
   $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
 	// formulation et execution de la requette
-	$result= pg_prepare($bdd,"query",'select * from utilisateurs where ideq = $1');
+	$result= pg_prepare($bdd,"query",'select * from utilisateurs  order by nom');
 	// recupération du resultat de la requette
-	$result = pg_execute($bdd, "query",array ($_GET["id"]));
+	$result = pg_execute($bdd, "query", array());
   $nbresults = pg_num_rows($result);
 ?>
 <!-- Debut HTML -->
@@ -37,7 +37,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link href="../css/squelette.css" rel="stylesheet">
-    <link href="../css/equipe.css" rel="stylesheet">
+    <link href="../css/annuaire.css" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
   </head>
   <body>
@@ -57,7 +57,7 @@
           <li><a href="publications.php"> Publications </a></li>
           <li><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
-          <li><a href="annuaire.php"> Annuaire </a></li>
+          <li class="actif"><a href="annuaire.php"> Annuaire </a></li>
           <li><a href="budget.php"> Budget </a></li>
         </ul>
       </nav>

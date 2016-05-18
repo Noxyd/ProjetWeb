@@ -46,7 +46,7 @@
         <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
           <legend>Bonjour <?php echo ucfirst($_SESSION['prenom']); ?></legend>
-          <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
+          <a href="profil.php" class="btn-fieldset btn btn-info">Mon profil</a>
           <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
@@ -72,8 +72,8 @@
                 <div class="sub-pane2">
                   <p class="panel-text">Nom : <?php echo ucfirst($_SESSION["nom"]); ?></p>
                   <p class="panel-text">Prénom : <?php echo ucfirst($_SESSION["prenom"]); ?></p>
-                  <p class="panel-text">Description : <?php echo $row[0]; ?></p>
                   <p class="panel-text">Adresse mail : <?php echo $_SESSION["mail"]; ?></p>
+                  <p class="panel-text">Description : <?php echo $row[0]; ?></p>
                 </div>
               </div>
               <?php echo "<a href=\"equipe.php?id=".$_SESSION['ideq']."\" class=\"btn btn-default\">Mon équipe</a>"; ?>
