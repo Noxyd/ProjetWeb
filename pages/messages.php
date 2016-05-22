@@ -62,6 +62,7 @@
         <![endif]-->
         <link href="/css/squelette.css" rel="stylesheet">
         <link href="/css/messages.css" rel="stylesheet">
+        <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
     </head>
     <body>
         <div id="smoke-background">
@@ -70,7 +71,7 @@
         </div>
     <div id="wrap-container">
         <header>
-        <a href="#"><img id="logo" src="/images/logo/logo-transparent-nom.png"/></a>
+        <a href="/index.php"><img id="logo" src="/images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
           <legend>Bonjour <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
           <a href="#" class="btn-fieldset btn btn-primary">Mon profil</a>
@@ -127,7 +128,7 @@
             </div>
             <div id="messages-stats">
                 <?php
-                echo "<p><strong>".$cptNonLu."</strong> messages non-lus</p>";
+                echo "<p><strong>".$cptNonLu."</strong> messages non-lu(s)</p>";
                 echo "<p><strong>".$cptBrouillon."</strong> brouillons</p>";
                 ?>
             </div>

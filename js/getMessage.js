@@ -48,6 +48,13 @@ function readData(jsonData){
     out +="</div>";
     // console.log(out); Uniquement pour debug
     //On inclu le code contenu dans out dans le #right-panel du fichier messages.php
+    // $("body").css({
+    //     "position":"fixed",
+    //     "margin":"auto",
+    //     "left":0,
+    //     "right":0
+    // });
+    $("body").addClass("body-fixed");
     document.getElementById("smoke-background").style.display = "block";
     document.getElementById("wrap-message").innerHTML = out;
 }

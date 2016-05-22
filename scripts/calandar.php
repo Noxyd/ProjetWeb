@@ -2,23 +2,91 @@
     // Ce fichier contient la procédure permettant d'afficher un Calandrier
 
     /* Procédure calculateDays
-     * Entrée : $calculateMonth (string) - Le moi à afficher
+     * Entrée : $calculateMonth (int) - Le mois à afficher
      */
     function calculateDays($calculateMonth){
+        /* === Premiere partie === */
+        /* Recherche (dans la bdd) des événements ayant lieux dans le mois courant */
+        //connexion à la bdd
+      	$bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
+      	// formulation et execution de la requette
+      	$result= pg_prepare($bdd,"query",'SELECT ideven, intitule, dateeven, lieu, description, statut FROM evenements');
+      	// recupération du resultat de la requette
+      	$result = pg_execute($bdd, "query",array ());
+        //Comptage du nombre de résultats
+      	$nbresults=pg_num_rows($result);
+        //Récupération des
+        $cpt = 0; // Pour compter le nombre d'événements dans le mois
+        for ($i=0; $i < $nbresults; $i++) {
+          $tabres = pg_fetch_array($result, $i);
+          //On ne garde que les événements du mois courant
+          if($calculateMonth == date('m',strtotime($tabres[2]))){
+              $event['ideven'][$cpt] = $tabres[0];
+              $event['intitule'][$cpt] = $tabres[1];
+              $event['dateeven'][$cpt] = strtotime($tabres[2]);
+              $event['lieu'][$cpt] = $tabres[3];
+              $event['description'][$cpt] = $tabres[4];
+              $event['statut'][$cpt] = $tabres[5];
+              $cpt += 1;
+          }
+        }
+        pg_close($bdd);
+        /* === Deuxième partie === */
+        /* Affichage du calandrier*/
+
         //Initialisation des variables en fonction du mois choisi
         // $firstDay est le premiers jour du mois de 0 à 6 (lundi correspond à 0)
         // $numberOfDays est le nombre de jours dans le mois
         switch ($calculateMonth) {
-            case 'avril':
+            case '01':
+                $firstDay = 4;
+                $numberOfDays = 31;
+                break;
+            case '02':
+                $firstDay = 2;
+                $numberOfDays = 29;
+                break;
+            case '03':
+                $firstDay = 1;
+                $numberOfDays = 31;
+                break;
+            case '04':
                 $firstDay = 4;
                 $numberOfDays = 30;
                 break;
 
-            case 'mai':
+            case '05':
                 $firstDay = 6;
                 $numberOfDays = 31;
                 break;
-
+            case '06':
+                $firstDay = 2;
+                $numberOfDays = 30;
+                break;
+            case '07':
+                $firstDay = 4;
+                $numberOfDays = 31;
+                break;
+            case '08':
+                $firstDay = 1;
+                $numberOfDays = 31;
+                break;
+            case '09':
+                $firstDay = 3;
+                $numberOfDays = 30;
+                break;
+            case '10':
+                $firstDay = 5;
+                $numberOfDays = 31;
+                break;
+            case '11':
+                $firstDay = 1;
+                $numberOfDays = 30;
+                break;
+            case '12':
+                $firstDay = 3;
+                $numberOfDays = 31;
+                break;
             default:
                 //Erreur
                 $firstDay = 0;
@@ -31,6 +99,9 @@
         $row = 0; //Nombre de lignes dans le calandrier
         $countHint = 0; //Boucle de 0 à 6 (les jours de la semaine)
         $stop = 0;
+        $actualDay = date('d');     //Récupération du jour courant
+        $actualMonth = date('m');     //Récupération du jour courant
+
         //Début du programme
         //Initialisation des jours ne faisant pas parties du mois
         while ($countHint < $firstDay) {
@@ -86,12 +157,31 @@
             echo "\n\t<tr>";
             //Incrémentation des jours ($days)
             for ($j=0; $j < 7; $j++) {
+                $flag=0; //Le flag passe à 1 si un événement à lieu le jour courant dans $month
+                for ($k=0; $k < $cpt; $k++) {
+                    //On récupère le jour de chaque événement dabs $event
+                    $dateevenday = date('d',$event['dateeven'][$k]);
+                    //On vérifie si le jour $dateeventday est égal au jour courant de $month
+                    if($month[$i][$days[$j]] == $dateevenday){
+                        //Si c'est le cas, on lève le flag (passage à 1)
+                        $flag=1;
+                        //Et on enregistre son rang pour permettre une redirection vers l'événement en cours
+                        $idevent=$k;
+                    }
+                }
                 //Affichage du contenu de $month, le tableau résultant
-                echo "\n\t\t<td>".$month[$i][$days[$j]]."</td>";
+                if($flag == 1){
+                    echo "\n\t\t<td><a href='pages/detailsevenements.php?id=".$event['ideven'][$idevent]."'>".$month[$i][$days[$j]]."</a></td>";
+                } else if($month[$i][$days[$j]] == $actualDay && $actualMonth == $calculateMonth){
+                    echo "\n\t\t<td><strong>".$month[$i][$days[$j]]."</strong></td>";
+                } else {
+                    echo "\n\t\t<td>".$month[$i][$days[$j]]."</td>";
+                }
+
             }
             echo "\n\t</tr>";
         }
         echo "\n</table>\n";
+        //FIN DE LA PROCEDURE
     }
-    //FIN DE LA PROCEDURE
 ?>

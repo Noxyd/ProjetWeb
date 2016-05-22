@@ -68,11 +68,16 @@
     <![endif]-->
     <link href="css/squelette.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
   </head>
   <body>
+    <div id="smoke-background">
+        <div id="wrap-message">
+        </div>
+    </div>
     <div id="wrap-container">
       <header>
-        <a href="#"><img id="logo" src="images/logo/logo-transparent-nom.png"/></a>
+        <a href="/index.php"><img id="logo" src="images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
           <legend>Bonjour <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
           <a href="pages/profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
@@ -112,20 +117,25 @@
             <?php
             echo "<table class=\"table \">";
             echo "\n\t\t<tr>";
+            echo "\n\t\t\t<th></td>";
             echo "\n\t\t\t<th style=\"width:70px;\">De</td>";
             echo "\n\t\t\t<th>Objet</td>";
             echo "\n\t\t\t<th style=\"width:80px;\">Reçu le</td>";
             echo "\n\t\t</tr>";
             for ($i=0; $i < $nbresults2; $i++) {
-              echo "\n\t\t<tr>";
-              echo "\n\t\t\t<td style=\"width:70px;\">".ucfirst($messages['prenom'][$i])." </td>";
-              echo "\n\t\t\t<td>".$messages['objet'][$i]."</td>";
-              echo "\n\t\t\t<td style=\"width:80px;\">".date('d/m/Y',$messages['dateenvoi'][$i])."</td>";
-              echo "\n\t\t</tr>";
+                echo "\n\t\t<tr>";
+                if($messages['etat'][$i] == 0)
+                    echo "\n\t<td><span class='glyphicon glyphicon-record'></span></td>";
+                else
+                    echo "<td></td>";
+                echo "\n\t\t\t<td style=\"width:70px;\">".ucfirst($messages['prenom'][$i])." </td>";
+                echo "\n\t\t\t<td><a style='cursor:pointer;' onclick='request(".$messages['idmessage'][$i].")'>".$messages['objet'][$i]."</a></td>";
+                echo "\n\t\t\t<td style=\"width:80px;\">".date('d/m/Y',$messages['dateenvoi'][$i])."</td>";
+                echo "\n\t\t</tr>";
             }
             echo "\n\t</table>\n";
             ?>
-            <center><a href="pages/profil.php" class="btn btn-warning">Tous les messages</a></center>
+            <center><a href="pages/messages.php" class="btn btn-warning">Tous les messages</a></center>
           </div>
           <div id="calendrier">
             <h3 class="right-side-h3">Calendrier</h3>
@@ -146,7 +156,20 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript">
+        function closeMsg(){
+            // $("body").css({
+            //     "position":"static",
+            //     "margin":"auto"
+            // });
+            $("body").removeClass("body-fixed");
+            document.getElementById("smoke-background").style.display = "none";
+        }
+    </script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/squelette.js"></script>
+    <script src="/js/messages.js"></script>
+    <script src="/js/xhr.js"></script>
+    <script src="/js/getMessage.js"></script>
   </body>
 </html>
