@@ -55,6 +55,7 @@
   width: 400px;
   display: inline-block;
   vertical-align: top;
+  text-align: justify;
 }
 
 .inside-panel-link h2:hover{
