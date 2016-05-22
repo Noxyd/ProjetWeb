@@ -28,8 +28,8 @@
   //Intérrogation BDD pour voir les messages
   // formulation et execution de la requette
   $result2= pg_prepare($bdd,"query2",'SELECT idmessage, objet, contenu, dateenvoi, etat, idemetteur,idrecepteur, nom, prenom FROM messages, utilisateurs WHERE messages.idemetteur = utilisateurs.iduser AND idrecepteur = $1 ORDER BY dateenvoi DESC FETCH FIRST 5 ROWS ONLY;');
-  // recupération du resultat de la requette
-  $result2= pg_execute($bdd, "query2",array ($_SESSION['iduser']));
+  // recupération du resultat de la requete
+  $result2= pg_execute($bdd, "query2",array ($_SESSION["iduser"]));
   //Comptage du nombre de résultats
   $nbresults2=pg_num_rows($result2)	;
   //Récupération des résultats
@@ -45,6 +45,8 @@
     $messages['nom'][$i] = $tabres[7];
     $messages['prenom'][$i] = $tabres[8];
   }
+
+  pg_close($bdd);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -72,7 +74,7 @@
       <header>
         <a href="#"><img id="logo" src="images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
-          <legend>Bonjour <?php echo ucfirst($_SESSION['prenom']); ?></legend>
+          <legend>Bonjour <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
           <a href="pages/profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
           <a href="pages/traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
@@ -127,8 +129,11 @@
           </div>
           <div id="calendrier">
             <h3 class="right-side-h3">Calendrier</h3>
-            <p><center><strong>Mai 2016</strong></center></p>
-            <?php calculateDays('mai'); ?>
+            <p><center><strong><?php echo date('F Y'); ?></strong></center></p>
+            <?php
+                $actualMonth = date('m');
+                calculateDays($actualMonth);
+            ?>
           </div>
 
         </div>

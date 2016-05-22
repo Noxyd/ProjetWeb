@@ -1,8 +1,5 @@
-
-
 <?php
 	session_start();
-	//phpinfo();
 
 	//recuperation des champs du formulaire
 	$password=$_POST["password"];
@@ -15,6 +12,8 @@
 	// recupération du resultat de la requette
 	$result = pg_execute($bdd, "query",array ($password,$identifiant));
 	$i=pg_num_rows($result)	;
+
+	pg_close($bdd);
 
 	if ($i === 0){
 		setcookie("auth_error",1,time()+4, '/');
