@@ -12,7 +12,7 @@
   $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
 	// formulation et execution de la requette
-	$result= pg_prepare($bdd,"query",'select * from utilisateurs  order by nom');
+	$result= pg_prepare($bdd,"query",'select * from utilisateurs order by nom');
 	// recupération du resultat de la requette
 	$result = pg_execute($bdd, "query", array());
   $nbresults = pg_num_rows($result);

@@ -10,6 +10,7 @@
   	    header('location: connexion.php');
 
   }
+  $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
 ?>
 
@@ -32,13 +33,13 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link href="../css/squelette.css" rel="stylesheet">
-    <link href="../css/evenements.css" rel="stylesheet">
+    <link href="../css/formulaire-evenement.css" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
   </head>
   <body>
     <div id="wrap-container">
       <header>
-        <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
+        <a href="../index.php"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
           <legend>Bonjour  <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
           <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
@@ -49,46 +50,39 @@
         <ul id="wrap-li">
           <li><a href="../index.php">Accueil</a></li>
           <li><a href="presentation.php" >Présentation</a></li>
-          <li><a href="publication.php"> Publications </a></li>
+          <li><a href="presentation.php"> Publications </a></li>
           <li class="actif"><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
           <li><a href="annuaire.php"> Annuaire </a></li>
           <li><a href="budget.php"> Budget </a></li>
         </ul>
       </nav>
+
       <div class="wrap-content">
-
-
-      <div id="evenements">
         <?php
-           $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
-
-           $result = pg_prepare($bdd, "my_query", 'SELECT * FROM evenements WHERE ideven = $1 ');
-         $result = pg_execute($bdd, "my_query",array ($_GET["id"]));
-
-         $row=pg_fetch_row($result);
-
-         echo "<center><H2> $row[1]</H2><br>";
-         echo "<u>le:</u> $row[2] <u><br>";
-         echo "lieu:</u><b> $row[3]</b><br><br>";
-         echo "$row[4]</center>";
-
-
+          if (isset($_COOKIE['erreur-even'])) {
+            echo '<div class="alert alert-danger" role="alert"><strong>Attention ! </strong> L\'événement n\'a pas pu être enregistré.</div>';
+          }
         ?>
 
+        <h2>Création d'un événement</h2>
 
-
-
-
-
-
-
-
-
-      </div></div>
-
-
-
+        <div class="Formulaire">
+          <form action="traitements/insertion_events.php" method="post">
+            <label>Titre :</label>
+            <p> <input type="text" class="form-control" name="titre" required></p>
+            <label>Date :</label>
+            <p><input type="date" class="form-control" name="date" required></p>
+            <label>Lieu :</label>
+            <p><input type="text" class="form-control" name="lieu" required></p>
+            <label>Description :</label>
+            <p><textarea class="form-control" rows="5" name="description" required></textarea></p>
+            <button type="submit" class="btn btn-default">Enregistrer</button>
+            <div class="bouton">
+              <a href="evenements.php" class="btn-fieldset btn btn-danger">Annuler</a>
+            </div>
+          </form>
+        </div>
 
       </div>
       <footer>
