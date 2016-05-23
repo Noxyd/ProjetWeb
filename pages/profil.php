@@ -12,7 +12,7 @@
   $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
 	// formulation et execution de la requette
-	$result= pg_prepare($bdd,"query",'select description from utilisateurs where iduser = $1');
+	$result= pg_prepare($bdd,"query",'select description, photo from utilisateurs where iduser = $1');
 	// recupération du resultat de la requette
 	$result = pg_execute($bdd, "query",array ($_SESSION["iduser"]));
   $row=pg_fetch_row($result);
@@ -67,7 +67,7 @@
             <div class="sub-pane1">
               <div class="wrap-profil">
                 <div class="round-image">
-                  <img id="profilpic" src="../images/sam.jpg"/>
+                  <?php echo "<img id=\"profilpic\" src=\"$row[1]\"/>"; ?>
                 </div>
                 <div class="sub-pane2">
                   <p class="panel-text">Nom : <?php echo ucfirst($_SESSION["nom"]); ?></p>

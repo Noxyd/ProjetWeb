@@ -63,7 +63,7 @@
       </nav>
       <div class="wrap-content">
         <div id="main-panel">
-            <h2 class="inside-panel">Equipe</h2>
+            <h2 class="inside-panel">Annuaire</h2>
             <div class="sub-pane1">
               <?php
               // On fait une boucle pour afficher tous les utilisateurs de l'équipe
@@ -71,7 +71,7 @@
                   $row=pg_fetch_row($result);
                     echo "<div class=\"wrap-profil\">";
                     echo "<div class=\"round-image\">";
-                    echo "<img id=\"profilpic\" src=\"../images/sam.jpg\"/>";
+                    echo "<img id=\"profilpic\" src=\"$row[7]\"/>";
                     echo "</div>";
                     echo "<div class=\"sub-pane2\">";
                     echo "<p class=\"panel-text\">Nom : ".ucfirst($row[1])."</p>";
