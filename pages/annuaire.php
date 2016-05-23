@@ -71,7 +71,7 @@
                   $row=pg_fetch_row($result);
                     echo "<div class=\"wrap-profil\">";
                     echo "<div class=\"round-image\">";
-                    echo "<img id=\"profilpic\" src=\"../images/sam.jpg\"/>";
+                    echo "<img id=\"profilpic\" src=\"$row[7]\"/>";
                     echo "</div>";
                     echo "<div class=\"sub-pane2\">";
                     echo "<p class=\"panel-text\">Nom : ".ucfirst($row[1])."</p>";
