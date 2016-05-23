@@ -63,7 +63,7 @@
       </nav>
       <div class="wrap-content">
         <div id="main-panel">
-            <h2 class="inside-panel">Equipe</h2>
+            <h2 class="inside-panel">Annuaire</h2>
             <div class="sub-pane1">
               <?php
               // On fait une boucle pour afficher tous les utilisateurs de l'équipe

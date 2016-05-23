@@ -3,7 +3,7 @@
 
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
 
-  
+
   if (!isset($_SESSION["iduser"]) ) {
 
   	    setcookie(nonconnecte,1,time()+4,'/');
@@ -11,7 +11,7 @@
 
   }
   $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
-  
+
 ?>
 
  <!DOCTYPE html>
@@ -38,29 +38,29 @@
   <body>
     <div id="wrap-container">
       <header>
-        <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
+        <a href="../index.php"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
-          <legend>Bonjour  <?php echo $_SESSION["prenom"]; ?></legend>
+          <legend>Bonjour  <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
           <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
           <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
       <nav>
         <ul id="wrap-li">
-          <li class="actif"><a href="../index.php">Accueil</a></li>
+          <li><a href="../index.php">Accueil</a></li>
           <li><a href="presentation.php" >Présentation</a></li>
-          <li><a href="#"> Publications </a></li>
-          <li><a href="evenement.php"> Evénements </a></li>
+          <li><a href="presentation.php"> Publications </a></li>
+          <li class="actif"><a href="evenement.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
-          <li><a href="#"> Annuaire </a></li>
-          <li><a href="#"> Budget </a></li>
+          <li><a href="annuaire.php"> Annuaire </a></li>
+          <li><a href="budget.php"> Budget </a></li>
         </ul>
       </nav>
       <div class="wrap-content">
        <h2>A venir</h2>
-       
+
        <div id="evenements">
-       
+
        <table class="table">
        <thead>
       <tr>
@@ -72,32 +72,32 @@
 
        <?php
        //reuperation des evenements a venir en requette preparé
-        $result = pg_prepare($bdd, "my_query", 'SELECT * FROM evenements WHERE ideq = $1 and statut=0');
+        $result = pg_prepare($bdd, "my_query", 'SELECT * FROM evenements WHERE statut=0');
         // recuperation des eveneents passés en requette preparé
-        $result1 = pg_prepare($bdd, "query", 'SELECT * FROM evenements WHERE ideq = $1 and statut=1');
+        $result1 = pg_prepare($bdd, "query", 'SELECT * FROM evenements WHERE statut=1');
         //execution des requettes
-        $result1 = pg_execute($bdd, "my_query",array ($_SESSION["iduser"]));
+        $result1 = pg_execute($bdd, "my_query",array ());
 
-        $result = pg_execute($bdd, "query",array ($_SESSION["iduser"]));
+        $result = pg_execute($bdd, "query",array ());
 
         // recuperation nombre de lignes
         $nb_res=pg_num_rows($result);
-        
+
         for ( $i=1 ; $i <= $nb_res ; $i++ ){
-                $row=pg_fetch_row($result);//mettre sous forme de tableau                  
+                $row=pg_fetch_row($result);//mettre sous forme de tableau
                   echo"<tr><td>";
                   echo "<a href=\"detailsevenements.php?id=$row[0]\">". $row[1]."</a></u>";
                   echo "</td> <td> ";
                   echo $row[2]." </td><td> " ;
-             
+
                   echo $row[3]."</td></tr>" ;
-              
+
         }
-      
+
        ?>
-       
+
       </table>
-      
+
     </div>
 
       <br>
@@ -116,14 +116,14 @@
 
             for ( $i=1 ; $i <= $nb_res ; $i++ ){
               $row=pg_fetch_row($result1);
-            
+
                 echo"<tr><td>";
                   echo "<a href=\"detailsevenements.php?id=$row[0]\">". $row[1]."</a></u>";
                   echo "</td> <td> ";
                   echo $row[2]." </td><td> " ;
-             
+
                   echo $row[3]."</td></tr>" ;
-               
+
           }
 
           ?>
