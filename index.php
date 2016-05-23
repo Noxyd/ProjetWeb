@@ -112,8 +112,12 @@
           ?>
         </div>
         <div id="right-panel">
-          <div id="newmessages" >
-            <h3 class="right-side-h3" style="border-bottom:none;">Vos messages</h3>
+            <div id="newmessages" >
+                <h3 class="right-side-h3" style="border-bottom:none;"><a href="pages/messages.php">Vos messages</a><small><a onclick="closeMsg()" style="margin-left:30px;cursor:pointer;color:inherit;"><span class="glyphicon glyphicon-refresh" style="cursor:pointer;"></span> Rafraichir</a></small></h3>
+                <table id="table-messages" class="table table-striped">
+                    <!-- Rempli par fonction AJAX -->
+                </table>
+            <!-- <h3 class="right-side-h3" style="border-bottom:none;">Vos messages</h3>
             <?php
             echo "<table class=\"table \">";
             echo "\n\t\t<tr>";
@@ -125,17 +129,18 @@
             for ($i=0; $i < $nbresults2; $i++) {
                 echo "\n\t\t<tr>";
                 if($messages['etat'][$i] == 0)
+                    //Le message n'a pas été lu
                     echo "\n\t<td><span class='glyphicon glyphicon-record'></span></td>";
                 else
                     echo "<td></td>";
                 echo "\n\t\t\t<td style=\"width:70px;\">".ucfirst($messages['prenom'][$i])." </td>";
-                echo "\n\t\t\t<td><a style='cursor:pointer;' onclick='request(".$messages['idmessage'][$i].")'>".$messages['objet'][$i]."</a></td>";
+                echo "\n\t\t\t<td><a style='cursor:pointer;' onclick='request(".$messages['idmessage'][$i].",".$messages['etat'][$i].")'>".$messages['objet'][$i]."</a></td>";
                 echo "\n\t\t\t<td style=\"width:80px;\">".date('d/m/Y',$messages['dateenvoi'][$i])."</td>";
                 echo "\n\t\t</tr>";
             }
             echo "\n\t</table>\n";
             ?>
-            <center><a href="pages/messages.php" class="btn btn-warning">Tous les messages</a></center>
+            <center><a href="pages/messages.php" class="btn btn-warning">Tous les messages</a></center> -->
           </div>
           <div id="calendrier">
             <h3 class="right-side-h3">Calendrier</h3>
@@ -156,20 +161,21 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script type="text/javascript">
-        function closeMsg(){
-            // $("body").css({
-            //     "position":"static",
-            //     "margin":"auto"
-            // });
-            $("body").removeClass("body-fixed");
-            document.getElementById("smoke-background").style.display = "none";
-        }
-    </script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/squelette.js"></script>
     <script src="/js/messages.js"></script>
     <script src="/js/xhr.js"></script>
     <script src="/js/getMessage.js"></script>
+    <script src="/js/refreshMessages.js"></script>
+    <?php
+        echo "<script>refreshMessages(".$_SESSION['iduser'].")</script>";
+        echo "\n<script type='text/javascript'>";
+        echo "\nfunction closeMsg(){";
+        echo "\n$('body').removeClass('body-fixed');";
+        echo "\ndocument.getElementById('smoke-background').style.display = 'none';";
+        echo "\nrefreshMessages(".$_SESSION['iduser'].");";
+        echo "\n}";
+        echo "\n</script>\n";
+    ?>
   </body>
 </html>

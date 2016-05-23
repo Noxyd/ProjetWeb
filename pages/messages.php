@@ -95,42 +95,20 @@
         <div class="wrap-content">
         <div id="left-panel">
             <!-- Début ici -->
+            <a onclick="closeMsg()" style="float:right;margin-bottom:20px;cursor:pointer"><span class="glyphicon glyphicon-refresh" style="cursor:pointer;"></span> Rafraichir</a>
             <table class="table" id="table-messages">
-                <tr>
-                    <th></th>
-                    <th>De </th>
-                    <th>Objet</th>
-                    <th>Reçu le</th>
-                </tr>
-                <?php
-                for ($i=0; $i < $nbresults2; $i++) {
-                    if($messages['etat'][$i] == 0){
-                        echo "<tr>";
-                        echo "\n\t<td><span class='glyphicon glyphicon-record'></span></td>";
-                        echo "\n\t<td>".$messages["prenom"][$i]." ".$messages["nom"][$i]."</br></td>";
-                        echo "\n\t<td><a style='cursor:pointer;' onclick='request(".$messages["idmessage"][$i].")'>".$messages["objet"][$i]."</a></br></td>";
-                        echo "\n\t<td>".$messages["dateenvoi"][$i]."</br></td>";
-                        echo "</tr>";
-                    }else{
-                        echo "<tr>";
-                        echo "\n\t<td></td>";
-                        echo "\n\t<td>".$messages["prenom"][$i]." ".$messages["nom"][$i]."</td>";
-                        echo "\n\t<td><a style='cursor:pointer;' onclick='request(".$messages["idmessage"][$i].")'>".$messages["objet"][$i]."</a></td>";
-                        echo "\n\t<td>".$messages["dateenvoi"][$i]."</td>";
-                        echo "</tr>";
-                    }
-                }
-                ?>
+                <!-- Le script AJAX placera les éléments ici -->
             </table>
         </div>
         <div id="right-panel">
             <div id="message-content">
+                <!-- Rempli dynamiquement via AJAX -->
             </div>
             <div id="messages-stats">
-                <?php
-                echo "<p><strong>".$cptNonLu."</strong> messages non-lu(s)</p>";
+                <!-- <?php
+                echo "<p><strong>".$cptNonLu."</strong> message(s) non-lu(s)</p>";
                 echo "<p><strong>".$cptBrouillon."</strong> brouillons</p>";
-                ?>
+                ?> -->
             </div>
         </div>
         <footer>
@@ -142,15 +120,22 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script type="text/javascript">
-        function closeMsg(){
-            document.getElementById("smoke-background").style.display = "none";
-        }
-    </script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/squelette.js"></script>
     <script src="/js/messages.js"></script>
     <script src="/js/xhr.js"></script>
     <script src="/js/getMessage.js"></script>
+    <script src="/js/refreshMessages.js"></script>
+    <?php
+        echo "<script>refreshMessages(".$_SESSION['iduser'].")</script>";
+        echo "<script>refreshCounter(".$_SESSION['iduser'].")</script>";
+        echo "\n<script type='text/javascript'>";
+        echo "\nfunction closeMsg(){";
+        echo "\ndocument.getElementById('smoke-background').style.display = 'none';";
+        echo "\nrefreshMessages(".$_SESSION['iduser'].");";
+        echo "\nrefreshCounter(".$_SESSION['iduser'].");";
+        echo "\n}";
+        echo "\n</script>\n";
+    ?>
   </body>
 </html>

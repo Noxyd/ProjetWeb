@@ -3,7 +3,7 @@
  * Le contenu d'un message sera renvoyé par le serveur au format JSON.
  * Note : l'objet XMLHTTPRequest sera abrégé par xhr.
  */
-function request(idM){
+function request(idM,etatM){
     // Création de l'objet xhr
     var xhr = getXMLHttpRequest();
     /* === Uniquement pour debug === */
@@ -25,7 +25,7 @@ function request(idM){
     };
     // Initialisation de la requete xhr
     var methode = "GET",
-        target = "/scripts/ajaxmessage.php?id="+idM,
+        target = "/scripts/ajaxmessage.php?id="+idM+"&etatM="+etatM,
         type = true;
     xhr.open(methode,target, type);
     //Envoi de la requete xhr
@@ -48,12 +48,7 @@ function readData(jsonData){
     out +="</div>";
     // console.log(out); Uniquement pour debug
     //On inclu le code contenu dans out dans le #right-panel du fichier messages.php
-    // $("body").css({
-    //     "position":"fixed",
-    //     "margin":"auto",
-    //     "left":0,
-    //     "right":0
-    // });
+
     $("body").addClass("body-fixed");
     document.getElementById("smoke-background").style.display = "block";
     document.getElementById("wrap-message").innerHTML = out;

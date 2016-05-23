@@ -5,6 +5,10 @@
   margin-top:0;
 }
 
+.right-side-h3 a {
+    color:black;
+}
+
 .inside-panel{
   margin-left: 40px;
 }
@@ -71,13 +75,13 @@ text-decoration: none;
 }
 
 #wrap-message{
-    width: 900px;
+    width: 800px;
     margin: 50vh auto;
     min-height: 300px;
     transform: translateY(-50%);
-    padding-top: 40px;
-    padding-bottom: 40px;
-    border-radius: 10px;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    border-radius: 5px;
     background-color: #181A18;
 }
 
@@ -93,7 +97,6 @@ text-decoration: none;
     padding: 15px 20px 15px 20px;
     border-radius: 5px;
 }
-
 
 /* === Bloc "Calandrier" === */
 #calendrier{
