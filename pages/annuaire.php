@@ -65,6 +65,7 @@
         <div id="main-panel">
             <h2 class="inside-panel">Annuaire</h2>
             <div class="sub-pane1">
+              <a href="formulaire-annuaire.php" class="btn-fieldset btn btn-default">Ajouter un membre</a>
               <?php
               // On fait une boucle pour afficher tous les utilisateurs de l'équipe
                 for($i=1 ; $i <= $nbresults ; $i++){

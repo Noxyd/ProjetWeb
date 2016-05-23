@@ -58,7 +58,7 @@
   <body>
     <div id="wrap-container">
       <header>
-        <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
+        <a href="../index.php"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
           <legend>Bonjour <?php echo ucfirst($_SESSION['prenom']); ?></legend>
           <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
@@ -118,7 +118,7 @@
             }
             echo "\n\t</table>\n";
             ?>
-            <center><a href="pages/messages.php" class="btn btn-warning">Tous les messages</a></center>
+            <center><a href="messages.php" class="btn btn-warning">Tous les messages</a></center>
           </div>
           <div id="calendrier">
             <h3 class="right-side-h3">Calendrier</h3>
