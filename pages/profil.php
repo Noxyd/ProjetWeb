@@ -1,5 +1,5 @@
-<!-- Scripts PHP -->
 <?php
+// Scripts PHP
   session_start();
 
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
@@ -9,13 +9,19 @@
   	    header('location: connexion.php');
   }
 
-  $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
+  $bdd = pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
 	// formulation et execution de la requette
-	$result= pg_prepare($bdd,"query",'select description, photo from utilisateurs where iduser = $1');
+	$result = pg_prepare($bdd,"query",'select description, photo from utilisateurs where iduser = $1');
 	// recupération du resultat de la requette
 	$result = pg_execute($bdd, "query",array ($_SESSION["iduser"]));
-  $row=pg_fetch_row($result);
+  $row = pg_fetch_row($result);
+
+  // Stockage des variables extraits de la base dans des variables internes
+  $user["description"] = $row[0];
+  $user["photo"] = $row[1];
+  // On ferme la connexion à la base  
+  pg_close($bdd);
 ?>
 <!-- Debut HTML -->
 <!DOCTYPE html>
@@ -43,10 +49,10 @@
   <body>
     <div id="wrap-container">
       <header>
-        <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
+        <a href="../index.php"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
-          <legend>Bonjour <?php echo ucfirst($_SESSION['prenom']); ?></legend>
-          <a href="profil.php" class="btn-fieldset btn btn-info">Mon profil</a>
+          <legend>Bonjour <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
+          <a href="profil.php" class="btn-fieldset btn btn-info">Dashboard</a>
           <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
@@ -63,20 +69,20 @@
       </nav>
       <div class="wrap-content">
         <div id="main-panel">
-            <h2 class="inside-panel">Profil utilisateur</h2>
+            <h2 class="inside-panel">Dashboard</h2>
             <div class="sub-pane1">
               <div class="wrap-profil">
                 <div class="round-image">
-                  <?php echo "<img id=\"profilpic\" src=\"$row[1]\"/>"; ?>
+                  <?php echo "<img id=\"profilpic\" src=\"".$user["photo"]."\"/>\n"; ?>
                 </div>
                 <div class="sub-pane2">
                   <p class="panel-text">Nom : <?php echo ucfirst($_SESSION["nom"]); ?></p>
                   <p class="panel-text">Prénom : <?php echo ucfirst($_SESSION["prenom"]); ?></p>
                   <p class="panel-text">Adresse mail : <?php echo $_SESSION["mail"]; ?></p>
-                  <p class="panel-text">Description : <?php echo $row[0]; ?></p>
+                  <p class="panel-text">Description : <?php echo $user["description"]; ?></p>
                 </div>
               </div>
-              <?php echo "<a href=\"equipe.php?id=".$_SESSION['ideq']."\" class=\"btn btn-default\">Mon équipe</a>"; ?>
+              <?php echo "<a href=\"equipe.php?id=".$_SESSION["ideq"]."\" class=\"btn btn-default\">Mon équipe</a>\n"; ?>
             </div>
         </div>
       </div>
