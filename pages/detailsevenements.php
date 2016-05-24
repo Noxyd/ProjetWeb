@@ -3,7 +3,7 @@
 
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
 
-
+  //verification de session
   if (!isset($_SESSION["iduser"]) ) {
 
   	    setcookie(nonconnecte,1,time()+4,'/');
@@ -59,33 +59,29 @@
       <div class="wrap-content">
 
 
-      <div id="evenements">
-        <?php
-           $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
+        <div id="evenements">
+          <?php
+              //connexion a la base de donnée
+            $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
+            //preparation de la requette
+            $result = pg_prepare($bdd, "my_query", 'SELECT * FROM evenements WHERE ideven = $1 ');
+            //execution de la requette
+            $result = pg_execute($bdd, "my_query",array ($_GET["id"]));
 
-           $result = pg_prepare($bdd, "my_query", 'SELECT * FROM evenements WHERE ideven = $1 ');
-         $result = pg_execute($bdd, "my_query",array ($_GET["id"]));
-
-         $row=pg_fetch_row($result);
-
-         echo "<center><H2> $row[1]</H2><br>";
-         echo "<u>le:</u> $row[2] <u><br>";
-         echo "lieu:</u><b> $row[3]</b><br><br>";
-         echo "$row[4]</center>";
-
-
-        ?>
-
-
-
+            $row=pg_fetch_row($result);//rendre le resultat sous forme de tableau
+            //affichage
+            echo "<center>";
+            echo "<H2> $row[1]</H2><br>\n";
+            echo "\t\t<u>le:</u> $row[2] <u><br>\n";
+            echo "\t\tlieu:</u><b> $row[3]</b><br><br>\n";
+            echo "\t\t$row[4]\n";
+            echo "\t</center>";
 
 
+          ?>
 
-
-
-
-
-      </div></div>
+        </div>
+      </div>
 
 
 

@@ -1,15 +1,13 @@
 <?php
   session_start();
 
-  $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
 
-
-  if (!isset($_SESSION["iduser"]) ) {
-
-  	    setcookie(nonconnecte,1,time()+4,'/');
-  	    header('location: connexion.php');
+  if (!isset($_SESSION["iduser"]) ) {//contole de session pour verifier si l'utilisateur est effectivement connecté
+  	    setcookie(nonconnecte,1,time()+4,'/');//poser le cookie de verification 
+  	    header('location: connexion.php');//renvoyer vers la page de connexion
 
   }
+  //connexion a la base de données
   $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
 ?>
@@ -62,15 +60,16 @@
           <a href="formulaire-evenement.php" class="btn-fieldset btn btn-default">Créer événement</a>
         </div>
         <?php
-        if (isset($_COOKIE['success-even'])) {
-          echo '<div class="alert alert-success" role="alert">L\'événement a été enregistré avec succès !</div>';
-        }
+          //affichage d'un message lors d'une insertio reussie
+          if (isset($_COOKIE['success-even'])) {
+            echo '<div class="alert alert-success" role="alert">L\'événement a été enregistré avec succès !</div>';
+          }
         ?>
 
        <h2>À venir</h2>
 
        <div id="evenements">
-         <table class="table">
+        <table class="table">
          <thead>
             <tr>
               <th>Intitulé </th>
@@ -79,43 +78,46 @@
             </tr>
           </thead>
          <?php
-         $result0= pg_prepare($bdd, "req", 'SELECT * FROM evenements');
-         $result0= pg_execute($bdd, "req", array ());
-         $nb_result=pg_num_rows($result0);
+           //preparation de la requette
+           $result0= pg_prepare($bdd, "req", 'SELECT * FROM evenements');
+           //execution de la requette
+           $result0= pg_execute($bdd, "req", array ());
+           //recuperation du nombre de ligne du resultat
+           $nb_result=pg_num_rows($result0);
 
-         // Bloc permettant de modifier la variable d'état en fonction de si l'événement est passé ou à venir
-         $requete = "requete"; //  On initialise la variable avec un début de chaine de caractère
-         for ($i=1; $i <= $nb_result; $i++) {
-           $row=pg_fetch_row($result0);
-           $date = date('Y-m-d'); //  On récupère la date du PC
-           if ($date >= $row[2]) {  //  Si la date de l'événement est inférieur ou égale à la date actuelle
-             $requete.=$i;  //  On incrémente la variable à cause des contraintes postgres
-             pg_prepare($bdd, "$requete", 'UPDATE public.evenements SET statut=$1 WHERE ideven=$2');
-             pg_execute($bdd, "$requete", array (0, $row[0]));  //  On affecte la valeur du statut à 0 (passé)
+           // Bloc permettant de modifier la variable d'état en fonction de si l'événement est passé ou à venir
+           $requete = "requete"; //  On initialise la variable avec un début de chaine de caractère
+           for ($i=1; $i <= $nb_result; $i++) {
+             $row=pg_fetch_row($result0);
+             $date = date('Y-m-d'); //  On récupère la date du PC
+             if ($date >= $row[2]) {  //  Si la date de l'événement est inférieur ou égale à la date actuelle
+               $requete.=$i;  //  On incrémente la variable à cause des contraintes postgres
+               pg_prepare($bdd, "$requete", 'UPDATE public.evenements SET statut=$1 WHERE ideven=$2');
+               pg_execute($bdd, "$requete", array (0, $row[0]));  //  On affecte la valeur du statut à 0 (passé)
+             }
            }
-         }
 
-         //reuperation des evenements a venir en requette preparé
-          $result = pg_prepare($bdd, "my_query", 'SELECT * FROM evenements WHERE statut=0 order by dateeven');
-          // recuperation des eveneents passés en requette preparé
-          $result1 = pg_prepare($bdd, "query", 'SELECT * FROM evenements WHERE statut=1 order by dateeven');
-          //execution des requettes
+           //reuperation des evenements a venir en requette preparé
+            $result = pg_prepare($bdd, "my_query", 'SELECT * FROM evenements WHERE statut=0 order by dateeven');
+            // recuperation des eveneents passés en requette preparé
+            $result1 = pg_prepare($bdd, "query", 'SELECT * FROM evenements WHERE statut=1 order by dateeven');
+            //execution des requettes
 
-          $result1 = pg_execute($bdd, "my_query",array ());
+            $result1 = pg_execute($bdd, "my_query",array ());
 
-          $result = pg_execute($bdd, "query",array ());
+            $result = pg_execute($bdd, "query",array ());
 
-          // recuperation nombre de lignes
-          $nb_res=pg_num_rows($result);
+            // recuperation nombre de lignes
+            $nb_res=pg_num_rows($result);
 
-          for ( $i=1 ; $i <= $nb_res ; $i++ ){
-                  $row=pg_fetch_row($result);//mettre sous forme de tableau
-                    echo"<tr><td>";
-                    echo "<a href=\"detailsevenements.php?id=$row[0]\">". $row[1]."</a></u>";
-                    echo "</td> <td> ";
-                    echo $row[2]." </td><td> " ;
-                    echo $row[3]."</td></tr>" ;
-          }
+            for ( $i=1 ; $i <= $nb_res ; $i++ ){
+                    $row=pg_fetch_row($result);//mettre sous forme de tableau
+                      echo"<tr>\n";
+                          echo "\t\t<td><a href=\"detailsevenements.php?id=$row[0]\">". $row[1]."</a></u></td>\n";
+                          echo "\t\t<td>". $row[2]." </td>\n " ;
+                          echo "\t\t<td>".$row[3]."</td>\n" ;
+                      echo "\t</tr>\n";  
+            }
 
          ?>
         </table>
@@ -133,28 +135,28 @@
             </tr>
           </thead>
           <?php
-          $nb_res=pg_num_rows($result1);
+            $nb_res=pg_num_rows($result1);
 
             for ( $i=1 ; $i <= $nb_res ; $i++ ){
-              $row=pg_fetch_row($result1);
+                $row=pg_fetch_row($result1);
 
-                echo"<tr><td>";
-                  echo "<a href=\"detailsevenements.php?id=$row[0]\">". $row[1]."</a></u>";
-                  echo "</td> <td> ";
-                  echo $row[2]." </td><td>";
-
-                  echo $row[3]."</td></tr>";
-          }
-          pg_close($bdd);
+                  echo"<tr>\n";
+                  echo "\t\t<td><a href=\"detailsevenements.php?id=$row[0]\">". $row[1]."</a></u></td>\n ";
+                    
+                  echo "\t\t<td>".$row[2]." </td>\n";
+                  echo "\t\t<td>".$row[3]."</td>\n";
+                  echo "\t</tr>\n";
+            }
+            pg_close($bdd);
           ?>
-          </table>
+        </table>
       </div>
 
-      </div>
-      <footer>
-
-      </footer>
     </div>
+    <footer>
+
+    </footer>
+  </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

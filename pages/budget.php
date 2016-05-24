@@ -1,20 +1,17 @@
 <?php
   session_start();
-
-  $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
-
-
+  //controle de session
   if (!isset($_SESSION["iduser"]) ) {
 
-  	    setcookie(nonconnecte,1,time()+4,'/');
-  	    header('location: connexion.php');
+  	    setcookie(nonconnecte,1,time()+4,'/');//pose du cookie
+  	    header('location: connexion.php');//redirection
 
   }
+  //connexion a la base de donée
   $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
 ?>
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="utf-8">
@@ -60,11 +57,13 @@
       <div class ="montant">
 
       <?php
+        /*calcul du solde actuel*/
         $solde=0;
-
+        //preparation de la requette
         $result = pg_prepare($bdd, "my_query", 'SELECT credit,debit FROM flux');
+        //execution de la requette
         $result = pg_execute($bdd, "my_query",array ());
-
+        //recuperation du nobre de lignes du resultats
         $nb_res=pg_num_rows($result);
 
         for ( $i=1 ; $i <= $nb_res ; $i++ ){
@@ -72,10 +71,11 @@
             $solde+=$row[0]+$row[1];
         }
 
-          echo "<b>votre solde actuel est de: $solde € <b>";
-          pg_close();
+        echo "<b>votre solde actuel est de: $solde € <b>";
+        
       ?>
       </div>
+
           <form role="form" method="post" action="traitements/insertion_budget.php">
 
             <br>
@@ -83,6 +83,7 @@
                     credit  : <input type="radio" name="nature" value="credit" required></nobr>
             <br>
             <?php
+              //le cookie est posé si jamais le nom du financeur ou de l'equipe est incorrecte il nous sert a afficher un message d'erreur
               if(isset($_COOKIE["erreur_nom_source"]))
                 echo '<div class="alert alert-danger" role="alert"><strong>Attention ! </strong> Les données saisies sont incorrectes. Veuillez vérifier votre saisie.</div>';
             ?>
@@ -98,7 +99,7 @@
            </form>
 
       </div>
-         <br>
+      <br>
       <h2>vos dernieres operations </h2>
       <div id="evenements">
         <table class="table">
@@ -111,31 +112,32 @@
             </tr>
           </thead>
           <?php
-
+            //resuperation des dernieres operations
              $result = pg_prepare($bdd, "query", 'SELECT  distinct  datef, libelle, credit, debit ,nomfinanceur, nomeq,idflux FROM flux AS FL,equipes AS E,financeur AS FIN WHERE FL.idfin=FIN.idfin and FL.ideq = E.ideq order by idflux ');
+
              $result = pg_execute($bdd, "query",array ());
              $nbre_ligne=pg_num_rows($result);
-
+             //affichage du resultat(operations)
              for($i=0; $i<$nbre_ligne ; $i++){
                 $row=pg_fetch_row($result);
 
-                echo"</tr>";
-                echo "<td>$row[0] </td>";
-                echo "<td>$row[1] </td>";
+                echo"\t<tr>\n";
+                echo "\t\t<td>$row[0] </td>\n";
+                echo "\t\t<td>$row[1] </td>\n";
                 if($row[2]==0){
-                  echo "<td>$row[3] </td>";
-                  echo "<td>$row[5] </td>";
+                  echo "\t\t<td>$row[3] </td>\n";
+                  echo "\t\t<td>$row[5] </td>\n";
 
                 }
                 else{
-                  echo "<td>$row[2] </td>";
-                  echo "<td>$row[4] </td>";
+                  echo "\t\t<td>$row[2] </td>\n";
+                  echo "\t\t<td>$row[4] </td>\n";
 
                 }
-                echo "</tr>";
-                }
+                echo "\t</tr>\n";
+              }
 
-             pg_close($bdd);
+             pg_close($bdd);// fermeture de la bdd
           ?>
           </table>
 
