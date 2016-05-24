@@ -1,0 +1,92 @@
+/* === Général === */
+/*.right-side-h3{
+  border-bottom:solid 1px lightgrey;
+  padding: 5px 0px 5px 10px;
+  margin-top:0;
+}
+
+.inside-panel{
+  margin-left: 40px;
+}*/
+
+/* === Panels === */
+/*.left-sub-panel{
+  min-height: 200px;
+  background-color: white;
+  margin-bottom: 40px;
+  border: solid 1px grey;
+  border-radius: 10px;
+  padding-bottom: 30px;
+}
+
+.inside-panel-link h2:hover{
+  color:#b3c6ff;
+}
+
+.inside-panel-link:hover{
+text-decoration: none;
+}
+
+.horodatage{
+  color: grey;
+  margin-bottom: 20px;
+}
+
+.panel-text{
+  padding-left: 20px;
+  border-left: solid 3px;
+  text-align: justify;
+  width:400px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.btn-lire-plus{
+  border: solid 1px;
+  padding: 5px 10px 5px 10px;
+  margin-left: 42px;
+  border-radius: 7px;
+}*/
+
+/* === Bloc "Vos messages" === */
+/*#newmessages{
+  background-color: white;
+  box-shadow: 1px 1px 7px ;
+  min-height: 300px;
+  margin-bottom: 40px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+}*/
+
+/* === Bloc "Calandrier" === */
+/*#calendrier{
+  background-color: white;
+  box-shadow: 1px 1px 7px ;
+  min-height: 300px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+}*/
+/*#evenement{
+
+  border: solid 1px;
+  background-color: white;
+  width:600px;
+
+}*/
+
+.wrap-content{
+  width: 400px;
+  margin-right: auto;
+  margin-left: auto;
+
+}
+.montant{
+  color:red;
+  border:solid;
+  width:300px;
+  margin-left: 300px;
+}
+
+.alert.alert-danger{
+  text-align: center;
+}
