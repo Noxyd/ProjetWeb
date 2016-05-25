@@ -11,9 +11,9 @@
 
   $bdd = pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
-	// formulation et execution de la requette
+	// formulation et execution de la requete
 	$result = pg_prepare($bdd,"query",'select description, photo from utilisateurs where iduser = $1');
-	// recupération du resultat de la requette
+	// récupération du résultat de la requete
 	$result = pg_execute($bdd, "query",array ($_SESSION["iduser"]));
   $row = pg_fetch_row($result);
 

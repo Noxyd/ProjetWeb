@@ -74,36 +74,41 @@
 
       <div class="wrap-content">
         <?php
-          if (isset($_COOKIE['erreur-even'])) {
+          if (isset($_COOKIE['erreur-reqst'])) {
             echo '<div class="alert alert-danger" role="alert"><strong>Attention ! </strong> L\'utilisateur n\'a pas pu être ajouté.</div>';
+          }
+          elseif (isset($_COOKIE['erreurs-img'])) {
+            echo '<div class="alert alert-danger" role="alert"><strong>Attention ! </strong> La photo n\'a pas pu être ajoutée.</div>';
           }
         ?>
 
         <h2>Ajouter un utilisateur</h2>
 
         <div class="Formulaire">
-          <form action="traitements/insertion_utilisateur.php" method="post">
+          <form action="traitements/insertion_utilisateur.php" method="post" enctype="multipart/form-data">
             <label>Nom :</label>
             <p> <input type="text" class="form-control" name="nom" required></p>
             <label>Prénom :</label>
             <p><input type="text" class="form-control" name="prenom" required></p>
+            <p><strong>Coordinateur</strong><input type="checkbox" name="statut" value="1"></p>
             <label>Equipe :</label>
               <?php
               echo "<p><select name=\"equipe\" class=\"form-control\" required>";
-                // On fait une boucle pour afficher toutes les équipes
+                // On fait une boucle pour afficher toutes les équipes depuis la table nomeq
                 for($i=1 ; $i < $nbresults ; $i++){
                   echo "<option value=\"".$i."\">".$user[$i]."</option>";
                 }
                 echo "</select></p>";
               ?>
             <label>Adresse mail :</label>
-            <p><input type="email" class="form-control" name="mail" required></p>
+            <p><input type="email" class="form-control" name="mail" placeholder="prenom.nom@sciencehub.com" required></p>
             <label>Mot de passe :</label>
             <p><input type="password" class="form-control" name="pswd" required></p>
             <label>Description :</label>
             <p><textarea class="form-control" rows="5" name="description" required></textarea></p>
             <label>Photo (format .jpg) :</label>
-            <p><input type="text" class="form-control" name="photo" required></p>
+            <input type="hidden" name="MAX_FILE_SIZE" value="500000">
+            <p><input type="file" class="form-control" name='photo' required></p>
             <button type="submit" class="btn btn-default">Enregistrer</button>
             <div class="bouton">
               <a href="annuaire.php" class="btn-fieldset btn btn-danger">Annuler</a>

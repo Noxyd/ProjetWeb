@@ -38,7 +38,7 @@
         <a href="../index.php"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
           <legend>Bonjour  <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
-          <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
+          <a href="profil.php" class="btn-fieldset btn btn-primary">Dashboard</a>
           <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
@@ -55,7 +55,6 @@
       </nav>
       <div class="wrap-content">
       <div class ="montant">
-
       <?php
         /*calcul du solde actuel*/
         $solde=0;
@@ -71,29 +70,33 @@
             $solde+=$row[0]+$row[1];
         }
 
-        echo "<b>votre solde actuel est de: $solde € <b>";
-        
+        if ($solde <= 0) {
+          echo "<div class=\"alert alert-danger\" role=\"alert\">Votre solde actuel est de ".$solde."€ </div>";
+        }
+        else {
+          echo "<div class=\"alert alert-success\" role=\"alert\">Votre solde actuel est de ".$solde."€ </div>";
+        }
       ?>
       </div>
 
           <form role="form" method="post" action="traitements/insertion_budget.php">
 
             <br>
-              <nobr>debit : <input type="radio" name="nature" value="debit" required>
-                    credit  : <input type="radio" name="nature" value="credit" required></nobr>
+              <p><nobr>Débit : <input type="radio" name="nature" value="debit" required>
+                    Crédit  : <input type="radio" name="nature" value="credit" required></nobr></p>
             <br>
             <?php
               //le cookie est posé si jamais le nom du financeur ou de l'equipe est incorrecte il nous sert a afficher un message d'erreur
               if(isset($_COOKIE["erreur_nom_source"]))
                 echo '<div class="alert alert-danger" role="alert"><strong>Attention ! </strong> Les données saisies sont incorrectes. Veuillez vérifier votre saisie.</div>';
             ?>
-            <p>Nom du générateur du flux: <input type ="text" class="form-control" name ="source" required></p>
+            <p>Nom du générateur du flux : <input type ="text" class="form-control" name ="source" required></p>
 
             <p>Montant : <input type ="text" class="form-control" name="montant" required></p>
 
             <p>Libellé : <input type ="text" class="form-control" name="libelle" required></p>
 
-            <input type ="submit" value ="valider">
+            <p><input type ="submit" class="btn btn-default" value ="Valider"></p>
 
 
            </form>
@@ -112,7 +115,7 @@
             </tr>
           </thead>
           <?php
-            //resuperation des dernieres operations
+            //recuperation des dernieres operations
              $result = pg_prepare($bdd, "query", 'SELECT  distinct  datef, libelle, credit, debit ,nomfinanceur, nomeq,idflux FROM flux AS FL,equipes AS E,financeur AS FIN WHERE FL.idfin=FIN.idfin and FL.ideq = E.ideq order by idflux ');
 
              $result = pg_execute($bdd, "query",array ());

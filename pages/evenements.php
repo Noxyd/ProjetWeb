@@ -3,7 +3,7 @@
 
 
   if (!isset($_SESSION["iduser"]) ) {//contole de session pour verifier si l'utilisateur est effectivement connecté
-  	    setcookie(nonconnecte,1,time()+4,'/');//poser le cookie de verification 
+  	    setcookie(nonconnecte,1,time()+4,'/');//poser le cookie de verification
   	    header('location: connexion.php');//renvoyer vers la page de connexion
 
   }
@@ -40,7 +40,7 @@
         <a href="../index.php"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
           <legend>Bonjour  <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
-          <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
+          <a href="profil.php" class="btn-fieldset btn btn-primary">Dashboard</a>
           <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
@@ -78,9 +78,9 @@
             </tr>
           </thead>
          <?php
-           //preparation de la requette
+           //preparation de la requete
            $result0= pg_prepare($bdd, "req", 'SELECT * FROM evenements');
-           //execution de la requette
+           //execution de la requete
            $result0= pg_execute($bdd, "req", array ());
            //recuperation du nombre de ligne du resultat
            $nb_result=pg_num_rows($result0);
@@ -116,7 +116,7 @@
                           echo "\t\t<td><a href=\"detailsevenements.php?id=$row[0]\">". $row[1]."</a></u></td>\n";
                           echo "\t\t<td>". $row[2]." </td>\n " ;
                           echo "\t\t<td>".$row[3]."</td>\n" ;
-                      echo "\t</tr>\n";  
+                      echo "\t</tr>\n";
             }
 
          ?>
@@ -142,7 +142,7 @@
 
                   echo"<tr>\n";
                   echo "\t\t<td><a href=\"detailsevenements.php?id=$row[0]\">". $row[1]."</a></u></td>\n ";
-                    
+
                   echo "\t\t<td>".$row[2]." </td>\n";
                   echo "\t\t<td>".$row[3]."</td>\n";
                   echo "\t</tr>\n";

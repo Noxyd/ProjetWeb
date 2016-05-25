@@ -11,9 +11,9 @@
 
   $bdd = pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
-	// formulation et execution de la requette
+	// formulation et execution de la requete
 	$result = pg_prepare($bdd,"query",'select * from utilisateurs where ideq = $1 order by nom');
-	// recupération du resultat de la requette
+	// récupération du résultat de la requete
 	$result = pg_execute($bdd, "query",array ($_GET["id"]));
   $nbresults = pg_num_rows($result);
   // On fait une boucle pour afficher tous les utilisateurs de l'équipe
