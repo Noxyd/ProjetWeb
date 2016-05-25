@@ -10,27 +10,35 @@
 #main-panel{
   height: 1024px;
   min-height: 950px;
-  background-color: white;
+  /*background-color: white;*/
   margin-bottom: 40px;
-  border: solid 1px grey;
+  /*border: solid 1px grey;*/
   border-radius: 10px;
   padding-bottom: 30px;
 }
 
 /*Forme un petit cadre qui fait ressortir le profil*/
 .sub-pane1{
-  min-height: 600px;
+  min-height: 350px;
   margin-top: 40px;
   margin-left: 40px;
   margin-right: 40px;
   border-radius: 50px;
   box-shadow: 0px 0px 10px #D5D5D6;
+  background-color: white;
+}
+
+.sub-pane2{
+  min-height: 350px;
+  margin-top: 40px;
+  margin-left: 40px;
+  margin-right: 40px;
 }
 
 /*On regroupe l'image et le texte descriptif sous un même conteneur*/
 .wrap-profil{
   /*border: solid 1px;*/
-  padding-top: 200px;
+  padding-top: 50px;
   margin-left: auto;
   margin-right: auto;
   width: 700px;
@@ -44,9 +52,11 @@
   height:150px;
   box-shadow: 0px 0px 10px #343434;
   margin-right: 100px;
+  margin-left: 20px;
+  margin-top: 20px;
 }
 
-.sub-pane2{
+.identity{
   margin-top: 20px;
   /*border: solid 1px grey;*/
   width: 400px;
@@ -69,5 +79,5 @@ text-decoration: none;
 
 .btn-default{
   margin-top: 40px;
-  margin-left: 450px;
+  margin-left: 375px;
 }

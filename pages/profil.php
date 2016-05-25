@@ -20,7 +20,7 @@
   // Stockage des variables extraits de la base dans des variables internes
   $user["description"] = $row[0];
   $user["photo"] = $row[1];
-  // On ferme la connexion à la base  
+  // On ferme la connexion à la base
   pg_close($bdd);
 ?>
 <!-- Debut HTML -->
@@ -64,7 +64,10 @@
           <li><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
           <li><a href="annuaire.php"> Annuaire </a></li>
-          <li><a href="budget.php"> Budget </a></li>
+          <?php
+          if ($_SESSION["statut"] = 1)
+            echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
+          ?>
         </ul>
       </nav>
       <div class="wrap-content">
@@ -75,7 +78,7 @@
                 <div class="round-image">
                   <?php echo "<img id=\"profilpic\" src=\"".$user["photo"]."\"/>\n"; ?>
                 </div>
-                <div class="sub-pane2">
+                <div class="identity">
                   <p class="panel-text">Nom : <?php echo ucfirst($_SESSION["nom"]); ?></p>
                   <p class="panel-text">Prénom : <?php echo ucfirst($_SESSION["prenom"]); ?></p>
                   <p class="panel-text">Adresse mail : <?php echo $_SESSION["mail"]; ?></p>
@@ -83,6 +86,18 @@
                 </div>
               </div>
               <?php echo "<a href=\"equipe.php?id=".$_SESSION["ideq"]."\" class=\"btn btn-default\">Mon équipe</a>\n"; ?>
+            </div>
+            <div class="sub-pane2">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Tâche</th>
+                    <th>Deadline</th>
+                    <th>Etat</th>
+                    <th>Valider</th>
+                  </tr>
+                </thead>
+              </table>
             </div>
         </div>
       </div>

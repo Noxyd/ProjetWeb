@@ -26,6 +26,8 @@
     $user["mail"][$i] = $row[3];
     $user["description"][$i] = $row[5];
     }
+
+  pg_close($bdd);
 ?>
 <!-- Debut HTML -->
 <!DOCTYPE html>
@@ -68,15 +70,26 @@
           <li><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
           <li class="actif"><a href="annuaire.php"> Annuaire </a></li>
-          <li><a href="budget.php"> Budget </a></li>
+          <?php
+          if ($_SESSION["statut"] = 1)
+            echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
+          ?>
         </ul>
       </nav>
       <div class="wrap-content">
         <div id="main-panel">
             <h2 class="inside-panel">Annuaire</h2>
             <div class="sub-pane1">
-              <a href="formulaire-annuaire.php" class="btn-fieldset btn btn-default">Ajouter un membre</a>
               <?php
+              if ($_SESSION["statut"] = 1)
+                echo "<a href=\"formulaire-annuaire.php\" class=\"btn-fieldset btn btn-default\">Ajouter un membre</a>\n";
+
+              //affichage d'un message lors d'une insertion reussie
+              if (isset($_COOKIE['success-even'])) {
+                echo '<div class="alert alert-success" role="alert">L\'utilisateur a été ajouté avec succès !</div>';
+              }
+
+
               // On fait une boucle pour afficher tous les utilisateurs
                 for($i=1 ; $i <= $nbresults ; $i++){
                     echo "\t<div class=\"wrap-profil\">\n";

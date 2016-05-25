@@ -1,36 +1,31 @@
 <?php
-// Scripts PHP
   session_start();
 
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
 
-  if (!isset($_SESSION["iduser"]) ) {
-  	setcookie(nonconnecte,1,time()+4,'/');
-  	    header('location: connexion.php');
-  }
 
+  if (!isset($_SESSION["iduser"]) ) {
+
+  	    setcookie(nonconnecte,1,time()+4,'/');
+  	    header('location: connexion.php');
+
+  }
   $bdd = pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
-	// formulation et execution de la requette
-	$result = pg_prepare($bdd,"query",'select * from utilisateurs where ideq = $1 order by nom');
+  $result = pg_prepare($bdd,"query",'select nomeq from equipes');
 	// recupération du resultat de la requette
-	$result = pg_execute($bdd, "query",array ($_GET["id"]));
+	$result = pg_execute($bdd, "query", array());
   $nbresults = pg_num_rows($result);
-  // On fait une boucle pour afficher tous les utilisateurs de l'équipe
-  for($i=1 ; $i <= $nbresults ; $i++){
+  // On fait une boucle pour récuperer le nom des équipes
+  for($i=1 ; $i < $nbresults ; $i++){
     $row=pg_fetch_row($result);
-    // Stockage des variables extraits de la base dans un tableau à 2 dimensions
-    $user["photo"][$i] = $row[7];
-    $user["nom"][$i] = $row[1];
-    $user["prenom"][$i] = $row[2];
-    $user["mail"][$i] = $row[3];
-    $user["description"][$i] = $row[5];
+    // Stockage des variables extraits de la base dans une variable
+    $user[$i] = $row[0];
     }
-
   pg_close($bdd);
 ?>
-<!-- Debut HTML -->
-<!DOCTYPE html>
+
+ <!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="utf-8">
@@ -49,7 +44,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link href="../css/squelette.css" rel="stylesheet">
-    <link href="../css/equipe.css" rel="stylesheet">
+    <link href="../css/formulaire-annuaire.css" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
   </head>
   <body>
@@ -57,7 +52,7 @@
       <header>
         <a href="../index.php"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
-          <legend>Bonjour <?php echo ucfirst($_SESSION['prenom']); ?></legend>
+          <legend>Bonjour  <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
           <a href="profil.php" class="btn-fieldset btn btn-primary">Dashboard</a>
           <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
@@ -65,38 +60,55 @@
       <nav>
         <ul id="wrap-li">
           <li><a href="../index.php">Accueil</a></li>
-          <li><a href="presentation.php">Présentation</a></li>
-          <li><a href="publications.php"> Publications </a></li>
+          <li><a href="presentation.php" >Présentation</a></li>
+          <li><a href="presentation.php"> Publications </a></li>
           <li><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
-          <li><a href="annuaire.php"> Annuaire </a></li>
+          <li class="actif"><a href="annuaire.php"> Annuaire </a></li>
           <?php
           if ($_SESSION["statut"] = 1)
             echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
           ?>
         </ul>
       </nav>
+
       <div class="wrap-content">
-        <div id="main-panel">
-            <h2 class="inside-panel">Equipe</h2>
-            <div class="sub-pane1">
+        <?php
+          if (isset($_COOKIE['erreur-even'])) {
+            echo '<div class="alert alert-danger" role="alert"><strong>Attention ! </strong> L\'utilisateur n\'a pas pu être ajouté.</div>';
+          }
+        ?>
+
+        <h2>Ajouter un utilisateur</h2>
+
+        <div class="Formulaire">
+          <form action="traitements/insertion_utilisateur.php" method="post">
+            <label>Nom :</label>
+            <p> <input type="text" class="form-control" name="nom" required></p>
+            <label>Prénom :</label>
+            <p><input type="text" class="form-control" name="prenom" required></p>
+            <label>Equipe :</label>
               <?php
-              // On fait une boucle pour afficher tous les utilisateurs de l'équipe
-                for($i=1 ; $i <= $nbresults ; $i++){
-                    echo "\t<div class=\"wrap-profil\">\n";
-                    echo "\t\t\t<div class=\"round-image\">\n";
-                    echo "\t\t\t\t<img id=\"profilpic\" src=\"".$user["photo"][$i]."\"/>\n";
-                    echo "\t\t\t</div>\n";
-                    echo "\t\t\t<div class=\"sub-pane2\">\n";
-                    echo "\t\t\t\t<p class=\"panel-text\">Nom : ".ucfirst($user["nom"][$i])."</p>\n";
-                    echo "\t\t\t\t<p class=\"panel-text\">Prénom : ".ucfirst($user["prenom"][$i])."</p>\n";
-                    echo "\t\t\t\t<p class=\"panel-text\">Adresse mail : ".$user["mail"][$i]."</p>\n";
-                    echo "\t\t\t\t<p class=\"panel-text\">Description : ".$user["description"][$i]."</p>\n";
-                    echo "\t\t\t</div>\n";
-                  echo "\t\t</div>\n";
+              echo "<p><select name=\"equipe\" class=\"form-control\" required>";
+                // On fait une boucle pour afficher toutes les équipes
+                for($i=1 ; $i < $nbresults ; $i++){
+                  echo "<option value=\"".$i."\">".$user[$i]."</option>";
                 }
+                echo "</select></p>";
               ?>
+            <label>Adresse mail :</label>
+            <p><input type="email" class="form-control" name="mail" required></p>
+            <label>Mot de passe :</label>
+            <p><input type="password" class="form-control" name="pswd" required></p>
+            <label>Description :</label>
+            <p><textarea class="form-control" rows="5" name="description" required></textarea></p>
+            <label>Photo (format .jpg) :</label>
+            <p><input type="text" class="form-control" name="photo" required></p>
+            <button type="submit" class="btn btn-default">Enregistrer</button>
+            <div class="bouton">
+              <a href="annuaire.php" class="btn-fieldset btn btn-danger">Annuler</a>
             </div>
+          </form>
         </div>
       </div>
       <footer>
@@ -107,7 +119,7 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/squelette.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/squelette.js"></script>
   </body>
 </html>
