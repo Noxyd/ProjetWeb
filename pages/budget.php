@@ -1,7 +1,7 @@
 <?php
   session_start();
-  //controle de session
-  if (!isset($_SESSION["iduser"]) ) {
+  //controle de session et d'accessibilité pour la page budget car elle est accessible que pour le coordinateur du projet
+  if (!isset($_SESSION["iduser"]) || $_SESSION["statut"]!=1 ) {
 
   	    setcookie(nonconnecte,1,time()+4,'/');//pose du cookie
   	    header('location: connexion.php');//redirection
