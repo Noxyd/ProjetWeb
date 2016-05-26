@@ -1,7 +1,7 @@
 <?php
   session_start();
-  //controle de session
-  if (!isset($_SESSION["iduser"]) ) {
+  //controle de session et d'accessibilité pour la page budget car elle est accessible que pour le coordinateur du projet
+  if (!isset($_SESSION["iduser"]) || $_SESSION["statut"]!=1 ) {
 
   	    setcookie(nonconnecte,1,time()+4,'/');//pose du cookie
   	    header('location: connexion.php');//redirection
@@ -122,8 +122,8 @@
              $nbre_ligne=pg_num_rows($result);
              //affichage du resultat(operations)
              for($i=0; $i<$nbre_ligne ; $i++){
-                $row=pg_fetch_row($result);
-
+                $row=pg_fetch_row($result);//recupeeration de la prochaine ligne 
+                /*affichage*/
                 echo"\t<tr>\n";
                 echo "\t\t<td>$row[0] </td>\n";
                 echo "\t\t<td>$row[1] </td>\n";
@@ -142,7 +142,7 @@
 
              pg_close($bdd);// fermeture de la bdd
           ?>
-          </table>
+        </table>
 
       </div>
       <footer>

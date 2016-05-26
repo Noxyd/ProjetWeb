@@ -64,17 +64,20 @@
               //connexion a la base de donnée
             $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
             //preparation de la requette
-            $result = pg_prepare($bdd, "my_query", 'SELECT * FROM evenements WHERE ideven = $1 ');
+            $result = pg_prepare($bdd, "my_query", 'SELECT nomeq,intitule,dateeven,lieu,description FROM evenements,equipes WHERE ideven = $1 and equipes.ideq=evenements.ideq');
             //execution de la requette
             $result = pg_execute($bdd, "my_query",array ($_GET["id"]));
 
             $row=pg_fetch_row($result);//rendre le resultat sous forme de tableau
             //affichage
             echo "<center>";
+            
             echo "<H2> $row[1]</H2><br>\n";
+            echo"<H4> organisé par l'equipe : $row[0]</H4><br>";
             echo "\t\t<u>le:</u> $row[2] <u><br>\n";
             echo "\t\tlieu:</u><b> $row[3]</b><br><br>\n";
             echo "\t\t$row[4]\n";
+
             echo "\t</center>";
 
 

@@ -71,7 +71,7 @@
           <li><a href="pages/messages.php"> Messages </a></li>
           <li><a href="pages/annuaire.php"> Annuaire </a></li>
           <?php
-          if ($_SESSION["statut"] = 1)
+          if ($_SESSION["statut"] == 1)
             echo "<li><a href=\"pages/budget.php\"> Budget </a></li>\n"
           ?>
         </ul>
