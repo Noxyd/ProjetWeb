@@ -4,7 +4,8 @@
     header("Content-Type: application/json; charset=UTF-8");
     //Récupération de l'id du message à afficher
     $idMessage = $_GET['id'];
-    $etatMessage = $_GET['etatM'];
+    if(isset($_GET["etatM"]))
+        $etatMessage = $_GET['etatM'];
     /* === RECUPERATION D'UN MESSAGE === */
     //connexion à la bdd
     $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
@@ -30,17 +31,18 @@
 
 
     /* === VERIFICATION DE LA LECTURE DU MESSAGE === */
-    if($etatMessage == 0){
-        //Le message n'a pas été lu
-        $changeEtat= pg_prepare($bdd,"queryUpdate",'UPDATE messages SET etat = 2 WHERE idmessage = $1');
-        $resultUpdate= pg_execute($bdd, "queryUpdate",array ($idMessage));
-        if ($resultUpdate != FALSE){
-            $messages['etat'] = 2;
-        } else {
-            echo "<p>ajaxmessage.php : Erreur lors du changement d'état.</p>";
+    if(isset($etatMessage)){
+        if($etatMessage == 0){
+            //Le message n'a pas été lu
+            $changeEtat= pg_prepare($bdd,"queryUpdate",'UPDATE messages SET etat = 2 WHERE idmessage = $1');
+            $resultUpdate= pg_execute($bdd, "queryUpdate",array ($idMessage));
+            if ($resultUpdate != FALSE){
+                $messages['etat'] = 2;
+            } else {
+                echo "<p>ajaxmessage.php : Erreur lors du changement d'état.</p>";
+            }
         }
     }
-
     //Fermeture de la connexion
     pg_close($bdd);
     //Formattage JSON des données

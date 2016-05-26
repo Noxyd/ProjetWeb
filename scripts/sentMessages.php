@@ -34,7 +34,7 @@
         $data .= '
             {
                 "col1": "<td>'.$messages["prenom"][$i].' '.$messages["nom"][$i].'</td>",
-                "col2": "<td><a style=\'cursor:pointer;\' onclick=\'request('.$messages["idmessage"][$i].')\'>'.$messages["objet"][$i].'</a></td>",
+                "col2": "<td><a style=\'cursor:pointer;\' onclick=\'printSentMails('.$messages["idmessage"][$i].')\'>'.$messages["objet"][$i].'</a></td>",
                 "col3": "<td>'.date('d-m-Y',$messages["dateenvoi"][$i]).'</td>"
             }
             ';

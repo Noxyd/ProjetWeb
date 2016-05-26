@@ -6,32 +6,6 @@
         setcookie(nonconnecte,1,time()+4,'/');
         header('location: pages/connexion.php');
     }
-    $lipsum = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
-    //Intérrogation BDD pour voir les messages
-    $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
-    // formulation et execution de la requette
-    $result2= pg_prepare($bdd,"query2",'SELECT idmessage, objet, contenu, dateenvoi, etat, idemetteur,idrecepteur, nom, prenom FROM messages, utilisateurs WHERE messages.idemetteur = utilisateurs.iduser AND idrecepteur = $1 ORDER BY dateenvoi DESC FETCH FIRST 5 ROWS ONLY;');
-    // recupération du resultat de la requete
-    $result2= pg_execute($bdd, "query2",array ($_SESSION["iduser"]));
-    //Comptage du nombre de résultats
-    $nbresults2=pg_num_rows($result2)	;
-    //Récupération des résultats
-    for ($i=0; $i < $nbresults2; $i++) {
-      $tabres = pg_fetch_array($result2, $i);
-      $messages['idmessage'][$i] = $tabres[0];
-      $messages['objet'][$i] = $tabres[1];
-      $messages['contenu'][$i] = $tabres[2];
-      $messages['dateenvoi'][$i] = strtotime($tabres[3]);
-      $messages['etat'][$i] = $tabres[4];
-      $messages['idemetteur'][$i] = $tabres[5];
-      $messages['idrecepteur'][$i] = $tabres[6];
-      $messages['nom'][$i] = $tabres[7];
-      $messages['prenom'][$i] = $tabres[8];
-    }
-
-    pg_close($bdd);
-
-
 ?>
 <!-- Debut HTML -->
 <!DOCTYPE html>
@@ -95,40 +69,29 @@
           </div>
         </div>
         <div id="right-panel">
-          <div id="newmessages" >
-            <h3 class="right-side-h3" style="border-bottom:none;">Vos messages</h3>
-            <?php
-            echo "<table class=\"table \">";
-            echo "\n\t\t<tr>";
-            echo "\n\t\t\t<th></th>";
-            echo "\n\t\t\t<th style=\"width:70px;\">De</th>";
-            echo "\n\t\t\t<th>Objet</th>";
-            echo "\n\t\t\t<th style=\"width:80px;\">Reçu le</th>";
-            echo "\n\t\t</tr>";
-            for ($i=0; $i < $nbresults2; $i++) {
-                echo "\n\t\t<tr>";
-                if($messages['etat'][$i] == 0)
-                    echo "\n\t<td><span class='glyphicon glyphicon-record'></span></td>";
-                else
-                    echo "<td></td>";
-                echo "\n\t\t\t<td style=\"width:70px;\">".ucfirst($messages['prenom'][$i])." </td>";
-                echo "\n\t\t\t<td><a style='cursor:pointer;' onclick='request(".$messages['idmessage'][$i].")'>".$messages['objet'][$i]."</a></td>";
-                echo "\n\t\t\t<td style=\"width:80px;\">".date('d/m/Y',$messages['dateenvoi'][$i])."</td>";
-                echo "\n\t\t</tr>";
-            }
-            echo "\n\t</table>\n";
-            ?>
-            <center><a href="messages.php" class="btn btn-warning">Tous les messages</a></center>
-          </div>
           <div id="calendrier">
             <h3 class="right-side-h3">Calendrier</h3>
-            <p><center><strong><?php echo date('F Y'); ?></strong></center></p>
             <?php
-                $actualMonth = date('m');
-                calculateDays($actualMonth);
+                $tabMois = array(
+                    '01' => 'Janvier',
+                    '02' => 'Février',
+                    '03' => 'Mars',
+                    '04' => 'Avril',
+                    '05' => 'Mai',
+                    '06' => 'Juin',
+                    '07' => 'Juillet',
+                    '08' => 'Aout',
+                    '09' => 'Septembre',
+                    '10' => 'Octobre',
+                    '11' => 'Novembre',
+                    '12' => 'Décembre',
+                );
+                $actualMonthNb = date('m');
+                $actualMonthLetters = $tabMois[$actualMonthNb];
+                echo "<p><center><strong>".$actualMonthLetters." ".date('Y')."</strong></center></p>";
+                calculateDays($actualMonthNb);
             ?>
           </div>
-
         </div>
       </div>
       <footer>

@@ -98,12 +98,27 @@
                 </table>
             </div>
             <div id="calendrier">
-                <h3 class="right-side-h3">Calendrier</h3>
-                <p><center><strong><?php echo date('F Y'); ?></strong></center></p>
-                <?php
-                    $actualMonth = date('m');
-                    calculateDays($actualMonth);
-                ?>
+              <h3 class="right-side-h3">Calendrier</h3>
+              <?php
+                  $tabMois = array(
+                      '01' => 'Janvier',
+                      '02' => 'Février',
+                      '03' => 'Mars',
+                      '04' => 'Avril',
+                      '05' => 'Mai',
+                      '06' => 'Juin',
+                      '07' => 'Juillet',
+                      '08' => 'Aout',
+                      '09' => 'Septembre',
+                      '10' => 'Octobre',
+                      '11' => 'Novembre',
+                      '12' => 'Décembre',
+                  );
+                  $actualMonthNb = date('m');
+                  $actualMonthLetters = $tabMois[$actualMonthNb];
+                  echo "<p><center><strong>".$actualMonthLetters." ".date('Y')."</strong></center></p>";
+                  calculateDays($actualMonthNb);
+              ?>
             </div>
         </div>
       </div>

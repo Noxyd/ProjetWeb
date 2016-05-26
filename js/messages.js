@@ -10,7 +10,5 @@ $( document ).ready(function() {
         heure+=date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
         $("#info-actualisation").text("Dernière actualisation à "+heure);
         $("#info-actualisation").fadeIn("fast").delay(2000).fadeOut("slow");
-
-        console.log("clicked");
     });
 });

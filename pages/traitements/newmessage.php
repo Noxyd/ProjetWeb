@@ -11,7 +11,7 @@
     //connexion à la bdd
     $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
     // formulation de la requete
-    $result2= pg_prepare($bdd,"query","INSERT INTO messages VALUES('','$1','$2','$3',0,$4,$5);");
+    $result2= pg_prepare($bdd,"query","INSERT INTO messages(objet, contenu, dateenvoi, etat, idemetteur, idrecepteur) VALUES($1,$2,$3,0,$4,$5);");
     // Execution de la requete d'envoiz
     $result= pg_execute($bdd, "query",array ($objet,$contenu, $dateAjd, $iduser, $destinataire));
 

@@ -81,7 +81,7 @@
         <div id="smoke-background-send" class="smoke">
             <div id="wrap-new-message" class="smoke-child">
                 <h3 style="padding:5px;color:white;"><center>Nouveau message</center></h3>
-                <form method="post" action="traitements/newmessage.php">
+                <form method="post" action="traitements/newmessage.php" onsubmit="return checkMailData()">
                     <table id="form-send" style="color:black;">
                         <tr>
                             <td>Destinataire : </td>
@@ -101,7 +101,7 @@
                         </tr>
                         <tr>
                             <td>Contenu :</td>
-                            <td><textarea rows="7" name="contenu"></textarea></td>
+                            <td><textarea id="textarea-message" rows="7" name="contenu"></textarea></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -109,7 +109,7 @@
                                 <table>
                                     <tr>
                                         <td><input style="width:220px; color:white;" class="btn btn-danger" type="cancel" value="Annuler" onclick="closeNewMsg()"/></td>
-                                        <td><input style="width:220px; color:white;" class="btn btn-warning" type="submit" value="Envoyer" /></td>
+                                        <td><input id="btn-envoyer" style="width:220px; color:white;" class="btn btn-warning" type="submit" value="Envoyer" /></td>
                                     </tr>
                                 </table>
                             </td>
@@ -136,7 +136,7 @@
               <li class="actif"><a href="messages.php"> Messages </a></li>
               <li><a href="annuaire.php"> Annuaire </a></li>
               <?php
-              if ($_SESSION["statut"] = 1)
+              if ($_SESSION["statut"] == 1)
                 echo "<li><a href=\"/pages/budget.php\"> Budget </a></li>\n"
               ?>
             </ul>
@@ -146,7 +146,7 @@
                     <?php
                     if(isset($_COOKIE['flag-success']))
                         echo "<div class='alert alert-success' role='alert'>Message envoyé avec succès.</div>";
-                    if(isset($_COOKIE['flag-error'])) 
+                    if(isset($_COOKIE['flag-error']))
                         echo "<div class='alert alert-danger' role='alert'>Une erreur s'est produite lors de l'envoi.</div>";
                     ?>
                     <div id="info-actualisation" class="alert alert-info" role="alert">Rechargé à </div>
@@ -154,8 +154,8 @@
                 <div id="left-panel">
                     <div>
                         <a id="btn-envoyes" style="display:inline-block;cursor:pointer;" onclick="messagesEnvoyes(<?php echo $_SESSION['iduser'];?>),changeButton(1)">Messages envoyés</a>
-                        <a id="btn-recu" style="display:none;cursor:pointer;" onclick="closeMsg(), changeButton(2)">Messages Reçus</a>
-                        <a id="btn-actualiser" onclick="closeMsg()" style="float:right;margin-bottom:20px;cursor:pointer; display:inline-block;"><span class="glyphicon glyphicon-refresh" style="cursor:pointer;"></span> Rafraichir</a>
+                        <a id="btn-recu" style="display:none;cursor:pointer;" onclick="closeMsg(<?php echo $_SESSION['iduser'];?>), changeButton(2)">Messages Reçus</a>
+                        <a id="btn-actualiser" onclick="closeMsg(<?php echo $_SESSION['iduser'];?>)" style="float:right;margin-bottom:20px;cursor:pointer; display:inline-block;"><span class="glyphicon glyphicon-refresh" style="cursor:pointer;"></span> Rafraichir</a>
                     </div>
                     <table class="table" id="table-messages">
                         <!-- Le script AJAX placera les éléments ici -->
@@ -179,14 +179,11 @@
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <?php echo "<script>var idU = ".$_SESSION['iduser'].";</script>"; ?>
         <script src="/js/bootstrap.min.js"></script>
         <script src="/js/squelette.js"></script>
         <script src="/js/messages.js"></script>
-        <script src="/js/xhr.js"></script>
-        <script src="/js/getMessage.js"></script>
-        <script src="/js/refreshMessages.js"></script>
-        <script src="/js/messagesEnvoyes.js"></script>
-        <script src="/js/writeNew.js"></script>
+        <script src="/js/ajaxfunctions.js"></script>
         <script>
             function changeButton(type){
                 switch(type){
@@ -211,18 +208,32 @@
                 document.getElementById('smoke-background-send').style.display = 'block';
             }
 
+            function closeMsg(idU){
+                document.getElementById('smoke-background').style.display = 'none';
+                refreshMessages(idU);
+                refreshCounter(idU);
+            }
+
+            function closeSmoke() {
+                document.getElementById('smoke-background').style.display = 'none';
+            }
+
+            function checkMailData(){
+                var textarea = document.getElementById("textarea-message");
+                if(textarea.value == ""){
+                    alert("Veuillez remplir le contenu du mail !");
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            // document.getElementById("btn-envoyer").style.display = "none";
             document.getElementById('smoke-background-send').style.display = 'none';
         </script>
         <?php
             echo "<script>refreshMessages(".$_SESSION['iduser'].")</script>";
             echo "<script>refreshCounter(".$_SESSION['iduser'].")</script>";
-            echo "\n<script type='text/javascript'>";
-            echo "\nfunction closeMsg(){";
-            echo "\ndocument.getElementById('smoke-background').style.display = 'none';";
-            echo "\nrefreshMessages(".$_SESSION['iduser'].");";
-            echo "\nrefreshCounter(".$_SESSION['iduser'].");";
-            echo "\n}";
-            echo "\n</script>\n";
         ?>
   </body>
 </html>
