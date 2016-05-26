@@ -122,8 +122,8 @@
              $nbre_ligne=pg_num_rows($result);
              //affichage du resultat(operations)
              for($i=0; $i<$nbre_ligne ; $i++){
-                $row=pg_fetch_row($result);
-
+                $row=pg_fetch_row($result);//recupeeration de la prochaine ligne 
+                /*affichage*/
                 echo"\t<tr>\n";
                 echo "\t\t<td>$row[0] </td>\n";
                 echo "\t\t<td>$row[1] </td>\n";
@@ -142,7 +142,7 @@
 
              pg_close($bdd);// fermeture de la bdd
           ?>
-          </table>
+        </table>
 
       </div>
       <footer>
@@ -153,7 +153,7 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/squelette.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/squelette.js"></script>
   </body>
 </html>
