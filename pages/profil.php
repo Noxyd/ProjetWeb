@@ -17,7 +17,7 @@
 	$result = pg_execute($bdd, "query",array ($_SESSION["iduser"]));
   $row = pg_fetch_row($result);
 
-  // Stockage des variables extraits de la base dans des variables internes
+  // Stockage des variables extraites de la base dans des variables internes
   $user["description"] = $row[0];
   $user["photo"] = $row[1];
   // On ferme la connexion à la base
