@@ -39,15 +39,12 @@ session_start();
 
           <table>
           <tr>
-            <td></td>
-            <td>
               <?php
             	if (isset($_COOKIE["auth_error"]))
-             	  echo " <u style=\"color:red;\">echec d'authentification</u>";
+                echo '<div class="alert alert-danger" role="alert"><strong>Attention !</strong> Echec d\'authentification.</div>';
               if (isset($_COOKIE["logout"]))
-              	echo " <u style=\"color:green;\">Vous êtes bien déconnecté !</u>";
+                echo '<div class="alert alert-success" role="alert">Vous êtes bien déconnecté !</div>';
           		?>
-            </td>
           </tr>
             <tr>
               <td><p>Adresse mail :</p></td>

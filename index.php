@@ -117,10 +117,10 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/squelette.js"></script>
-    <script src="/js/messages.js"></script>
-    <script src="/js/xhr.js"></script>
-    <script src="/js/getMessage.js"></script>
-    <script src="/js/refreshMessages.js"></script>
+    <script src="js/messages.js"></script>
+    <script src="js/xhr.js"></script>
+    <script src="js/getMessage.js"></script>
+    <script src="js/refreshMessages.js"></script>
     <?php
         echo "<script>refreshMessages(".$_SESSION['iduser'].")</script>";
         echo "\n<script type='text/javascript'>";

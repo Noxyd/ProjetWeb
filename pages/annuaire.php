@@ -9,13 +9,25 @@
   	    header('location: connexion.php');
   }
 
-  $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
+  $bdd = pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
-	// formulation et execution de la requette
-	$result= pg_prepare($bdd,"query",'select * from utilisateurs  order by nom');
-	// recupération du resultat de la requette
+	// formulation et execution de la requete
+	$result = pg_prepare($bdd,"query",'select * from utilisateurs order by nom');
+	// récupération du résultat de la requete
 	$result = pg_execute($bdd, "query", array());
   $nbresults = pg_num_rows($result);
+  // On fait une boucle pour afficher tous les utilisateurs
+  for($i=1 ; $i <= $nbresults ; $i++){
+    $row=pg_fetch_row($result);
+    // Stockage des variables extraits de la base dans un tableau à 2 dimensions
+    $user["photo"][$i] = $row[7];
+    $user["nom"][$i] = $row[1];
+    $user["prenom"][$i] = $row[2];
+    $user["mail"][$i] = $row[3];
+    $user["description"][$i] = $row[5];
+    }
+
+  pg_close($bdd);
 ?>
 <!-- Debut HTML -->
 <!DOCTYPE html>
@@ -43,10 +55,10 @@
   <body>
     <div id="wrap-container">
       <header>
-        <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
+        <a href="../index.php"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
           <legend>Bonjour <?php echo ucfirst($_SESSION['prenom']); ?></legend>
-          <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
+          <a href="profil.php" class="btn-fieldset btn btn-primary">Dashboard</a>
           <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
@@ -58,7 +70,10 @@
           <li><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
           <li class="actif"><a href="annuaire.php"> Annuaire </a></li>
-          <li><a href="budget.php"> Budget </a></li>
+          <?php
+          if ($_SESSION["statut"] = 1)
+            echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
+          ?>
         </ul>
       </nav>
       <div class="wrap-content">
@@ -66,20 +81,28 @@
             <h2 class="inside-panel">Annuaire</h2>
             <div class="sub-pane1">
               <?php
-              // On fait une boucle pour afficher tous les utilisateurs de l'équipe
+              if ($_SESSION["statut"] = 1)
+                echo "<a href=\"formulaire-annuaire.php\" class=\"btn-fieldset btn btn-default\">Ajouter un membre</a>\n";
+
+              //affichage d'un message lors d'une insertion reussie
+              if (isset($_COOKIE['success-even'])) {
+                echo '<div class="alert alert-success" role="alert">L\'utilisateur a été ajouté avec succès !</div>';
+              }
+
+
+              // On fait une boucle pour afficher tous les utilisateurs
                 for($i=1 ; $i <= $nbresults ; $i++){
-                  $row=pg_fetch_row($result);
-                    echo "<div class=\"wrap-profil\">";
-                    echo "<div class=\"round-image\">";
-                    echo "<img id=\"profilpic\" src=\"$row[7]\"/>";
-                    echo "</div>";
-                    echo "<div class=\"sub-pane2\">";
-                    echo "<p class=\"panel-text\">Nom : ".ucfirst($row[1])."</p>";
-                    echo "<p class=\"panel-text\">Prénom : ".ucfirst($row[2])."</p>";
-                    echo "<p class=\"panel-text\">Adresse mail : ".$row[3]."</p>";
-                    echo "<p class=\"panel-text\">Description : ".$row[5]."</p>";
-                    echo "</div>";
-                  echo "</div>";
+                    echo "\t<div class=\"wrap-profil\">\n";
+                    echo "\t\t\t<div class=\"round-image\">\n";
+                    echo "\t\t\t\t<img id=\"profilpic\" src=\"".$user["photo"][$i]."\"/>\n";
+                    echo "\t\t\t</div>\n";
+                    echo "\t\t\t<div class=\"sub-pane2\">\n";
+                    echo "\t\t\t\t<p class=\"panel-text\">Nom : ".ucfirst($user["nom"][$i])."</p>\n";
+                    echo "\t\t\t\t<p class=\"panel-text\">Prénom : ".ucfirst($user["prenom"][$i])."</p>\n";
+                    echo "\t\t\t\t<p class=\"panel-text\">Adresse mail : ".$user["mail"][$i]."</p>\n";
+                    echo "\t\t\t\t<p class=\"panel-text\">Description : ".$user["description"][$i]."</p>\n";
+                    echo "\t\t\t</div>\n";
+                  echo "\t\t</div>\n";
                 }
               ?>
             </div>

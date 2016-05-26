@@ -1,0 +1,8 @@
+.bouton{
+  margin-left: 725px;
+  display: inline-block;
+}
+
+.alert.alert-danger{
+  text-align: center;
+}

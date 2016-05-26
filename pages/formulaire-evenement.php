@@ -3,14 +3,16 @@
 
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
 
-  
+
   if (!isset($_SESSION["iduser"]) ) {
 
   	    setcookie(nonconnecte,1,time()+4,'/');
   	    header('location: connexion.php');
 
   }
-  
+  $bdd = pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
+
+  pg_close($bdd);
 ?>
 
  <!DOCTYPE html>
@@ -32,60 +34,59 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link href="../css/squelette.css" rel="stylesheet">
-    <link href="../css/evenement.css" rel="stylesheet">
+    <link href="../css/formulaire-evenement.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
   </head>
   <body>
     <div id="wrap-container">
       <header>
-        <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
+        <a href="../index.php"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
-          <legend>Bonjour  <?php echo $_SESSION["prenom"]; ?></legend>
-          <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
+          <legend>Bonjour  <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
+          <a href="profil.php" class="btn-fieldset btn btn-primary">Dashboard</a>
           <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
       <nav>
         <ul id="wrap-li">
-          <li class="actif"><a href="../index.php">Accueil</a></li>
+          <li><a href="../index.php">Accueil</a></li>
           <li><a href="presentation.php" >Présentation</a></li>
-          <li><a href="#"> Publications </a></li>
-          <li><a href="evenement.php"> Evénements </a></li>
+          <li><a href="presentation.php"> Publications </a></li>
+          <li class="actif"><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
-          <li><a href="#"> Annuaire </a></li>
-          <li><a href="#"> Budget </a></li>
+          <li><a href="annuaire.php"> Annuaire </a></li>
+          <?php
+          if ($_SESSION["statut"] = 1)
+            echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
+          ?>
         </ul>
       </nav>
+
       <div class="wrap-content">
-
-       
-      <div id="evenement">
         <?php
-          $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
-
-             $result = pg_prepare($bdd, "my_query", 'SELECT * FROM evenements WHERE ideven = $1 ');
-              $result = pg_execute($bdd, "my_query",array ($_GET["id"]));
-
-              $row=pg_fetch_row($result);
-              echo "<u><H2> $row[1]</H2></u><br>";
-              echo "<u>le:</u> $row[2] <u>lieu:</u> $row[3]<br><br> $row[4]";
-          
-
+          if (isset($_COOKIE['erreur-even'])) {
+            echo '<div class="alert alert-danger" role="alert"><strong>Attention ! </strong> L\'événement n\'a pas pu être enregistré.</div>';
+          }
         ?>
 
+        <h2>Création d'un événement</h2>
 
-
-
-
-
-
-
-
-
-      </div></div>
-    
-      
-      
-
+        <div class="Formulaire">
+          <form action="traitements/insertion_events.php" method="post">
+            <label>Titre :</label>
+            <p> <input type="text" class="form-control" name="titre" required></p>
+            <label>Date :</label>
+            <p><input type="date" class="form-control" name="date" required></p>
+            <label>Lieu :</label>
+            <p><input type="text" class="form-control" name="lieu" required></p>
+            <label>Description :</label>
+            <p><textarea class="form-control" rows="5" name="description" required></textarea></p>
+            <button type="submit" class="btn btn-default">Enregistrer</button>
+            <div class="bouton">
+              <a href="evenements.php" class="btn-fieldset btn btn-danger">Annuler</a>
+            </div>
+          </form>
+        </div>
       </div>
       <footer>
 

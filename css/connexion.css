@@ -16,3 +16,15 @@
   width: 350px;
   margin:auto;
 }
+
+.alert.alert-danger{
+  margin-left: 50px;
+  margin-right: 50px;
+  text-align: center;
+}
+
+.alert.alert-success{
+  margin-left: 50px;
+  margin-right: 50px;
+  text-align: center;
+}
