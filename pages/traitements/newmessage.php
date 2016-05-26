@@ -3,10 +3,10 @@
     // Récupération des variables POST
     $iduser = $_SESSION['iduser'];
     $destinataire = $_POST['destinataire'];
-    $objet = $_POST['objet'];
-    $contenu = $_POST['contenu'];
+    $objet = htmlentities($_POST['objet']);
+    $contenu = htmlentities($_POST['contenu']);
     // Génération de la date
-    $dateAjd = date("Y-m-d");
+    $dateAjd = date("Y-m-d H:i:s");
     /* === Envoi d'un message === */
     //connexion à la bdd
     $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");

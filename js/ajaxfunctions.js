@@ -44,7 +44,7 @@ function request(idM,etatM){
         if(xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)){
             // console.log("récupération des données"); Uniquement pour debug
             //Récupération des données
-            readData(xhr.responseText, idU);
+            readData(xhr.responseText);
         }
     };
     // Initialisation de la requete xhr

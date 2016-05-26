@@ -46,12 +46,13 @@
     //Fermeture de la connexion
     pg_close($bdd);
     //Formattage JSON des données
-    $data = '[
+    $data = '
+    [
         {
-        "emetteur": "'.$messages['prenom'].' '.$messages['nom'].'",
-        "objet": "'.$messages['objet'].'",
-        "contenu": "'.$messages['contenu'].'"
-    }
+            "emetteur": "'.$messages['prenom'].' '.$messages['nom'].'",
+            "objet": "'.$messages['objet'].'",
+            "contenu": "'.$messages['contenu'].'"
+        }
     ]';
 
     echo $data;

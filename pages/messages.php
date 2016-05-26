@@ -137,7 +137,7 @@
               <li><a href="annuaire.php"> Annuaire </a></li>
               <?php
               if ($_SESSION["statut"] == 1)
-                echo "<li><a href=\"/pages/budget.php\"> Budget </a></li>\n"
+                echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
               ?>
             </ul>
             </nav>
@@ -155,7 +155,7 @@
                     <div>
                         <a id="btn-envoyes" style="display:inline-block;cursor:pointer;" onclick="messagesEnvoyes(<?php echo $_SESSION['iduser'];?>),changeButton(1)">Messages envoyés</a>
                         <a id="btn-recu" style="display:none;cursor:pointer;" onclick="closeMsg(<?php echo $_SESSION['iduser'];?>), changeButton(2)">Messages Reçus</a>
-                        <a id="btn-actualiser" onclick="closeMsg(<?php echo $_SESSION['iduser'];?>)" style="float:right;margin-bottom:20px;cursor:pointer; display:inline-block;"><span class="glyphicon glyphicon-refresh" style="cursor:pointer;"></span> Rafraichir</a>
+                        <a id="btn-actualiser" onclick="closeMsg(<?php echo $_SESSION['iduser'];?>),changeButton(2)" style="float:right;margin-bottom:20px;cursor:pointer; display:inline-block;"><span class="glyphicon glyphicon-refresh" style="cursor:pointer;"></span> Rafraichir</a>
                     </div>
                     <table class="table" id="table-messages">
                         <!-- Le script AJAX placera les éléments ici -->
@@ -179,11 +179,11 @@
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="../js/ajaxfunctions.js"></script>
         <?php echo "<script>var idU = ".$_SESSION['iduser'].";</script>"; ?>
-        <script src="/js/bootstrap.min.js"></script>
-        <script src="/js/squelette.js"></script>
-        <script src="/js/messages.js"></script>
-        <script src="/js/ajaxfunctions.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/squelette.js"></script>
+        <script src="../js/messages.js"></script>
         <script>
             function changeButton(type){
                 switch(type){

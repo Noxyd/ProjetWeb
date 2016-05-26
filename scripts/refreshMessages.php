@@ -37,7 +37,7 @@
                     "col1": "<td><span class=\'glyphicon glyphicon-record\'></span></td>",
                     "col2": "<td>'.$messages["prenom"][$i].' '.$messages["nom"][$i].'</td>",
                     "col3": "<td><a style=\'cursor:pointer;\' onclick=\'request('.$messages["idmessage"][$i].','.$messages["etat"][$i].')\'>'.$messages["objet"][$i].'</a></td>",
-                    "col4": "<td>'.date('d-m-Y',$messages["dateenvoi"][$i]).'</td>"
+                    "col4": "<td>'.date('d-m-Y H:m',$messages["dateenvoi"][$i]).'</td>"
 
                 }
                 ';

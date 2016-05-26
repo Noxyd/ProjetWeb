@@ -1,10 +1,10 @@
 <?php
-  session_start();
-  include "scripts/calandar.php";
-  //On vérifie que l'utilisateur est passé apr le formulaire de connexion
-  if (!isset($_SESSION["iduser"]) ) {
-  	header('location: pages/connexion.php');
-  }
+    session_start();
+    include "scripts/calandar.php";
+    //On vérifie que l'utilisateur est passé apr le formulaire de connexion
+    if (!isset($_SESSION["iduser"]) ) {
+    	header('location: pages/connexion.php');
+    }
     //Intérrogation BDD pour voir les publications
     //connexion à la bdd
 	$bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
@@ -24,7 +24,7 @@
         $publi['etat'][$i] = $tabres[4];
         $publi['ideq'][$i] = $tabres[5];
     }
-  pg_close($bdd);
+    pg_close($bdd);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -76,31 +76,31 @@
           ?>
         </ul>
       </nav>
-      <div class="wrap-content">
-        <div id="left-panel">
+        <div class="wrap-content">
+            <div id="left-panel">
 
-            <?php
-            for ($i=0; $i < $nbresults; $i++) {
-                echo "<div id=\"un\" class=\"left-sub-panel\">";
-                echo "\n\t\t<a href=\"#\" class=\"inside-panel-link\"><h2 class=\"inside-panel\">".$publi['titre'][$i]."</h2></a>";
-                echo "\n\t\t<p class=\"inside-panel horodatage\"><i>publié le ".date('d/m/Y',$publi['datepub'][$i])."</i></p>";
-                echo "\n\t\t<p class=\"panel-text\">".substr($publi['contenu'][$i],0,120)."<a href=\"pages/affichagepub.php?id=".$publi['idpub'][$i]."\">...</a></p>";
-                echo "\n\t\t<a href=\"pages/affichagepub.php?id=".$publi['idpub'][$i]."\" class=\"inside-panel btn-lire-plus\">Lire plus</a>";
-                echo "\n\t</div>";
-            }
-            ?>
-        </div>
-        <div id="right-panel">
-            <div id="newmessages" >
-                <h3 class="right-side-h3" style="border-bottom:none;"><a href="pages/messages.php">Vos messages</a><small><a onclick="closeMsg()" style="margin-left:30px;cursor:pointer;color:inherit;"><span class="glyphicon glyphicon-refresh" style="cursor:pointer;"></span> Rafraichir</a></small></h3>
-                <table id="table-messages" class="table table-striped">
-                    <!-- Rempli par appel AJAX -->
-                </table>
+                <?php
+                for ($i=0; $i < $nbresults; $i++) {
+                    echo "<div id=\"un\" class=\"left-sub-panel\">";
+                    echo "\n\t\t<a href=\"#\" class=\"inside-panel-link\"><h2 class=\"inside-panel\">".$publi['titre'][$i]."</h2></a>";
+                    echo "\n\t\t<p class=\"inside-panel horodatage\"><i>publié le ".date('d/m/Y',$publi['datepub'][$i])."</i></p>";
+                    echo "\n\t\t<p class=\"panel-text\">".substr($publi['contenu'][$i],0,120)."<a href=\"pages/affichagepub.php?id=".$publi['idpub'][$i]."\">...</a></p>";
+                    echo "\n\t\t<a href=\"pages/affichagepub.php?id=".$publi['idpub'][$i]."\" class=\"inside-panel btn-lire-plus\">Lire plus</a>";
+                    echo "\n\t</div>";
+                }
+                ?>
             </div>
-            <div id="calendrier">
-              <h3 class="right-side-h3">Calendrier</h3>
-              <?php
-                  $tabMois = array(
+            <div id="right-panel">
+                <div id="newmessages" >
+                    <h3 class="right-side-h3" style="border-bottom:none;"><a href="pages/messages.php">Vos messages</a><small><a onclick="closeMsg()" style="margin-left:30px;cursor:pointer;color:inherit;"><span class="glyphicon glyphicon-refresh" style="cursor:pointer;"></span> Rafraichir</a></small></h3>
+                    <table id="table-messages" class="table table-striped">
+                        <!-- Rempli par appel AJAX -->
+                    </table>
+                </div>
+                <div id="calendrier">
+                    <h3 class="right-side-h3">Calendrier</h3>
+                    <?php
+                    $tabMois = array(
                       '01' => 'Janvier',
                       '02' => 'Février',
                       '03' => 'Mars',
@@ -113,15 +113,15 @@
                       '10' => 'Octobre',
                       '11' => 'Novembre',
                       '12' => 'Décembre',
-                  );
-                  $actualMonthNb = date('m');
-                  $actualMonthLetters = $tabMois[$actualMonthNb];
-                  echo "<p><center><strong>".$actualMonthLetters." ".date('Y')."</strong></center></p>";
-                  calculateDays($actualMonthNb);
-              ?>
+                    );
+                    $actualMonthNb = date('m');
+                    $actualMonthLetters = $tabMois[$actualMonthNb];
+                    echo "<p><center><strong>".$actualMonthLetters." ".date('Y')."</strong></center></p>";
+                    calculateDays($actualMonthNb);
+                    ?>
+                </div>
             </div>
         </div>
-      </div>
       <footer>
 
       </footer>
