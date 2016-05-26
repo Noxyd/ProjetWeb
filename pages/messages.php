@@ -12,8 +12,7 @@
   //Requête pour avoir les messages
   // formulation et execution de la requette
   $result2= pg_prepare($bdd,"query2",'SELECT idmessage, objet, contenu, dateenvoi, etat, idemetteur,idrecepteur, nom, prenom FROM messages, utilisateurs WHERE messages.idemetteur = utilisateurs.iduser AND idrecepteur = $1 ORDER BY dateenvoi DESC FETCH FIRST 5 ROWS ONLY;');
-  // recupération du resultat de la requete
-  $result2= pg_execute($bdd, "query2",array ($_SESSION["iduser"]));
+  $result2= pg_execute($bdd, "query2",array($_SESSION["iduser"]));
   //Comptage du nombre de résultats
   $nbresults2=pg_num_rows($result2)	;
   //Récupération des résultats
@@ -39,6 +38,16 @@
         $cptBrouillon += 1;
     }
   }
+    // Récupération des identifiants des utilisateurs
+    $result3 = pg_prepare($bdd,"queryUtils",'SELECT iduser, mail FROM utilisateurs');
+    $result3 = pg_execute($bdd, "queryUtils",array());
+    $nbresults3 = pg_num_rows($result3);
+    for ($i=0; $i < $nbresults3; $i++) {
+        $tabres = pg_fetch_array($result3, $i);
+        $util['id'][$i] = $tabres[0];
+        $util['mail'][$i] = $tabres[1];
+    }
+
   //Fermeture de la connexion
   pg_close($bdd);
 ?>
@@ -49,7 +58,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>ScienceHUB : Plateforme collaborative de recherche</title>
+        <title>ScienceHUB</title>
 
         <!-- Bootstrap-->
         <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -65,90 +74,155 @@
         <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
     </head>
     <body>
-        <div id="smoke-background">
-            <div id="wrap-message">
+        <div id="smoke-background" class="smoke">
+            <div id="wrap-message" class="smoke-child">
             </div>
         </div>
-    <div id="wrap-container">
-        <header>
-        <a href="/index.php"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
-        <fieldset id="fieldset-header" >
-          <legend>Bonjour <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
-          <a href="#" class="btn-fieldset btn btn-primary">Mon profil</a>
-          <a href="pages/traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
-        </fieldset>
-        </header>
-        <nav>
-        <ul id="wrap-li">
-          <li ><a href="/index.php">Accueil</a></li>
-          <li ><a href="/pages/presentation.php">Présentation</a></li>
-          <li><a href="/pages/Publications.php"> Publications </a></li>
-          <li><a href="/pages/evenements.php"> Evénements </a></li>
-          <li class="actif"><a href="/pages/messages.php"> Messages </a></li>
-          <li><a href="/pages/annuaire.php"> Annuaire </a></li>
-          <?php
-          if ($_SESSION["statut"] = 1)
-            echo "<li><a href=\"/pages/budget.php\"> Budget </a></li>\n"
-          ?>
-        </ul>
-        </nav>
-        <div class="wrap-content">
-        <div id="left-panel">
-            <!-- Début ici -->
-            <a onclick="closeMsg()" style="float:right;margin-bottom:20px;cursor:pointer"><span class="glyphicon glyphicon-refresh" style="cursor:pointer;"></span> Rafraichir</a>
-            <table class="table" id="table-messages">
-                <!-- Le script AJAX placera les éléments ici -->
-            </table>
-        </div>
-        <div id="right-panel">
-            <div id="message-content">
-                <!-- Rempli dynamiquement via AJAX -->
-            </div>
-            <div id="messages-stats">
-                <!-- <?php
-                echo "<p><strong>".$cptNonLu."</strong> message(s) non-lu(s)</p>";
-                echo "<p><strong>".$cptBrouillon."</strong> brouillons</p>";
-                ?> -->
+        <div id="smoke-background-send" class="smoke">
+            <div id="wrap-new-message" class="smoke-child">
+                <h3 style="padding:5px;color:white;"><center>Nouveau message</center></h3>
+                <form method="post" action="traitements/newmessage.php">
+                    <table id="form-send" style="color:black;">
+                        <tr>
+                            <td>Destinataire : </td>
+                            <td style='color:black;'>
+                                <select name='destinataire'>
+                                    <?php
+                                    for ($i=0; $i < $nbresults3; $i++) {
+                                        echo "<option value='".$util['id'][$i]."'>".$util['mail'][$i]."</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Objet :</td>
+                            <td><input type="text" name="objet"/></td>
+                        </tr>
+                        <tr>
+                            <td>Contenu :</td>
+                            <td><textarea rows="7" name="contenu"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td><input style="width:220px; color:white;" class="btn btn-danger" type="cancel" value="Annuler" onclick="closeNewMsg()"/></td>
+                                        <td><input style="width:220px; color:white;" class="btn btn-warning" type="submit" value="Envoyer" /></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
             </div>
         </div>
-        <footer>
+        <div id="wrap-container">
+            <header>
+            <a href="/index.php"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
+            <fieldset id="fieldset-header" >
+              <legend>Bonjour <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
+              <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
+              <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
+            </fieldset>
+            </header>
+            <nav>
+            <ul id="wrap-li">
+              <li ><a href="../index.php">Accueil</a></li>
+              <li ><a href="presentation.php">Présentation</a></li>
+              <li><a href="publications.php"> Publications </a></li>
+              <li><a href="evenements.php"> Evénements </a></li>
+              <li class="actif"><a href="messages.php"> Messages </a></li>
+              <li><a href="annuaire.php"> Annuaire </a></li>
+              <?php
+              if ($_SESSION["statut"] = 1)
+                echo "<li><a href=\"/pages/budget.php\"> Budget </a></li>\n"
+              ?>
+            </ul>
+            </nav>
+            <div class="wrap-content">
+                <div id="global-info">
+                    <?php
+                    if(isset($_COOKIE['flag-success']))
+                        echo "<div class='alert alert-success' role='alert'>Message envoyé avec succès.</div>";
+                    if(isset($_COOKIE['flag-error'])) 
+                        echo "<div class='alert alert-danger' role='alert'>Une erreur s'est produite lors de l'envoi.</div>";
+                    ?>
+                    <div id="info-actualisation" class="alert alert-info" role="alert">Rechargé à </div>
+                </div>
+                <div id="left-panel">
+                    <div>
+                        <a id="btn-envoyes" style="display:inline-block;cursor:pointer;" onclick="messagesEnvoyes(<?php echo $_SESSION['iduser'];?>),changeButton(1)">Messages envoyés</a>
+                        <a id="btn-recu" style="display:none;cursor:pointer;" onclick="closeMsg(), changeButton(2)">Messages Reçus</a>
+                        <a id="btn-actualiser" onclick="closeMsg()" style="float:right;margin-bottom:20px;cursor:pointer; display:inline-block;"><span class="glyphicon glyphicon-refresh" style="cursor:pointer;"></span> Rafraichir</a>
+                    </div>
+                    <table class="table" id="table-messages">
+                        <!-- Le script AJAX placera les éléments ici -->
+                    </table>
+                </div>
+                <div id="right-panel">
+                    <div id="message-content">
+                        <!-- Rempli dynamiquement via AJAX -->
+                    </div>
+                    <div id="messages-stats">
+                        <!-- Rempli dynamiquement via AJAX -->
+                    </div>
+                    <center><button class="btn btn-warning" onclick="printFormNewMessage()">Ecrire un message</button></center>
+                </div>
+            </div>
+            <footer>
 
-        </footer>
+            </footer>
+        </div>
 
-    </div>
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/squelette.js"></script>
+        <script src="/js/messages.js"></script>
+        <script src="/js/xhr.js"></script>
+        <script src="/js/getMessage.js"></script>
+        <script src="/js/refreshMessages.js"></script>
+        <script src="/js/messagesEnvoyes.js"></script>
+        <script src="/js/writeNew.js"></script>
+        <script>
+            function changeButton(type){
+                switch(type){
+                    case 1:
+                        document.getElementById("btn-envoyes").style.display = "none";
+                        document.getElementById("btn-recu").style.display = "inline-block";
+                        break;
+                    case 2:
+                        document.getElementById("btn-recu").style.display = "none";
+                        document.getElementById("btn-envoyes").style.display = "inline-block";
+                        break;
+                    default:
+                        //none
+                }
+            }
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-<<<<<<< HEAD
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/squelette.js"></script>
-    <script src="/js/messages.js"></script>
-    <script src="/js/xhr.js"></script>
-    <script src="/js/getMessage.js"></script>
-    <script src="/js/refreshMessages.js"></script>
-    <?php
-        echo "<script>refreshMessages(".$_SESSION['iduser'].")</script>";
-        echo "<script>refreshCounter(".$_SESSION['iduser'].")</script>";
-        echo "\n<script type='text/javascript'>";
-        echo "\nfunction closeMsg(){";
-        echo "\ndocument.getElementById('smoke-background').style.display = 'none';";
-        echo "\nrefreshMessages(".$_SESSION['iduser'].");";
-        echo "\nrefreshCounter(".$_SESSION['iduser'].");";
-        echo "\n}";
-        echo "\n</script>\n";
-    ?>
-=======
-    <script type="text/javascript">
-        function closeMsg(){
-            document.getElementById("smoke-background").style.display = "none";
-        }
-    </script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/squelette.js"></script>
-    <script src="../js/messages.js"></script>
-    <script src="../js/xhr.js"></script>
-    <script src="../js/getMessage.js"></script>
->>>>>>> 9cb28b412c02d8303e58f90ff203f4c935d965f4
+            function closeNewMsg(){
+                document.getElementById('smoke-background-send').style.display = 'none';
+            }
+
+            function printFormNewMessage(){
+                document.getElementById('smoke-background-send').style.display = 'block';
+            }
+
+            document.getElementById('smoke-background-send').style.display = 'none';
+        </script>
+        <?php
+            echo "<script>refreshMessages(".$_SESSION['iduser'].")</script>";
+            echo "<script>refreshCounter(".$_SESSION['iduser'].")</script>";
+            echo "\n<script type='text/javascript'>";
+            echo "\nfunction closeMsg(){";
+            echo "\ndocument.getElementById('smoke-background').style.display = 'none';";
+            echo "\nrefreshMessages(".$_SESSION['iduser'].");";
+            echo "\nrefreshCounter(".$_SESSION['iduser'].");";
+            echo "\n}";
+            echo "\n</script>\n";
+        ?>
   </body>
 </html>

@@ -8,10 +8,9 @@
   //connexion à la bdd
 	$bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 	// formulation et execution de la requette
-	$result= pg_prepare($bdd,"query",'SELECT idpub, titre, datepub, contenu, etat, ideq FROM publications WHERE etat = 1 AND
-  ');
+	$result= pg_prepare($bdd,"query",'SELECT idpub, titre, datepub, contenu, etat, ideq FROM publications WHERE etat = 1 AND idpub = $1');
 	// recupération du resultat de la requette
-	$result = pg_execute($bdd, "query",array ());
+	$result = pg_execute($bdd, "query",array ($_GET['id']));
   //Comptage du nombre de résultats
 	$nbresults=pg_num_rows($result)	;
   //Récupération des résultats
