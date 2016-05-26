@@ -1,3 +1,4 @@
+/* === LES MESSAGES === */
 #left-panel{
     background-color: white;
     border: solid 1px grey;
@@ -12,13 +13,11 @@
   border-radius: 7px;
 }
 
+/* === RIGHT PANEL === */
+
 #messages-stats{
-    background-color: white;
-    box-shadow: 1px 1px 7px ;
     min-height: 100px;
     margin-bottom: 40px;
-    border-bottom-left-radius: 10px;
-    border-top-right-radius: 10px;
     font-size: 1.3em;
     padding-top: 40px;
     padding-left: 50px;
@@ -36,7 +35,9 @@
     padding-bottom: 20px;
 }
 
-#smoke-background{
+/* === AFFICHAGE D'UN MESSAGE === */
+
+.smoke{
     background-color: rgba(44, 44, 44, 0.6);
     position: fixed;
     top: 0;
@@ -46,7 +47,7 @@
     height: 100%;
 }
 
-#wrap-message{
+.smoke-child{
     width: 800px;
     margin: 50vh auto;
     min-height: 300px;
@@ -68,4 +69,25 @@
     background-color: white;
     padding: 15px 20px 15px 20px;
     border-radius: 5px;
+}
+/* === ENVOI DES MESSAGES === */
+#form-send{
+    width: 600px;
+    margin: auto;
+}
+
+#form-send td{
+    width: 100%;
+    color: white;
+    padding: 5px;
+}
+
+#form-send input{
+    width:480px;
+    color: black;
+}
+
+#form-send textarea{
+    width:480px;
+    color: black;
 }

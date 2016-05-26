@@ -100,10 +100,10 @@
             <?php
             echo "<table class=\"table \">";
             echo "\n\t\t<tr>";
-            echo "\n\t\t\t<th></td>";
-            echo "\n\t\t\t<th style=\"width:70px;\">De</td>";
-            echo "\n\t\t\t<th>Objet</td>";
-            echo "\n\t\t\t<th style=\"width:80px;\">Reçu le</td>";
+            echo "\n\t\t\t<th></th>";
+            echo "\n\t\t\t<th style=\"width:70px;\">De</th>";
+            echo "\n\t\t\t<th>Objet</th>";
+            echo "\n\t\t\t<th style=\"width:80px;\">Reçu le</th>";
             echo "\n\t\t</tr>";
             for ($i=0; $i < $nbresults2; $i++) {
                 echo "\n\t\t<tr>";
