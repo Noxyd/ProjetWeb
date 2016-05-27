@@ -71,7 +71,7 @@
           <li><a href="messages.php"> Messages </a></li>
           <li class="actif"><a href="annuaire.php"> Annuaire </a></li>
           <?php
-          if ($_SESSION["statut"] = 1)
+          if ($_SESSION["statut"] == 1)
             echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
           ?>
         </ul>
@@ -81,14 +81,19 @@
             <h2 class="inside-panel">Annuaire</h2>
             <div class="sub-pane1">
               <?php
-              if ($_SESSION["statut"] = 1)
+              if ($_SESSION["statut"] == 1){
                 echo "<a href=\"formulaire-annuaire.php\" class=\"btn-fieldset btn btn-default\">Ajouter membre</a>\n";
                 echo "<a href=\"suppression-annuaire.php\" class=\"btn-fieldset btn btn-default\">Supprimer membre(s)</a>\n";
+              }
 
 
               //affichage d'un message lors d'une insertion reussie
               if (isset($_COOKIE['success-even'])) {
                 echo '<div class="alert alert-success" role="alert">L\'utilisateur a été ajouté avec succès !</div>';
+              }
+              //affichage d'un message lors d'une insertion reussie
+              if (isset($_COOKIE['success-del'])) {
+                echo '<div class="alert alert-success" role="alert">L\'utilisateur a été supprimé avec succès !</div>';
               }
 
 

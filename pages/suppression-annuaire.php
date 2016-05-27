@@ -4,7 +4,7 @@
 
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
 
-  if (!isset($_SESSION["iduser"]) ) {
+  if (!isset($_SESSION["iduser"]) || $_SESSION["statut"]!=1) {
   	setcookie(nonconnecte,1,time()+4,'/');
   	    header('location: connexion.php');
   }
@@ -25,6 +25,7 @@
     $user["prenom"][$i] = $row[2];
     $user["mail"][$i] = $row[3];
     $user["description"][$i] = $row[5];
+    $user["iduser"][$i]=$row[0];
     }
 
   pg_close($bdd);
@@ -71,7 +72,7 @@
           <li><a href="messages.php"> Messages </a></li>
           <li class="actif"><a href="annuaire.php"> Annuaire </a></li>
           <?php
-          if ($_SESSION["statut"] = 1)
+          if ($_SESSION["statut"] == 1)
             echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
           ?>
         </ul>
@@ -87,15 +88,11 @@
               if (isset($_COOKIE['success-even'])) {
                 echo '<div class="alert alert-success" role="alert">Utilisateur(s) supprimé(s) avec succès !</div>';
               }
-              ?>
 
-
-
-              <?php
               // On fait une boucle pour afficher tous les utilisateurs
                 for($i=1 ; $i <= $nbresults ; $i++){
-                  echo "\t<div class=\"checkbox\">\n";
-                  echo "\t\t<a href=\"traitements/suppression-utilisateur.php\"<span class=\"glyphicon glyphicon-remove\"></span></a>\n";
+                  echo "\t<div class=\"remove\">\n";
+                  echo "\t\t<a href=\"traitements/suppression-utilisateur.php?idU=".$user["iduser"][$i]."\"<span class=\"glyphicon glyphicon-remove\"></span></a>\n";
                   echo "\t</div>\n";
                     echo "\t<div class=\"wrap-profil\">\n";
                     echo "\t\t\t<div class=\"round-image\">\n";

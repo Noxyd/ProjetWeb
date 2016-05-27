@@ -5,12 +5,12 @@
 	$bdd = pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
 	// formulation et execution de la requete
-	$result = pg_prepare($bdd,"query",'DELETE FROM public.utilisateurs WHERE <condition>;');
+	$result = pg_prepare($bdd,"query",'DELETE FROM public.utilisateurs WHERE iduser = $1');
 	// recupération du resultat de la requete
-	$result = pg_execute($bdd, "query",array ($_POST['titre'], $_POST['date'], $_POST['lieu'], $_POST['description'], 1, $_SESSION['ideq']));
+	$result = pg_execute($bdd, "query",array ($_GET["idU"]));
 
 	if ($result != FALSE) {
-		setcookie('success-even', 1, time()+3, '/');
+		setcookie('success-del', 1, time()+3, '/');
 		header('location: ../annuaire.php');
 	}
 	else {
