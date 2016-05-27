@@ -28,6 +28,7 @@
     <![endif]-->
     <link href="../css/squelette.css" rel="stylesheet">
     <link href="../css/presentation.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
   </head>
   <body>
     <div id="wrap-container">
@@ -47,24 +48,33 @@
           <li><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
           <li><a href="annuaire.php"> Annuaire </a></li>
-          <li><a href="budget.php"> Budget </a></li>
+          <?php
+          if ($_SESSION["statut"] == 1)
+            echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
+          ?>
         </ul>
       </nav>
       <div class="wrap-content">
         <div id="left-panel">
           <div id="un" class="left-sub-panel">
-            <h2 class="inside-panel">Présentation du projet</h2>
+            <h2 class="inside-panel">Présentation du site</h2>
             <p class="panel-text">
               Ce site a été conçu dans l'optique de proposer une plateforme
               collaborative de recherche pour que les chercheurs puissent
               travailler autour d'un projet et ce, même éloigné l'un de l'autre
-              géographiquement.
+              géographiquement.<br><br>
+              Site web réalisé par Florian BLANCHET, Samuel GARCIA, Nadjim MEHDIOUI et Saidharan SARMA dans le cadre du projet WEB - PHP - BDD en L3 STRI.
             </p>
           </div>
           <div class="left-sub-pane2">
             <h2 class="inside-panel">Nos partenaires</h2>
-            <p class="panel-text">
-              <?php echo $lipsum; ?>
+            <p class="panel-part">
+              <a href="http://www.univ-tlse3.fr/"><img src="../images/logo/ups.jpg" width="200px" height="auto"></a>
+              <a href="http://upssitech.ups-tlse.fr/"><img src="../images/logo/upssitech.png" width="200px" height="auto"></a>
+              <a href="http://www.stri.ups-tlse.fr/"><img src="../images/logo/stri.jpg" width="200px" height="auto"></a>
+              <a href="http://www.irit.fr"><img src="../images/logo/irit.jpg" width="200px" height="auto"></a>
+              <a href="http://www.cnes.fr"><img src="../images/logo/cnes.png" width="150px" height="auto" class="cnes"></a>
+              <a href="http://www.cnrs.fr"><img src="../images/logo/cnrs.png" width="150px" height="auto" class="cnrs"></a>
             </p>
           </div>
         </div>
@@ -95,7 +105,8 @@
         </div>
       </div>
       <footer>
-
+        <h4> © BLANCHET / GARCIA / MEHDIOUI / SARMA</h4>
+        <p>Tous droits réservés.</p>
       </footer>
     </div>
 

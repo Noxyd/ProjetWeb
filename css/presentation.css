@@ -44,16 +44,21 @@ text-decoration: none;
   margin-bottom: 20px;
 }
 
-/* === Bloc "Vos messages" === */
-#newmessages{
-  background-color: white;
-  box-shadow: 1px 1px 7px ;
-  min-height: 100px;
-  margin-bottom: 40px;
-  border-bottom-left-radius: 10px;
-  border-top-right-radius: 10px;
-  font-size: 0.9em;
-  padding-bottom: 20px;
+.panel-part{
+  padding-left: 20px;
+  text-align: justify;
+  width:440px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.cnes{
+  margin-left: 15px;
+}
+
+.cnrs{
+  margin-left: 70px;
 }
 
 #smoke-background{
@@ -66,30 +71,9 @@ text-decoration: none;
     height: 100%;
 }
 
-#wrap-message{
-    width: 900px;
-    margin: 50vh auto;
-    min-height: 300px;
-    transform: translateY(-50%);
-    padding-top: 40px;
-    padding-bottom: 40px;
-    border-radius: 10px;
-    background-color: #181A18;
+footer{
+  text-align: center;
 }
-
-#theMessage{
-    width:700px;
-    margin:auto;
-    text-align:justify;
-
-}
-
-#theMessage p{
-    background-color: white;
-    padding: 15px 20px 15px 20px;
-    border-radius: 5px;
-}
-
 
 /* === Bloc "Calandrier" === */
 #calendrier{

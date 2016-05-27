@@ -82,18 +82,18 @@
             <div class="sub-pane1">
               <?php
               if ($_SESSION["statut"] == 1){
-                echo "<a href=\"formulaire-annuaire.php\" class=\"btn-fieldset btn btn-default\">Ajouter membre</a>\n";
-                echo "<a href=\"suppression-annuaire.php\" class=\"btn-fieldset btn btn-default\">Supprimer membre(s)</a>\n";
+                echo "<a href=\"formulaire-annuaire.php\" class=\"btn-fieldset btn btn-default\">Ajouter un membre</a>\n";
+                echo "<a href=\"suppression-annuaire.php\" class=\"btn-fieldset btn btn-default\">Supprimer un membre</a>\n";
               }
 
 
               //affichage d'un message lors d'une insertion reussie
               if (isset($_COOKIE['success-even'])) {
-                echo '<div class="alert alert-success" role="alert">L\'utilisateur a été ajouté avec succès !</div>';
+                echo '<div class="alert alert-success" role="alert">La personne a été ajoutée avec succès !</div>';
               }
               //affichage d'un message lors d'une insertion reussie
               if (isset($_COOKIE['success-del'])) {
-                echo '<div class="alert alert-success" role="alert">L\'utilisateur a été supprimé avec succès !</div>';
+                echo '<div class="alert alert-success" role="alert">La personne a été supprimée avec succès !</div>';
               }
 
 
