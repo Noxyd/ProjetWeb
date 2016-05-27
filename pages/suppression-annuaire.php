@@ -49,7 +49,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link href="../css/squelette.css" rel="stylesheet">
-    <link href="../css/annuaire.css" rel="stylesheet">
+    <link href="../css/suppression-annuaire.css" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
   </head>
   <body>
@@ -80,20 +80,23 @@
         <div id="main-panel">
             <h2 class="inside-panel">Annuaire</h2>
             <div class="sub-pane1">
+              <h3>Veuillez choisir les utilisateurs à supprimer :</h3>
+              <br>
               <?php
-              if ($_SESSION["statut"] = 1)
-                echo "<a href=\"formulaire-annuaire.php\" class=\"btn-fieldset btn btn-default\">Ajouter membre</a>\n";
-                echo "<a href=\"suppression-annuaire.php\" class=\"btn-fieldset btn btn-default\">Supprimer membre(s)</a>\n";
-
-
-              //affichage d'un message lors d'une insertion reussie
+              //affichage d'un message lors d'une suppression reussie
               if (isset($_COOKIE['success-even'])) {
-                echo '<div class="alert alert-success" role="alert">L\'utilisateur a été ajouté avec succès !</div>';
+                echo '<div class="alert alert-success" role="alert">Utilisateur(s) supprimé(s) avec succès !</div>';
               }
+              ?>
 
 
+
+              <?php
               // On fait une boucle pour afficher tous les utilisateurs
                 for($i=1 ; $i <= $nbresults ; $i++){
+                  echo "\t<div class=\"checkbox\">\n";
+                  echo "\t\t<a href=\"traitements/suppression-utilisateur.php\"<span class=\"glyphicon glyphicon-remove\"></span></a>\n";
+                  echo "\t</div>\n";
                     echo "\t<div class=\"wrap-profil\">\n";
                     echo "\t\t\t<div class=\"round-image\">\n";
                     echo "\t\t\t\t<img id=\"profilpic\" src=\"".$user["photo"][$i]."\"/>\n";
@@ -104,9 +107,14 @@
                     echo "\t\t\t\t<p class=\"panel-text\">Adresse mail : ".$user["mail"][$i]."</p>\n";
                     echo "\t\t\t\t<p class=\"panel-text\">Description : ".$user["description"][$i]."</p>\n";
                     echo "\t\t\t</div>\n";
-                  echo "\t\t</div>\n";
+                    echo "\t</div>\n";
                 }
               ?>
+                <div class="bouton">
+                  <a href="annuaire.php" class="btn btn-danger">Annuler</a>
+                </div>
+
+
             </div>
         </div>
       </div>

@@ -111,7 +111,7 @@
             <p><input type="file" class="form-control" name='photo' required></p>
             <button type="submit" class="btn btn-default">Enregistrer</button>
             <div class="bouton">
-              <a href="annuaire.php" class="btn-fieldset btn btn-danger">Annuler</a>
+              <a href="annuaire.php" class="btn btn-danger">Annuler</a>
             </div>
           </form>
         </div>
