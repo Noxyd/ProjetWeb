@@ -57,7 +57,7 @@
       </nav>
       <div class="wrap-content">
         <div class="bouton-evenement">
-          <a href="formulaire-evenement.php" class="btn-fieldset btn btn-default">Créer événement</a>
+          <a href="formulaire-evenement.php" class="btn btn-success">Créer événement</a>
         </div>
         <?php
           //affichage d'un message lors d'une insertio reussie

@@ -74,7 +74,7 @@ text-decoration: none;
   font-weight: bold;
 }
 
-.btn-default{
-  margin-left: 170px;
-  margin-bottom: 50px;
+.bouton{
+  text-align: center;
+  margin-bottom: 40px;
 }
