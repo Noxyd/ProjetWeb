@@ -2,15 +2,34 @@
   session_start();
   include "../scripts/calandar.php";
 
-$test=$_GET['id'];
+
+ if (!isset($_SESSION["iduser"]) ) {
+  	setcookie(nonconnecte,1,time()+4,'/');
+  	    header('location: pages/connexion.php');
+      }
+
+if (!isset($_GET['type']) ) {
+  	    header('location: Publications.php?type=1');
+  }
+
+$type = $_GET['type'];
+
 // connection à la base de données:
 	$bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=maximinus") or die("impossible de se connecter a la bdd");
 
 
 // RECHERCHE Publication :
+switch($type){
+    case 1 :
         // formulation et execution de la requette   !! fausse car il faut l'iduser !!
-	    $result= pg_prepare($bdd,"query","SELECT titre,datepub,contenu,etat from Publications WHERE idpub ='$test' ");
-
+	    $result= pg_prepare($bdd,"query","SELECT idpub,titre,datepub,contenu,etat,nomeq from Publications,equipes where publications.ideq=equipes.ideq ORDER BY datepub DESC;  ");
+	     break;
+        
+    case 2 :
+        $result= pg_prepare($bdd,"query","SELECT idpub,titre,datepub,contenu,etat,nomeq from Publications,equipes where etat =1 AND publications.ideq=equipes.ideq ORDER BY datepub DESC; ");
+	     break;  
+}
+        
 // recupération du resultat de la requette
 	$result = pg_execute($bdd, "query",array ());
         
@@ -20,10 +39,12 @@ $test=$_GET['id'];
   //Récupération des résultats
   for ($i=0; $i < $nbresults; $i++) {
     $tabres = pg_fetch_array($result, $i);
-    $publi['titre'][$i] = $tabres[0];
-    $publi['datepub'][$i] = $tabres[1];
-    $publi['contenu'][$i] = $tabres[2];
-    $publi['etat'][$i] = $tabres[3];
+    $publi['idpub'][$i] = $tabres[0];
+    $publi['titre'][$i] = $tabres[1];
+    $publi['datepub'][$i] = $tabres[2];
+    $publi['contenu'][$i] = $tabres[3];
+    $publi['etat'][$i] = $tabres[4];
+    $publi['nomeq'][$i] = $tabres[5];
   }
 
 // RECHERCHE nombre Publication :
@@ -38,15 +59,8 @@ $row=pg_fetch_row($result3);
 $result4=pg_query($bdd,'SELECT dateeven FROM Evenements ORDER BY dateeven DESC FETCH FIRST 1 ROWS ONLY');
 $row2=pg_fetch_row($result4);
 
-  /* === A décommenter dès que possible ===
-  if (!isset($_SESSION["idusers"]) ) {
-  	setcookie(nonconnecte,1,time()+4);
-  	    header('location: pages/connexion.php');
-  */
 pg_close($bdd);
 ?>
-
-
 
 
 <!DOCTYPE html>
@@ -95,17 +109,38 @@ pg_close($bdd);
           </ul>  
       </nav>
         
-
+        
+    
+        
+        
         
       <div class="wrap-content">
         <div id="left-panel">
+            <td>
+              <?php
+            	if (isset($_COOKIE["good1"]))
+             	  echo " <div class=\"alert alert-success\" role=\"alert\"> Votre etat a changé avec succés</div>";
+              if (isset($_COOKIE["echec2"]))
+              	echo " <div class= \"alert alert-danger\" role=\"alert\">Echec, veuillez tenter à nouveau</div>";
+          		?>
+            </td>  
             
         <?php
           for ($i=0; $i < $nbresults; $i++) {
             echo "<div id=\"un\" class=\"left-sub-panel\">";
+              
             echo "\n\t\t<a href=\"#\" class=\"inside-panel-link\"><h2 class=\"inside-panel\">".$publi['titre'][$i]."</h2></a>";
-            echo "\n\t\t<p class=\"inside-panel horodatage\"><i>publié le : ".$publi['datepub'][$i]."</i></p>";
-            echo "\n\t\t<p class=\"panel-text\">".$publi['contenu'][$i]."</p>";
+              if ($publi['etat'][$i] ==1){
+                  echo "\n\t\t<p class=\"inside-panel horodatage\"><i>Publié par ".$publi['nomeq'][$i].", le :".$publi['datepub'][$i]." (Publié)</i></p>";
+              }
+              else{
+                  echo "\n\t\t<p class=\"inside-panel horodatage\"><i>Publié par ".$publi['nomeq'][$i].", le :".$publi['datepub'][$i]." (Archivé)</i></p>";
+              }
+              
+            
+            echo "\n\t\t<p class=\"panel-text\">".$publi['contenu'][$i]."<a href=\"#\">...</a></p>";
+            echo "\n\t\t<a href=\"affichagepub.php?id=".$publi['idpub'][$i]."\" class=\"inside-panel btn-lire-plus\">Lire plus</a>";
+            echo "\n\t\t<a href=\"../scripts/changement_etat_pub.php?idpub=".$publi['idpub'][$i]."&"."idetat=".$publi['etat'][$i]. "\"class=\"btn-fieldset btn btn-primary\">Changer d'etat</a>";
             echo "\n\t</div>";
           }
           ?>
@@ -130,7 +165,19 @@ pg_close($bdd);
               </div>
           </div>
             
-
+            <div id="fieldset-right" >
+                <?php 
+                    switch($type){
+                        case 1 :
+                            echo '<a href="Publications.php?type=2" class="btn-fieldset btn btn-primary">Voir toutes les publications</a>';
+                            break;
+                            
+                        case 2 :
+                            echo "<a href=\"Publications.php?type=1\" class=\"btn-fieldset btn btn-primary\">Voir mes publications</a>";
+                            break;
+                     }
+                ?>   
+            </div>
             
             
           <div id="calendrier">
