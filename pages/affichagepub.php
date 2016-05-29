@@ -92,7 +92,7 @@ pg_close($bdd);
           <li><a href="messages.php"> Messages </a></li>
           <li><a href="annuaire.php"> Annuaire </a></li>
             <?php
-          if ($_SESSION["statut"] = 1)
+          if ($_SESSION["statut"] === 1)
             echo "<li><a href=\"pages/budget.php\"> Budget </a></li>\n"
           ?>
           </ul>

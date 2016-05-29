@@ -52,7 +52,10 @@
           <li class="actif"><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
           <li><a href="annuaire.php"> Annuaire </a></li>
-          <li><a href="budget.php"> Budget </a></li>
+          <?php
+            if ($_SESSION["statut"] == 1)
+              echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
+            ?>
         </ul>
       </nav>
       <div class="wrap-content">

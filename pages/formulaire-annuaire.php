@@ -77,8 +77,11 @@
           if (isset($_COOKIE['erreur-reqst'])) {
             echo '<div class="alert alert-danger" role="alert"><strong>Attention ! </strong> L\'utilisateur n\'a pas pu être ajouté.</div>';
           }
-          elseif (isset($_COOKIE['erreurs-img'])) {
+          if (isset($_COOKIE['erreurs-img'])) {
             echo '<div class="alert alert-danger" role="alert"><strong>Attention ! </strong> La photo n\'a pas pu être ajoutée.</div>';
+          }
+          if (isset($_COOKIE['flag_error_mail'])) {
+            echo '<div class="alert alert-danger" role="alert"><strong>Attention ! </strong>Le mail saisi existe déjà.</div>';
           }
         ?>
 
@@ -90,7 +93,7 @@
             <p> <input type="text" class="form-control" name="nom" required></p>
             <label>Prénom :</label>
             <p><input type="text" class="form-control" name="prenom" required></p>
-            <p><strong>Coordinateur</strong><input type="checkbox" name="statut" value="1"></p>
+            <p><strong>Coordinateur</strong><input style="margi" type="checkbox" name="statut" value="1"></p>
             <label>Equipe :</label>
               <?php
               echo "<p><select name=\"equipe\" class=\"form-control\" required>";
@@ -108,7 +111,7 @@
             <p><textarea class="form-control" rows="5" name="description" required></textarea></p>
             <label>Photo (format .jpg) :</label>
             <input type="hidden" name="MAX_FILE_SIZE" value="500000">
-            <p><input type="file" class="form-control" name='photo' required></p>
+            <input type="file" style="margin-bottom:20px;" name='photo' required>
             <button type="submit" class="btn btn-default">Enregistrer</button>
             <div class="bouton">
               <a href="annuaire.php" class="btn btn-danger">Annuler</a>
