@@ -12,7 +12,7 @@
   $bdd = pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
 	// formulation et execution de la requete
-	$result = pg_prepare($bdd,"query",'select * from utilisateurs order by nom');
+	$result = pg_prepare($bdd,"query",'select nom, prenom, mail, description, photo, nomeq from utilisateurs, equipes WHERE utilisateurs.ideq = equipes.ideq order by nom');
 	// récupération du résultat de la requete
 	$result = pg_execute($bdd, "query", array());
   $nbresults = pg_num_rows($result);
@@ -20,11 +20,12 @@
   for($i=1 ; $i <= $nbresults ; $i++){
     $row=pg_fetch_row($result);
     // Stockage des variables extraits de la base dans un tableau à 2 dimensions
-    $user["photo"][$i] = $row[7];
-    $user["nom"][$i] = $row[1];
-    $user["prenom"][$i] = $row[2];
-    $user["mail"][$i] = $row[3];
-    $user["description"][$i] = $row[5];
+    $user["photo"][$i] = $row[4];
+    $user["nom"][$i] = $row[0];
+    $user["prenom"][$i] = $row[1];
+    $user["mail"][$i] = $row[2];
+    $user["description"][$i] = $row[3];
+    $user["equipe"][$i] = $row[5];
     }
 
   pg_close($bdd);
@@ -91,7 +92,7 @@
               if (isset($_COOKIE['success-even'])) {
                 echo '<div class="alert alert-success" role="alert">La personne a été ajoutée avec succès !</div>';
               }
-              //affichage d'un message lors d'une insertion reussie
+              //affichage d'un message lors d'une suppression reussie
               if (isset($_COOKIE['success-del'])) {
                 echo '<div class="alert alert-success" role="alert">La personne a été supprimée avec succès !</div>';
               }
@@ -107,6 +108,7 @@
                     echo "\t\t\t\t<p class=\"panel-text\">Nom : ".ucfirst($user["nom"][$i])."</p>\n";
                     echo "\t\t\t\t<p class=\"panel-text\">Prénom : ".ucfirst($user["prenom"][$i])."</p>\n";
                     echo "\t\t\t\t<p class=\"panel-text\">Adresse mail : ".$user["mail"][$i]."</p>\n";
+                    echo "\t\t\t\t<p class=\"panel-text\">Equipe : ".ucfirst($user["equipe"][$i])."</p>\n";
                     echo "\t\t\t\t<p class=\"panel-text\">Description : ".$user["description"][$i]."</p>\n";
                     echo "\t\t\t</div>\n";
                   echo "\t\t</div>\n";
