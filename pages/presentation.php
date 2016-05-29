@@ -1,14 +1,11 @@
 <!-- Scripts PHP -->
 <?php
-  session_start();
-
-  $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
-
-
-  if (!isset($_SESSION["iduser"]) ) {
-  	setcookie(nonconnecte,1,time()+4,'/');
-  	    header('location: pages/connexion.php');
-      }
+    session_start();
+    include "../scripts/calandar.php";
+    if (!isset($_SESSION["iduser"]) ) {
+        setcookie(nonconnecte,1,time()+4,'/');
+        header('location: pages/connexion.php');
+    }
 ?>
 <!-- Debut HTML -->
 <!DOCTYPE html>
@@ -31,14 +28,15 @@
     <![endif]-->
     <link href="../css/squelette.css" rel="stylesheet">
     <link href="../css/presentation.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
   </head>
   <body>
     <div id="wrap-container">
       <header>
-        <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
+        <a href="../index.php"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
           <legend>Bonjour <?php echo ucfirst($_SESSION['prenom']); ?></legend>
-          <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
+          <a href="profil.php" class="btn-fieldset btn btn-primary">Dashboard</a>
           <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
@@ -50,46 +48,80 @@
           <li><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
           <li><a href="annuaire.php"> Annuaire </a></li>
-          <li><a href="budget.php"> Budget </a></li>
+          <?php
+          if ($_SESSION["statut"] == 1)
+            echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
+          ?>
         </ul>
       </nav>
       <div class="wrap-content">
         <div id="left-panel">
           <div id="un" class="left-sub-panel">
-            <h2 class="inside-panel">Présentation du projet</h2>
+            <h2 class="inside-panel">Présentation du site</h2>
             <p class="panel-text">
               Ce site a été conçu dans l'optique de proposer une plateforme
               collaborative de recherche pour que les chercheurs puissent
               travailler autour d'un projet et ce, même éloigné l'un de l'autre
-              géographiquement.
+              géographiquement.<br><br>
+              Site web réalisé par Florian BLANCHET, Samuel GARCIA, Nadjim MEHDIOUI et Saidharan SARMA dans le cadre du projet WEB - PHP - BDD en L3 STRI.
             </p>
           </div>
           <div class="left-sub-pane2">
             <h2 class="inside-panel">Nos partenaires</h2>
-            <p class="panel-text">
-              <?php echo ($string) ?>
+            <p class="panel-part">
+              <a href="http://www.univ-tlse3.fr/"><img src="../images/logo/ups.jpg" width="200px" height="auto"></a>
+              <a href="http://upssitech.ups-tlse.fr/"><img src="../images/logo/upssitech.png" width="200px" height="auto"></a>
+              <a href="http://www.stri.ups-tlse.fr/"><img src="../images/logo/stri.jpg" width="200px" height="auto"></a>
+              <a href="http://www.irit.fr"><img src="../images/logo/irit.jpg" width="200px" height="auto"></a>
+              <a href="http://www.cnes.fr"><img src="../images/logo/cnes.png" width="150px" height="auto" class="cnes"></a>
+              <a href="http://www.cnrs.fr"><img src="../images/logo/cnrs.png" width="150px" height="auto" class="cnrs"></a>
             </p>
           </div>
         </div>
         <div id="right-panel">
-          <div id="newmessages" >
-            <h3 class="right-side-h3">Vos messages</h3>
-          </div>
           <div id="calendrier">
             <h3 class="right-side-h3">Calendrier</h3>
+            <?php
+                $tabMois = array(
+                    '01' => 'Janvier',
+                    '02' => 'Février',
+                    '03' => 'Mars',
+                    '04' => 'Avril',
+                    '05' => 'Mai',
+                    '06' => 'Juin',
+                    '07' => 'Juillet',
+                    '08' => 'Aout',
+                    '09' => 'Septembre',
+                    '10' => 'Octobre',
+                    '11' => 'Novembre',
+                    '12' => 'Décembre',
+                );
+                $actualMonthNb = date('m');
+                $actualMonthLetters = $tabMois[$actualMonthNb];
+                echo "<p><center><strong>".$actualMonthLetters." ".date('Y')."</strong></center></p>";
+                calculateDays($actualMonthNb);
+            ?>
           </div>
-
         </div>
       </div>
       <footer>
-
+        <h4> © BLANCHET / GARCIA / MEHDIOUI / SARMA</h4>
+        <p>Tous droits réservés.</p>
       </footer>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/squelette.js"></script>
+    <script type="text/javascript">
+        function closeMsg(){
+            document.getElementById("smoke-background").style.display = "none";
+        }
+    </script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/squelette.js"></script>
+    <script src="/js/messages.js"></script>
+    <script src="/js/xhr.js"></script>
+    <script src="/js/getMessage.js"></script>
   </body>
 </html>

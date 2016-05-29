@@ -44,21 +44,43 @@ text-decoration: none;
   margin-bottom: 20px;
 }
 
-/* === Bloc "Vos messages" === */
-#newmessages{
-  background-color: white;
-  box-shadow: 1px 1px 7px ;
-  min-height: 300px;
-  margin-bottom: 40px;
-  border-bottom-left-radius: 10px;
-  border-top-right-radius: 10px;
+.panel-part{
+  padding-left: 20px;
+  text-align: justify;
+  width:440px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.cnes{
+  margin-left: 15px;
+}
+
+.cnrs{
+  margin-left: 70px;
+}
+
+#smoke-background{
+    background-color: rgba(44, 44, 44, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+}
+
+footer{
+  text-align: center;
 }
 
 /* === Bloc "Calandrier" === */
 #calendrier{
   background-color: white;
   box-shadow: 1px 1px 7px ;
-  min-height: 300px;
+  min-height: 200px;
   border-bottom-left-radius: 10px;
   border-top-right-radius: 10px;
+  padding-bottom: 10px;
 }

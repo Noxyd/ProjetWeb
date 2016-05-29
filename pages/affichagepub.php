@@ -1,5 +1,6 @@
 <?php
   session_start();
+<<<<<<< HEAD
   include "../scripts/calandar.php";
 
 $test=$_GET['id'];
@@ -14,6 +15,19 @@ $test=$_GET['id'];
 // recupération du resultat de la requette
 	$result = pg_execute($bdd, "query",array ());
         
+=======
+  //On vérifie que l'utilisateur est passé apr le formulaire de connexion
+  if (!isset($_SESSION["iduser"]) ) {
+  	header('location: pages/connexion.php');
+  }
+  //Intérrogation de la base de données
+  //connexion à la bdd
+	$bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
+	// formulation et execution de la requette
+	$result= pg_prepare($bdd,"query",'SELECT idpub, titre, datepub, contenu, etat, ideq FROM publications WHERE etat = 1 AND idpub = $1');
+	// recupération du resultat de la requette
+	$result = pg_execute($bdd, "query",array ($_GET['id']));
+>>>>>>> origin/master
   //Comptage du nombre de résultats
 	$nbresults=pg_num_rows($result)	;
         

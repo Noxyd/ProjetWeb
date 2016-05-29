@@ -10,9 +10,8 @@
 #main-panel{
   height: 1024px;
   min-height: 950px;
-  background-color: white;
   margin-bottom: 40px;
-  border: solid 1px grey;
+  /*border: solid 1px grey;*/
   border-radius: 10px;
   padding-bottom: 30px;
 }
@@ -28,14 +27,15 @@
 /*On regroupe l'image et le texte descriptif sous un même conteneur*/
 .wrap-profil{
   /*border: solid 1px;*/
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   margin-left: auto;
   margin-right: auto;
   width: 700px;
   border-radius: 50px;
   box-shadow: 0px 0px 10px #D5D5D6;
   margin-bottom: 20px;
+  background-color: white;
 }
 
 .round-image{
@@ -45,8 +45,10 @@
   width:150px;
   height:150px;
   box-shadow: 0px 0px 10px #343434;
-  margin-right: 100px;
-  margin-left: 20px;
+  margin-right: 50px;
+  margin-left: 50px;
+  margin-top: 20px;
+  vertical-align: middle;
 }
 
 .sub-pane2{
@@ -55,6 +57,7 @@
   width: 400px;
   display: inline-block;
   vertical-align: top;
+  text-align: justify;
 }
 
 .inside-panel-link h2:hover{

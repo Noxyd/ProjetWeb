@@ -1,0 +1,22 @@
+	*** Consignes pour EXPORTER / IMPORTER la bdd ***
+
+	1) 	Ouvrir une ligne de commande.
+
+	2) 	Accéder au dossier contenant les programmes pg_dump.exe et psql.exe.
+		(Souvent dans C:\Program Files\postgresql\bin\)
+
+	3) a.	== EXPORT == 
+		Saisir la commande suivante :
+		# pg_dump -h localhost -U postgres -d projetweb > C:\users\samuel\Documents\projetweb\bdd\projetweb.backup
+		Saisir le mot de passe et en avant.
+	   
+	   b. 	== IMPORT ==
+		Rendez-vous dans pgadmin, puis supprimer la base de données "projetweb".
+		Recréer la base "projetweb", puis la laisser vide.
+		Revenir à la console et saisir la commande suivante :
+		# pgsql -h localhost -U postgres -d projetweb < C:\users\samuel\Documents\projetweb\bdd\projetweb.backup
+		Saisir le mot de passe et en avant.
+
+	En cas de soucis : Contacter Samsam'dépan ;) 
+ 		
+

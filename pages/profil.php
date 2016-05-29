@@ -1,5 +1,5 @@
-<!-- Scripts PHP -->
 <?php
+// Scripts PHP
   session_start();
 
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
@@ -9,13 +9,43 @@
   	    header('location: connexion.php');
   }
 
-  $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
+  $bdd = pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
-	// formulation et execution de la requette
-	$result= pg_prepare($bdd,"query",'select description from utilisateurs where iduser = $1');
-	// recupération du resultat de la requette
+	// formulation et execution de la requete
+	$result = pg_prepare($bdd,"query",'select description, photo from utilisateurs where iduser = $1');
+	// récupération du résultat de la requete
 	$result = pg_execute($bdd, "query",array ($_SESSION["iduser"]));
-  $row=pg_fetch_row($result);
+  $row = pg_fetch_row($result);
+
+  // Stockage des variables extraites de la base dans des variables internes
+  $user["description"] = $row[0];
+  $user["photo"] = $row[1];
+
+  // Partie tache
+
+  // formulation et execution de la requete
+  $result2 = pg_prepare($bdd,"query2", 'SELECT id_taches, tache, deadline, etat, ideq FROM public.taches WHERE ideq = $1 ORDER BY deadline');
+  // récupération du résultat de la requete
+  $result2 = pg_execute($bdd, "query2", array($_SESSION["ideq"]));
+  $nbresults = pg_num_rows($result2);
+  // On fait une boucle pour afficher toutes les taches
+  for($i=1 ; $i <= $nbresults ; $i++){
+    $row = pg_fetch_row($result2);
+
+    $taches["tache"][$i] = $row[1];
+    $taches["deadline"][$i] = $row[2];
+    $taches["etat"][$i] = $row[3];
+
+    if ($taches["etat"][$i] == 0) {
+      $etat[$i] = "En cours";
+    }
+    if ($taches["etat"][$i] == 1) {
+      $etat[$i] = "Terminée";
+    }
+  }
+
+  // On ferme la connexion à la base
+  pg_close($bdd);
 ?>
 <!-- Debut HTML -->
 <!DOCTYPE html>
@@ -43,10 +73,10 @@
   <body>
     <div id="wrap-container">
       <header>
-        <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
+        <a href="../index.php"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
-          <legend>Bonjour <?php echo ucfirst($_SESSION['prenom']); ?></legend>
-          <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
+          <legend>Bonjour <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
+          <a href="profil.php" class="btn-fieldset btn btn-info">Dashboard</a>
           <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
@@ -58,25 +88,58 @@
           <li><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
           <li><a href="annuaire.php"> Annuaire </a></li>
-          <li><a href="budget.php"> Budget </a></li>
+          <?php
+          if ($_SESSION["statut"] == 1)
+            echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
+          ?>
         </ul>
       </nav>
       <div class="wrap-content">
         <div id="main-panel">
-            <h2 class="inside-panel">Profil utilisateur</h2>
+            <h2 class="inside-panel">Dashboard</h2>
             <div class="sub-pane1">
               <div class="wrap-profil">
                 <div class="round-image">
-                  <img id="profilpic" src="../images/sam.jpg"/>
+                  <?php echo "<img id=\"profilpic\" src=\"".$user["photo"]."\"/>\n"; ?>
                 </div>
-                <div class="sub-pane2">
+                <div class="identity">
                   <p class="panel-text">Nom : <?php echo ucfirst($_SESSION["nom"]); ?></p>
                   <p class="panel-text">Prénom : <?php echo ucfirst($_SESSION["prenom"]); ?></p>
-                  <p class="panel-text">Description : <?php echo $row[0]; ?></p>
                   <p class="panel-text">Adresse mail : <?php echo $_SESSION["mail"]; ?></p>
+                  <p class="panel-text">Description : <?php echo $user["description"]; ?></p>
                 </div>
               </div>
-              <?php echo "<a href=\"equipe.php?id=".$_SESSION['ideq']."\" class=\"btn btn-default\">Mon équipe</a>"; ?>
+              <?php echo "<a href=\"equipe.php?id=".$_SESSION["ideq"]."\" class=\"btn btn-default\">Mon équipe</a>\n"; ?>
+            </div>
+            <div class="sub-pane2">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Tâches</th>
+                    <th>Deadline</th>
+                    <th>Etat</th>
+                    <th>Valider</th>
+                  </tr>
+                </thead>
+                <?php
+                  $nbresults=pg_num_rows($result2);
+
+                  for ( $i=1 ; $i <= $nbresults ; $i++ ){
+                          $row=pg_fetch_row($result2);//mettre sous forme de tableau
+                            echo"<tr>\n";
+                                echo "\t\t<td>".$taches["tache"][$i]."</td>\n";
+                                echo "\t\t\t<td>".$taches["deadline"][$i]." </td>\n ";
+                                echo "\t\t\t<td>".$etat[$i]."</td>\n";
+                                if ($taches["etat"][$i] == 0) {
+                                  echo "\t\t\t<td><a><span class=\"glyphicon glyphicon-ok\"></span></a></td>\n";
+                                }
+                                if ($taches["etat"][$i] == 1) {
+                                  echo "\t\t\t<td><a><span class=\"glyphicon glyphicon-ok, disabled\"></span></a></td>\n";
+                                }
+                            echo "\t\t</tr>\n";
+                  }
+                ?>
+              </table>
             </div>
         </div>
       </div>

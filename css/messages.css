@@ -1,0 +1,93 @@
+/* === LES MESSAGES === */
+#left-panel{
+    background-color: white;
+    border: solid 1px grey;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.btn-lire-plus{
+  border: solid 1px;
+  padding: 5px 10px 5px 10px;
+  margin-left: 42px;
+  border-radius: 7px;
+}
+
+/* === RIGHT PANEL === */
+
+#messages-stats{
+    min-height: 100px;
+    margin-bottom: 40px;
+    font-size: 1.3em;
+    padding-top: 40px;
+    padding-left: 50px;
+    padding-bottom: 20px;
+}
+
+#message-content{
+    background-color: white;
+    box-shadow: 1px 1px 7px ;
+    min-height: 100px;
+    margin-bottom: 40px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+}
+
+/* === AFFICHAGE D'UN MESSAGE === */
+
+.smoke{
+    background-color: rgba(44, 44, 44, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+}
+
+.smoke-child{
+    width: 800px;
+    margin: 50vh auto;
+    min-height: 300px;
+    transform: translateY(-50%);
+    padding-top: 10px;
+    padding-bottom: 30px;
+    border-radius: 5px;
+    background-color: #181A18;
+}
+
+#theMessage{
+    width:700px;
+    margin:auto;
+    text-align:justify;
+
+}
+
+#theMessage p{
+    background-color: white;
+    padding: 15px 20px 15px 20px;
+    border-radius: 5px;
+}
+/* === ENVOI DES MESSAGES === */
+#form-send{
+    width: 600px;
+    margin: auto;
+}
+
+#form-send td{
+    width: 100%;
+    color: white;
+    padding: 5px;
+}
+
+#form-send input{
+    width:480px;
+    color: black;
+}
+
+#form-send textarea{
+    width:480px;
+    color: black;
+}

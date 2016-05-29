@@ -3,14 +3,14 @@
 
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
 
-  
+  //verification de session
   if (!isset($_SESSION["iduser"]) ) {
 
   	    setcookie(nonconnecte,1,time()+4,'/');
   	    header('location: connexion.php');
 
   }
-  
+
 ?>
 
  <!DOCTYPE html>
@@ -33,61 +33,61 @@
     <![endif]-->
     <link href="../css/squelette.css" rel="stylesheet">
     <link href="../css/evenements.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
   </head>
   <body>
     <div id="wrap-container">
       <header>
         <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
-          <legend>Bonjour  <?php echo $_SESSION["prenom"]; ?></legend>
+          <legend>Bonjour  <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
           <a href="profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
           <a href="traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
       <nav>
         <ul id="wrap-li">
-          <li class="actif"><a href="../index.php">Accueil</a></li>
+          <li><a href="../index.php">Accueil</a></li>
           <li><a href="presentation.php" >Présentation</a></li>
-          <li><a href="#"> Publications </a></li>
-          <li><a href="evenement.php"> Evénements </a></li>
+          <li><a href="publication.php"> Publications </a></li>
+          <li class="actif"><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
-          <li><a href="#"> Annuaire </a></li>
-          <li><a href="#"> Budget </a></li>
+          <li><a href="annuaire.php"> Annuaire </a></li>
+          <li><a href="budget.php"> Budget </a></li>
         </ul>
       </nav>
       <div class="wrap-content">
 
-       
-      <div id="evenements">
-        <?php
-           $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
-           $result = pg_prepare($bdd, "my_query", 'SELECT * FROM evenements WHERE ideven = $1 ');
-         $result = pg_execute($bdd, "my_query",array ($_GET["id"]));
+        <div id="evenements">
+          <?php
+              //connexion a la base de donnée
+            $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
+            //preparation de la requette
+            $result = pg_prepare($bdd, "my_query", 'SELECT nomeq,intitule,dateeven,lieu,description FROM evenements,equipes WHERE ideven = $1 and equipes.ideq=evenements.ideq');
+            //execution de la requette
+            $result = pg_execute($bdd, "my_query",array ($_GET["id"]));
 
-         $row=pg_fetch_row($result);
+            $row=pg_fetch_row($result);//rendre le resultat sous forme de tableau
+            //affichage
+            echo "<center>";
+            
+            echo "<H2> $row[1]</H2><br>\n";
+            echo"<H4> organisé par l'equipe : $row[0]</H4><br>";
+            echo "\t\t<u>le:</u> $row[2] <u><br>\n";
+            echo "\t\tlieu:</u><b> $row[3]</b><br><br>\n";
+            echo "\t\t$row[4]\n";
 
-         echo "<center><H2> $row[1]</H2><br>";
-         echo "<u>le:</u> $row[2] <u><br>";
-         echo "lieu:</u><b> $row[3]</b><br><br>";
-         echo "$row[4]</center>";
-          
-
-        ?>
-
-
-
-
-
-
+            echo "\t</center>";
 
 
+          ?>
+
+        </div>
+      </div>
 
 
-      </div></div>
-    
-      
-      
+
 
       </div>
       <footer>

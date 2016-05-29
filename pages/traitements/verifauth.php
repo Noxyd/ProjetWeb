@@ -1,8 +1,5 @@
-
-
 <?php
 	session_start();
-	//phpinfo();
 
 	//recuperation des champs du formulaire
 	$password=$_POST["password"];
@@ -16,12 +13,13 @@
 	$result = pg_execute($bdd, "query",array ($password,$identifiant));
 	$i=pg_num_rows($result)	;
 
+	pg_close($bdd);
+	//VERIFICATION de l'existance du password et de l'identifiant sinon on pose un cookie et onrenvoie a a page d'authentification
 	if ($i === 0){
 		setcookie("auth_error",1,time()+4, '/');
-
 		header('location: ../connexion.php');
 	}
-	else{
+	else{// creation des variable de session
 		$row=pg_fetch_row($result);
 
 		$_SESSION["statut"]=$row[0];

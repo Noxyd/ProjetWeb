@@ -1,0 +1,23 @@
+.wrap-content{
+  width: 600px;
+  margin-right: auto;
+  margin-left: auto;
+
+}
+.montant{
+  /*color:red;
+  border:solid;*/
+  /*width:300px;*/
+  /*margin-left: 300px;*/
+  margin-top: 20px;
+  text-align: center;
+  }
+}
+
+.alert.alert-danger{
+  text-align: center;
+}
+
+.btn.btn-default{
+  margin-left: 260px;
+}

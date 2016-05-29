@@ -8,7 +8,13 @@
 
 body{
   background-image: url(../images/pattern/pattern.png);
+}
 
+.body-fixed{
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
 h1{
@@ -99,8 +105,9 @@ nav{
 }
 
 .actif{
-  background-color: #0C0E0C;
+  background-color: #A09E90;
 }
+
 
 /* === Conteneur principal === */
 #wrap-container{
@@ -125,10 +132,7 @@ nav{
   display: inline-block;
   vertical-align: top;
   margin-left: 45px;
-
 }
-
-
 
 /* === Footer === */
 footer{

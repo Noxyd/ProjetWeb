@@ -5,6 +5,10 @@
   margin-top:0;
 }
 
+.right-side-h3 a {
+    color:black;
+}
+
 .inside-panel{
   margin-left: 40px;
 }
@@ -60,7 +64,39 @@ text-decoration: none;
   padding-bottom: 20px;
 }
 
+#smoke-background{
+    background-color: rgba(44, 44, 44, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+}
 
+#wrap-message{
+    width: 800px;
+    margin: 50vh auto;
+    min-height: 300px;
+    transform: translateY(-50%);
+    padding-top: 10px;
+    padding-bottom: 30px;
+    border-radius: 5px;
+    background-color: #181A18;
+}
+
+#theMessage{
+    width:700px;
+    margin:auto;
+    text-align:justify;
+
+}
+
+#theMessage p{
+    background-color: white;
+    padding: 15px 20px 15px 20px;
+    border-radius: 5px;
+}
 
 /* === Bloc "Calandrier" === */
 #calendrier{
@@ -70,4 +106,11 @@ text-decoration: none;
   border-bottom-left-radius: 10px;
   border-top-right-radius: 10px;
   padding-bottom: 10px;
+}
+
+#wrap-float-event{
+    position: absolute;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 5px 5px 2px;
 }

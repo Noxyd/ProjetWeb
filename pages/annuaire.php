@@ -1,5 +1,5 @@
+<!-- Scripts PHP -->
 <?php
-// Scripts PHP
   session_start();
 
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
@@ -12,11 +12,11 @@
   $bdd = pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
 	// formulation et execution de la requete
-	$result = pg_prepare($bdd,"query",'select * from utilisateurs where ideq = $1 order by nom');
+	$result = pg_prepare($bdd,"query",'select * from utilisateurs order by nom');
 	// récupération du résultat de la requete
-	$result = pg_execute($bdd, "query",array ($_GET["id"]));
+	$result = pg_execute($bdd, "query", array());
   $nbresults = pg_num_rows($result);
-  // On fait une boucle pour afficher tous les utilisateurs de l'équipe
+  // On fait une boucle pour afficher tous les utilisateurs
   for($i=1 ; $i <= $nbresults ; $i++){
     $row=pg_fetch_row($result);
     // Stockage des variables extraits de la base dans un tableau à 2 dimensions
@@ -49,7 +49,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link href="../css/squelette.css" rel="stylesheet">
-    <link href="../css/equipe.css" rel="stylesheet">
+    <link href="../css/annuaire.css" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
   </head>
   <body>
@@ -69,7 +69,7 @@
           <li><a href="publications.php"> Publications </a></li>
           <li><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
-          <li><a href="annuaire.php"> Annuaire </a></li>
+          <li class="actif"><a href="annuaire.php"> Annuaire </a></li>
           <?php
           if ($_SESSION["statut"] == 1)
             echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
@@ -78,10 +78,26 @@
       </nav>
       <div class="wrap-content">
         <div id="main-panel">
-            <h2 class="inside-panel">Equipe</h2>
+            <h2 class="inside-panel">Annuaire</h2>
             <div class="sub-pane1">
               <?php
-              // On fait une boucle pour afficher tous les utilisateurs de l'équipe
+              if ($_SESSION["statut"] == 1){
+                echo "<a href=\"formulaire-annuaire.php\" class=\"btn-fieldset btn btn-default\">Ajouter un membre</a>\n";
+                echo "<a href=\"suppression-annuaire.php\" class=\"btn-fieldset btn btn-default\">Supprimer un membre</a>\n";
+              }
+
+
+              //affichage d'un message lors d'une insertion reussie
+              if (isset($_COOKIE['success-even'])) {
+                echo '<div class="alert alert-success" role="alert">La personne a été ajoutée avec succès !</div>';
+              }
+              //affichage d'un message lors d'une insertion reussie
+              if (isset($_COOKIE['success-del'])) {
+                echo '<div class="alert alert-success" role="alert">La personne a été supprimée avec succès !</div>';
+              }
+
+
+              // On fait une boucle pour afficher tous les utilisateurs
                 for($i=1 ; $i <= $nbresults ; $i++){
                     echo "\t<div class=\"wrap-profil\">\n";
                     echo "\t\t\t<div class=\"round-image\">\n";
