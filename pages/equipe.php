@@ -12,7 +12,7 @@
   $bdd = pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
 	// formulation et execution de la requete
-	$result = pg_prepare($bdd,"query",'select * from utilisateurs where ideq = $1 order by nom');
+	$result = pg_prepare($bdd,"query",'SELECT nom, prenom, mail, description, photo, nomeq FROM utilisateurs, equipes WHERE utilisateurs.ideq = equipes.ideq AND utilisateurs.ideq = $1 ORDER BY nom');
 	// récupération du résultat de la requete
 	$result = pg_execute($bdd, "query",array ($_GET["id"]));
   $nbresults = pg_num_rows($result);
@@ -20,12 +20,14 @@
   for($i=1 ; $i <= $nbresults ; $i++){
     $row=pg_fetch_row($result);
     // Stockage des variables extraits de la base dans un tableau à 2 dimensions
-    $user["photo"][$i] = $row[7];
-    $user["nom"][$i] = $row[1];
-    $user["prenom"][$i] = $row[2];
-    $user["mail"][$i] = $row[3];
-    $user["description"][$i] = $row[5];
+    $user["photo"][$i] = $row[4];
+    $user["nom"][$i] = $row[0];
+    $user["prenom"][$i] = $row[1];
+    $user["mail"][$i] = $row[2];
+    $user["description"][$i] = $row[3];
     }
+    
+  $user["equipe"] = $row[5];
 
   pg_close($bdd);
 ?>
@@ -78,7 +80,9 @@
       </nav>
       <div class="wrap-content">
         <div id="main-panel">
-            <h2 class="inside-panel">Equipe</h2>
+            <?php
+            echo"<h2 class=\"inside-panel\">Equipe ".ucfirst($user["equipe"])."</h2>\n";
+            ?>
             <div class="sub-pane1">
               <?php
               // On fait une boucle pour afficher tous les utilisateurs de l'équipe

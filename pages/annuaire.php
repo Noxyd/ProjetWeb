@@ -87,7 +87,6 @@
                   echo "\t\t<a href=\"formulaire-annuaire.php\" class=\"btn btn-success\">Ajouter un membre</a>\n";
                   echo "\t\t<a href=\"suppression-annuaire.php\" class=\"btn btn-danger\">Supprimer un membre</a>\n";
               }
-              echo "\t</div>\n";
 
 
               //affichage d'un message lors d'une insertion reussie
@@ -98,6 +97,7 @@
               if (isset($_COOKIE['success-del'])) {
                 echo '<div class="alert alert-success" role="alert">La personne a été supprimée avec succès !</div>';
               }
+              echo "\t</div>\n";
 
 
               // On fait une boucle pour afficher tous les utilisateurs
