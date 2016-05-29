@@ -1,50 +1,50 @@
 <?php
-  session_start();
-  include "../scripts/calandar.php";
+    session_start();
+    include "../scripts/calandar.php";
 
+    if (!isset($_SESSION["iduser"]) ) {
+        setcookie('nonconnecte',1,time()+4,'/');
+        header('location: pages/connexion.php');
+    }
+    // La page tiens compte
+    if (!isset($_GET['type']) ) {
+        header('location: publications.php?type=2');
+    }
+    $type = $_GET['type'];
+    // connection à la base de données:
+	$bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
+    // RECHERCHE Publication :
+    switch($type){
+        case 1 :
+            // formulation et execution de la requette
+    	    $result= pg_prepare($bdd,"query","SELECT idpub,titre,datepub,contenu,etat,nomeq,publications.ideq from publications,equipes where publications.ideq=equipes.ideq and publications.ideq=$1 ORDER BY datepub DESC;");
+            $result = pg_execute($bdd, "query",array($_SESSION['ideq']));
+            break;
 
- if (!isset($_SESSION["iduser"]) ) {
-  	setcookie(nonconnecte,1,time()+4,'/');
-  	    header('location: pages/connexion.php');
-      }
+        case 2 :
+            $result= pg_prepare($bdd,"query","SELECT idpub,titre,datepub,contenu,etat,nomeq,publications.ideq from publications,equipes where etat = 1 AND publications.ideq=equipes.ideq ORDER BY datepub DESC; ");
+            $result = pg_execute($bdd, "query",array());
+            break;
+    }
 
-if (!isset($_GET['type']) ) {
-  	    header('location: Publications.php?type=1');
-  }
+    // recupération du resultat de la requete
+    if($result == false){
+        echo 'ERREUR';
+    }
 
-$type = $_GET['type'];
-
-// connection à la base de données:
-	$bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=maximinus") or die("impossible de se connecter a la bdd");
-
-
-// RECHERCHE Publication :
-switch($type){
-    case 1 :
-        // formulation et execution de la requette   !! fausse car il faut l'iduser !!
-	    $result= pg_prepare($bdd,"query","SELECT idpub,titre,datepub,contenu,etat,nomeq from Publications,equipes where publications.ideq=equipes.ideq ORDER BY datepub DESC;  ");
-	     break;
-        
-    case 2 :
-        $result= pg_prepare($bdd,"query","SELECT idpub,titre,datepub,contenu,etat,nomeq from Publications,equipes where etat =1 AND publications.ideq=equipes.ideq ORDER BY datepub DESC; ");
-	     break;  
-}
-        
-// recupération du resultat de la requette
-	$result = pg_execute($bdd, "query",array ());
-        
-  //Comptage du nombre de résultats
+    //Comptage du nombre de résultats
 	$nbresults=pg_num_rows($result)	;
-        
+
   //Récupération des résultats
   for ($i=0; $i < $nbresults; $i++) {
     $tabres = pg_fetch_array($result, $i);
     $publi['idpub'][$i] = $tabres[0];
     $publi['titre'][$i] = $tabres[1];
-    $publi['datepub'][$i] = $tabres[2];
+    $publi['datepub'][$i] = date('d/m/Y à H:i',strtotime($tabres[2]));
     $publi['contenu'][$i] = $tabres[3];
     $publi['etat'][$i] = $tabres[4];
     $publi['nomeq'][$i] = $tabres[5];
+    $publi['ideq'][$i] = $tabres[6];
   }
 
 // RECHERCHE nombre Publication :
@@ -98,7 +98,7 @@ pg_close($bdd);
         <ul id="wrap-li">
           <li ><a href="../index.php">Accueil</a></li>
           <li ><a href="presentation.php">Présentation</a></li>
-          <li class="actif"><a href="Publications.php"> Publications </a></li>
+          <li class="actif"><a href="publications.php"> Publications </a></li>
           <li><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
           <li><a href="annuaire.php"> Annuaire </a></li>
@@ -106,95 +106,91 @@ pg_close($bdd);
           if ($_SESSION["statut"] = 1)
             echo "<li><a href=\"pages/budget.php\"> Budget </a></li>\n"
           ?>
-          </ul>  
+          </ul>
       </nav>
-        
-        
-    
-        
-        
-        
-      <div class="wrap-content">
-        <div id="left-panel">
-            <td>
-              <?php
-            	if (isset($_COOKIE["good1"]))
-             	  echo " <div class=\"alert alert-success\" role=\"alert\"> Votre etat a changé avec succés</div>";
-              if (isset($_COOKIE["echec2"]))
-              	echo " <div class= \"alert alert-danger\" role=\"alert\">Echec, veuillez tenter à nouveau</div>";
-          		?>
-            </td>  
-            
-        <?php
-          for ($i=0; $i < $nbresults; $i++) {
-            echo "<div id=\"un\" class=\"left-sub-panel\">";
-              
-            echo "\n\t\t<a href=\"#\" class=\"inside-panel-link\"><h2 class=\"inside-panel\">".$publi['titre'][$i]."</h2></a>";
-              if ($publi['etat'][$i] ==1){
-                  echo "\n\t\t<p class=\"inside-panel horodatage\"><i>Publié par ".$publi['nomeq'][$i].", le :".$publi['datepub'][$i]." (Publié)</i></p>";
-              }
-              else{
-                  echo "\n\t\t<p class=\"inside-panel horodatage\"><i>Publié par ".$publi['nomeq'][$i].", le :".$publi['datepub'][$i]." (Archivé)</i></p>";
-              }
-              
-            
-            echo "\n\t\t<p class=\"panel-text\">".$publi['contenu'][$i]."<a href=\"#\">...</a></p>";
-            echo "\n\t\t<a href=\"affichagepub.php?id=".$publi['idpub'][$i]."\" class=\"inside-panel btn-lire-plus\">Lire plus</a>";
-            echo "\n\t\t<a href=\"../scripts/changement_etat_pub.php?idpub=".$publi['idpub'][$i]."&"."idetat=".$publi['etat'][$i]. "\"class=\"btn-fieldset btn btn-primary\">Changer d'etat</a>";
-            echo "\n\t</div>";
-          }
-          ?>
-          </div>
-            
-            
-            
-        <div id="right-panel">
-            <div id="fieldset-right" >
-                <a style="float:right;" href="Articles.php" class="btn-fieldset btn btn-primary">Rediger un article</a>
+        <div class="wrap-content">
+            <?php
+            switch($type){
+                case 1 :
+                    echo '<h3 style="margin-bottom:30px;">Mes publications</h3>';
+                    break;
+                case 2 :
+                    echo '<h3 style="margin-bottom:30px;">Toutes les publications</h3>';
+                    break;
+            }
+            ?>
+            <div id="left-panel">
+            <?php
+
+            if (isset($_COOKIE["good1"]))
+                echo " <div class=\"alert alert-success\" role=\"alert\"> Votre etat a changé avec succés</div>";
+            if (isset($_COOKIE["echec2"]))
+                echo " <div class= \"alert alert-danger\" role=\"alert\">Echec, veuillez tenter à nouveau</div>";
+
+            for ($i=0; $i < $nbresults; $i++) {
+                echo "<div id=\"un\" class=\"left-sub-panel\">";
+
+                echo "\n\t\t<a href=\"#\" class=\"inside-panel-link\"><h2 class=\"inside-panel\">".$publi['titre'][$i]."</h2></a>";
+                if ($publi['etat'][$i] == 1){
+                    echo "\n\t\t<p class=\"inside-panel horodatage\"><i>Publié par ".$publi['nomeq'][$i].", le ".$publi['datepub'][$i]."</i></p>";
+                }else{
+                    echo "\n\t\t<p class=\"inside-panel horodatage\"><i>Publié par ".$publi['nomeq'][$i].", le ".$publi['datepub'][$i]." <span style='color:red'>(Archivé)</span></i></p>";
+                }
+                echo "\n\t\t<p class=\"panel-text\">".$publi['contenu'][$i]."<a href=\"#\">...</a></p>";
+                echo "\n\t\t<a href=\"affichagepub.php?id=".$publi['idpub'][$i]."\" class=\"inside-panel btn-lire-plus\">Lire plus</a>";
+                if($publi['etat'][$i] == 1 && $publi['ideq'][$i] == $_SESSION['ideq'])
+                    echo "\n\t\t<a href=\"traitements/changement_etat_pub.php?idpub=".$publi['idpub'][$i]."&"."idetat=".$publi['etat'][$i]. "\"class=\"btn-fieldset btn btn-primary\">Archiver</a>";
+                else if($publi['etat'][$i] == 0 && $publi['ideq'][$i] == $_SESSION['ideq'])
+                    echo "\n\t\t<a href=\"traitements/changement_etat_pub.php?idpub=".$publi['idpub'][$i]."&"."idetat=".$publi['etat'][$i]. "\"class=\"btn-fieldset btn btn-primary\">Publier</a>";
+                echo "\n\t</div>";
+            }
+
+            if ($nbresults == 0) {
+                echo "<p><b>Vous n'avez pas de publications.</b></p>";
+            }
+
+            ?>
             </div>
-          <div id="newmessages" >
-         
-            <h3 class="right-side-h3">Les statistiques</h3>
-             <div id="stats">
-              <?php 
-                  echo "\n\t\t<p> Dernière connextion le :".date('d/m/Y à H:i', time())."</p>"; 
-                  echo "\n\t\t<p> Nombre de publications : ".$nbre."</p>"; 
-                  echo "\n\t\t<p> Dernière publication : ".$row[0]."</p>"; 
-                  echo "\n\t\t<p> Prochain evennements le : ".$row2[0]."</p>"; 
-              ?>
+            <div id="right-panel">
+                <center>
+                <div id="fieldset-right" >
+                    <a style="float:right;" href="Articles.php" class="btn-fieldset btn btn-primary">Rediger un article</a>
+                </div>
+                </center>
+              <div id="newmessages" >
+
+                <h3 class="right-side-h3">Les statistiques</h3>
+                <div id="stats">
+                <?php
+                echo "\n\t\t<p> <b>Nombre de publications : </b>".$nbre."</p>";
+                echo "\n\t\t<p> <b>Dernière publication : </b><br>".$row[0]."</p>";
+                ?>
+                </div>
               </div>
-          </div>
-            
-            <div id="fieldset-right" >
-                <?php 
-                    switch($type){
-                        case 1 :
-                            echo '<a href="Publications.php?type=2" class="btn-fieldset btn btn-primary">Voir toutes les publications</a>';
-                            break;
-                            
-                        case 2 :
-                            echo "<a href=\"Publications.php?type=1\" class=\"btn-fieldset btn btn-primary\">Voir mes publications</a>";
-                            break;
-                     }
-                ?>   
+                <center>
+                <div id="fieldset-right" >
+
+                    <?php
+                        switch($type){
+                            case 1 :
+                                echo '<a href="publications.php?type=2" class="btn btn-warning">Voir toutes les publications</a>';
+                                break;
+                            case 2 :
+                                echo "<a href=\"publications.php?type=1\" class=\"btn btn-warning\">Voir mes publications</a>";
+                                break;
+                         }
+                    ?>
+                </div>
+                </center>
             </div>
-            
-            
-          <div id="calendrier">
-            <h3 class="right-side-h3">Calendrier</h3>
-            <p><center><strong>Mai 2016</strong></center></p>
-            <?php calculateDays('mai'); ?>
-          </div>
-
         </div>
-      </div>
-      <footer>
+        <footer>
 
-      </footer>
+        </footer>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/squelette.js"></script>

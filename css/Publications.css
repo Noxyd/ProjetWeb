@@ -59,23 +59,15 @@ text-decoration: none;
 #newmessages{
   background-color: white;
   box-shadow: 1px 1px 7px ;
-  min-height: 300px;
+  min-height: 100px;
   margin-bottom: 40px;
   border-bottom-left-radius: 10px;
   border-top-right-radius: 10px;
-}
-
-/* === Bloc "Calandrier" === */
-#calendrier{
-  background-color: white;
-  box-shadow: 1px 1px 7px ;
-  min-height: 300px;
-  border-bottom-left-radius: 10px;
-  border-top-right-radius: 10px;
+  padding: 30px;
 }
 
 #stats{
-  
+
   width:250px;
-  margin: auto; 
+  margin: auto;
 }
