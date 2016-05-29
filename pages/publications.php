@@ -103,8 +103,8 @@ pg_close($bdd);
           <li><a href="messages.php"> Messages </a></li>
           <li><a href="annuaire.php"> Annuaire </a></li>
             <?php
-          if ($_SESSION["statut"] = 1)
-            echo "<li><a href=\"pages/budget.php\"> Budget </a></li>\n"
+          if ($_SESSION["statut"] == 1)
+            echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
           ?>
           </ul>
       </nav>
@@ -130,13 +130,13 @@ pg_close($bdd);
             for ($i=0; $i < $nbresults; $i++) {
                 echo "<div id=\"un\" class=\"left-sub-panel\">";
 
-                echo "\n\t\t<a href=\"#\" class=\"inside-panel-link\"><h2 class=\"inside-panel\">".$publi['titre'][$i]."</h2></a>";
+                echo "\n\t\t<h2 class=\"inside-panel\">".$publi['titre'][$i]."</h2>";
                 if ($publi['etat'][$i] == 1){
                     echo "\n\t\t<p class=\"inside-panel horodatage\"><i>Publié par ".$publi['nomeq'][$i].", le ".$publi['datepub'][$i]."</i></p>";
                 }else{
                     echo "\n\t\t<p class=\"inside-panel horodatage\"><i>Publié par ".$publi['nomeq'][$i].", le ".$publi['datepub'][$i]." <span style='color:red'>(Archivé)</span></i></p>";
                 }
-                echo "\n\t\t<p class=\"panel-text\">".$publi['contenu'][$i]."<a href=\"#\">...</a></p>";
+                echo "\n\t\t<p class=\"panel-text\">".htmlentities($publi['contenu'][$i])."<a href=\"#\">...</a></p>";
                 echo "\n\t\t<a href=\"affichagepub.php?id=".$publi['idpub'][$i]."\" class=\"inside-panel btn-lire-plus\">Lire plus</a>";
                 if($publi['etat'][$i] == 1 && $publi['ideq'][$i] == $_SESSION['ideq'])
                     echo "\n\t\t<a href=\"traitements/changement_etat_pub.php?idpub=".$publi['idpub'][$i]."&"."idetat=".$publi['etat'][$i]. "\"class=\"btn-fieldset btn btn-primary\">Archiver</a>";
@@ -152,31 +152,28 @@ pg_close($bdd);
             ?>
             </div>
             <div id="right-panel">
+
+                <div id="newmessages">
+                    <h3 class="right-side-h3">Les statistiques</h3>
+                    <div id="stats">
+                    <?php
+                    echo "\n\t\t<p> <b>Nombre de publications : </b>".$nbre."</p>";
+                    echo "\n\t\t<p> <b>Dernière publication : </b><br>".$row[0]."</p>";
+                    ?>
+                    </div>
+                </div>
                 <center>
                 <div id="fieldset-right" >
-                    <a style="float:right;" href="Articles.php" class="btn-fieldset btn btn-primary">Rediger un article</a>
-                </div>
-                </center>
-              <div id="newmessages" >
-
-                <h3 class="right-side-h3">Les statistiques</h3>
-                <div id="stats">
-                <?php
-                echo "\n\t\t<p> <b>Nombre de publications : </b>".$nbre."</p>";
-                echo "\n\t\t<p> <b>Dernière publication : </b><br>".$row[0]."</p>";
-                ?>
-                </div>
-              </div>
-                <center>
-                <div id="fieldset-right" >
-
+                    <div id="fieldset-right" >
+                        <a  href="Articles.php" class="btn btn-primary" style="margin:auto;width:300px;">Rediger un article</a>
+                    </div>
                     <?php
                         switch($type){
                             case 1 :
-                                echo '<a href="publications.php?type=2" class="btn btn-warning">Voir toutes les publications</a>';
+                                echo '<a href="publications.php?type=2" class="btn btn-warning" style="margin:auto;width:300px;">Voir toutes les publications</a>';
                                 break;
                             case 2 :
-                                echo "<a href=\"publications.php?type=1\" class=\"btn btn-warning\">Voir mes publications</a>";
+                                echo "<a href=\"publications.php?type=1\" class=\"btn btn-warning\" style=\"margin:auto;width:300px;\">Voir mes publications</a>";
                                 break;
                          }
                     ?>
@@ -185,7 +182,8 @@ pg_close($bdd);
             </div>
         </div>
         <footer>
-
+            <h4> © BLANCHET / GARCIA / MEHDIOUI / SARMA</h4>
+            <p>Tous droits réservés.</p>
         </footer>
     </div>
 

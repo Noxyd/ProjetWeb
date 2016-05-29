@@ -63,6 +63,10 @@ session_start();
         </form>
 
       </div>
+      <footer>
+          <h4> © BLANCHET / GARCIA / MEHDIOUI / SARMA</h4>
+          <p>Tous droits réservés.</p>
+      </footer>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

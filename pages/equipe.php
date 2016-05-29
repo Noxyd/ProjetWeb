@@ -26,7 +26,7 @@
     $user["mail"][$i] = $row[2];
     $user["description"][$i] = $row[3];
     }
-    
+
   $user["equipe"] = $row[5];
 
   pg_close($bdd);
@@ -104,7 +104,8 @@
         </div>
       </div>
       <footer>
-
+          <h4> © BLANCHET / GARCIA / MEHDIOUI / SARMA</h4>
+          <p>Tous droits réservés.</p>
       </footer>
     </div>
 

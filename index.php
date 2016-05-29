@@ -78,11 +78,10 @@
       </nav>
         <div class="wrap-content">
             <div id="left-panel">
-
                 <?php
                 for ($i=0; $i < $nbresults; $i++) {
                     echo "<div id=\"un\" class=\"left-sub-panel\">";
-                    echo "\n\t\t<a href=\"#\" class=\"inside-panel-link\"><h2 class=\"inside-panel\">".$publi['titre'][$i]."</h2></a>";
+                    echo "\n\t\t<h2 class=\"inside-panel\">".$publi['titre'][$i]."</h2>";
                     echo "\n\t\t<p class=\"inside-panel horodatage\"><i>publié le ".date('d/m/Y',$publi['datepub'][$i])."</i></p>";
                     echo "\n\t\t<p class=\"panel-text\">".substr($publi['contenu'][$i],0,120)."<a href=\"pages/affichagepub.php?id=".$publi['idpub'][$i]."\">...</a></p>";
                     echo "\n\t\t<a href=\"pages/affichagepub.php?id=".$publi['idpub'][$i]."\" class=\"inside-panel btn-lire-plus\">Lire plus</a>";
@@ -123,7 +122,8 @@
             </div>
         </div>
       <footer>
-
+          <h4> © BLANCHET / GARCIA / MEHDIOUI / SARMA</h4>
+          <p>Tous droits réservés.</p>
       </footer>
     </div>
 

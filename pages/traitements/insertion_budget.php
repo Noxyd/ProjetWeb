@@ -10,15 +10,13 @@
 
 	}
 
-
-
 	//connexion bdd
 	$bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 	//recuperation de la date
-	$date= date('Y-m-d H:i:s');
+	$date = date('Y-m-d H:i:s');
 
 	if($_POST['nature']=='credit'){//le cas ou on insere un credit
-	
+
 		// verification de l'existance du financeur dans la base pour eviter les erreurs
 		$result = pg_prepare($bdd, "my_query", 'SELECT idfin FROM financeur WHERE nomfinanceur = $1');
 
@@ -37,7 +35,7 @@
 		}
 
 		//etant ici ca veut dire qu'on a rentré le bon nom de l'organisme
-		//insertion de l'operation dans la table flux 
+		//insertion de l'operation dans la table flux
 		$result = pg_prepare($bdd, "query", 'INSERT INTO public.flux(
 			debit, credit, libelle, datef, idfin,ideq)
 			VALUES ( $1, $2, $3, $4, $5,$6)');
@@ -57,7 +55,7 @@
 		$row=pg_fetch_row($result);
 
 		$nbre=pg_num_rows($result);
-		
+
 		//on verifie si le nom est bon sinon on le renvoie à la page budget tout en posant un cookie
 		if ($nbre == 0){
 			setcookie("erreur_nom_source",1,time()+4, '/');
@@ -71,7 +69,7 @@
 				VALUES ( $1, $2, $3, $4, $5,$6)');
 
 			$result1 = pg_execute($bdd, "query",array (
-				"-".$_POST['montant'],0,$_POST['libelle'],$date,$row[0],0));
+				$_POST['montant'],0,$_POST['libelle'],$date,$row[0],0));
 		}
 	}
 	pg_close($bdd);//fermeture de la conexion

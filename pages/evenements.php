@@ -1,18 +1,14 @@
 <?php
-  session_start();
-
-
-  if (!isset($_SESSION["iduser"]) ) {//contole de session pour verifier si l'utilisateur est effectivement connecté
-  	    setcookie(nonconnecte,1,time()+4,'/');//poser le cookie de verification
-  	    header('location: connexion.php');//renvoyer vers la page de connexion
-
-  }
-  //connexion a la base de données
-  $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
-
+    session_start();
+    if (!isset($_SESSION["iduser"]) ) {//contole de session pour verifier si l'utilisateur est effectivement connecté
+        setcookie(nonconnecte,1,time()+4,'/');//poser le cookie de verification
+        header('location: connexion.php');//renvoyer vers la page de connexion
+    }
+    //connexion a la base de données
+    $bdd=pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 ?>
 
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="utf-8">
@@ -117,7 +113,7 @@
                     $row=pg_fetch_row($result);//mettre sous forme de tableau
                       echo"<tr>\n";
                           echo "\t\t<td><a href=\"detailsevenements.php?id=$row[0]\">". $row[1]."</a></u></td>\n";
-                          echo "\t\t<td>". $row[2]." </td>\n " ;
+                          echo "\t\t<td>". date('d/m/Y',strtotime($row[2]))." </td>\n " ;
                           echo "\t\t<td>".$row[3]."</td>\n" ;
                       echo "\t</tr>\n";
             }
@@ -146,7 +142,7 @@
                   echo"<tr>\n";
                   echo "\t\t<td><a href=\"detailsevenements.php?id=$row[0]\">". $row[1]."</a></u></td>\n ";
 
-                  echo "\t\t<td>".$row[2]." </td>\n";
+                  echo "\t\t<td>".date('d/m/Y',strtotime($row[2]))." </td>\n";
                   echo "\t\t<td>".$row[3]."</td>\n";
                   echo "\t</tr>\n";
             }
@@ -157,7 +153,8 @@
 
     </div>
     <footer>
-
+        <h4> © BLANCHET / GARCIA / MEHDIOUI / SARMA</h4>
+        <p>Tous droits réservés.</p>
     </footer>
   </div>
 

@@ -150,7 +150,7 @@
                   if (isset($_COOKIE['success-add'])) {
                     echo '<div class="alert alert-success" role="alert">La tâche a été ajoutée avec succès !</div>';
                   }
-                  
+
                   //affichage d'un message lors d'une validation échouée
                   if (isset($_COOKIE['erreur-val'])) {
                     echo '<div class="alert alert-danger" role="alert"><strong>Attention ! </strong> La tâche n\'a pas pu être validée.</div>';
@@ -199,7 +199,8 @@
         </div>
       </div>
       <footer>
-
+          <h4> © BLANCHET / GARCIA / MEHDIOUI / SARMA</h4>
+          <p>Tous droits réservés.</p>
       </footer>
     </div>
 

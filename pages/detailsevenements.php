@@ -71,7 +71,7 @@
             $row=pg_fetch_row($result);//rendre le resultat sous forme de tableau
             //affichage
             echo "<center>";
-            
+
             echo "<H2> $row[1]</H2><br>\n";
             echo"<H4> organisé par l'equipe : $row[0]</H4><br>";
             echo "\t\t<u>le:</u> $row[2] <u><br>\n";
@@ -91,7 +91,8 @@
 
       </div>
       <footer>
-
+          <h4> © BLANCHET / GARCIA / MEHDIOUI / SARMA</h4>
+          <p>Tous droits réservés.</p>
       </footer>
     </div>
 

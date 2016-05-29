@@ -54,93 +54,86 @@ pg_close($bdd);
 
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>ScienceHUB : Plateforme collaborative de recherche</title>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>ScienceHUB : Plateforme collaborative de recherche</title>
 
-    <!-- Bootstrap-->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap-->
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <link href="../css/squelette.css" rel="stylesheet">
-    <link href="../css/Publications.css" rel="stylesheet">
-  </head>
-  <body>
-    <div id="wrap-container">
-      <header>
-        <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
-        <fieldset id="fieldset-header" >
-          <legend>Bonjour <?php echo ucfirst($_SESSION['prenom']); ?></legend>
-          <a href="../pages/profil.php" class="btn-fieldset btn btn-primary">Dashboard</a>
-          <a href="../pages/traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
-        </fieldset>
-      </header>
-      <nav>
-        <ul id="wrap-li">
-          <li ><a href="../index.php">Accueil</a></li>
-          <li ><a href="presentation.php">Présentation</a></li>
-          <li class="actif"><a href="publications.php"> Publications </a></li>
-          <li><a href="evenements.php"> Evénements </a></li>
-          <li><a href="messages.php"> Messages </a></li>
-          <li><a href="annuaire.php"> Annuaire </a></li>
-            <?php
-          if ($_SESSION["statut"] === 1)
-            echo "<li><a href=\"pages/budget.php\"> Budget </a></li>\n"
-          ?>
-          </ul>
-      </nav>
-
-
-
-      <div class="wrap-content">
-        <div id="left-panel">
-
-        <?php
-          for ($i=0; $i < $nbresults; $i++) {
-            echo "<div id=\"un\" class=\"left-sub-panel\">";
-            echo "\n\t\t<a href=\"#\" class=\"inside-panel-link\"><h2 class=\"inside-panel\">".$publi['titre'][$i]."</h2></a>";
-            echo "\n\t\t<p class=\"inside-panel horodatage\"><i>Publié par ".$publi['nomeq'][$i].", le ".$publi['datepub'][$i]."</i></p>";
-            echo "\n\t\t<p class=\"panel-text\">".$publi['contenu'][$i]."</p>";
-            echo "\n\t</div>";
-          }
-          ?>
-          </div>
-
-
-
-        <div id="right-panel">
-
-            <div id="newmessages" >
-                <h3 class="right-side-h3">Les statistiques</h3>
-                <div id="stats">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <link href="../css/squelette.css" rel="stylesheet">
+        <link href="../css/Publications.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="wrap-container">
+            <header>
+                <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
+                <fieldset id="fieldset-header" >
+                  <legend>Bonjour <?php echo ucfirst($_SESSION['prenom']); ?></legend>
+                  <a href="../pages/profil.php" class="btn-fieldset btn btn-primary">Dashboard</a>
+                  <a href="../pages/traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
+                </fieldset>
+            </header>
+            <nav>
+            <ul id="wrap-li">
+              <li ><a href="../index.php">Accueil</a></li>
+              <li ><a href="presentation.php">Présentation</a></li>
+              <li class="actif"><a href="publications.php"> Publications </a></li>
+              <li><a href="evenements.php"> Evénements </a></li>
+              <li><a href="messages.php"> Messages </a></li>
+              <li><a href="annuaire.php"> Annuaire </a></li>
                 <?php
-                echo "\n\t\t<p> <b>Nombre de publications : </b>".$nbre."</p>";
-                echo "\n\t\t<p> <b>Dernière publication : </b><br>".$row[0]."</p>";
+              if ($_SESSION["statut"] == 1)
+                echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
+              ?>
+              </ul>
+            </nav>
+            <div class="wrap-content">
+                <div id="left-panel">
+                <?php
+                for ($i=0; $i < $nbresults; $i++) {
+                    echo "<div id=\"un\" class=\"left-sub-panel\">";
+                    echo "\n\t\t<h2 class=\"inside-panel\">".$publi['titre'][$i]."</h2>";
+                    echo "\n\t\t<p class=\"inside-panel horodatage\"><i>Publié par ".$publi['nomeq'][$i].", le ".$publi['datepub'][$i]."</i></p>";
+                    echo "\n\t\t<p class=\"panel-text\">".$publi['contenu'][$i]."</p>";
+                    echo "\n\t</div>";
+                }
                 ?>
                 </div>
+                <div id="right-panel">
+                    <div id="newmessages" >
+                        <h3 class="right-side-h3">Les statistiques</h3>
+                        <div id="stats">
+                        <?php
+                        echo "\n\t\t<p> <b>Nombre de publications : </b>".$nbre."</p>";
+                        echo "\n\t\t<p> <b>Dernière publication : </b><br>".$row[0]."</p>";
+                        ?>
+                        </div>
+                    </div>
+                    <div id="fieldset-right">
+                        <a style="margin:auto;width:300px;" href="Articles.php" class="btn-fieldset btn btn-primary">Rediger un article</a>
+                    </div>
+                </div>
             </div>
-            <div id="fieldset-right">
-                <a style="float:right;" href="Articles.php" class="btn-fieldset btn btn-primary">Rediger un article</a>
-            </div>
+            <footer>
+                <h4> © BLANCHET / GARCIA / MEHDIOUI / SARMA</h4>
+                <p>Tous droits réservés.</p>
+            </footer>
         </div>
-      </div>
-      <footer>
 
-      </footer>
-    </div>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="../js/jquery.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/squelette.js"></script>
-  </body>
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="../js/jquery.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/squelette.js"></script>
+    </body>
 </html>

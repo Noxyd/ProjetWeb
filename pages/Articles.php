@@ -64,47 +64,53 @@
                     <li ><a href="messages.php"> Messages </a></li>
                     <li><a href="annuaire.php"> Annuaire </a></li>
                     <?php
-                    if ($_SESSION["statut"] = 1)
+                    if ($_SESSION["statut"] == 1)
                         echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
                     ?>
                 </ul>
             </nav>
-            <div class="wrap-content">
-            <div id="left-panel">
-                <?php
-                if (isset($_COOKIE["good"]))
-                    echo " <div class=\"alert alert-success\" role=\"alert\"> Votre publication est insérée avec succès</div>";
-                if (isset($_COOKIE["echec"]))
-                    echo " <div class= \"alert alert-danger\" role=\"alert\">Echec, veuillez tenter à nouveau</div>";
-                ?>
-                <form name="insert" action="/pages/traitements/Ajout.php" method="POST">
-                    <div class="form-group">
-                        <label for="titre">Titre</label>
-                        <input type="text" name="titre" class="form-control" id="titre" title="Entrez le Titre de votre article">
-                    </div>
-                    <div class="form-group">
-                        <label for="contenu">Contenu</label>
-                        <textarea class="form-control" rows="12" name="contenu" title="Entrez le contenu de l'article"></textarea>
-                    </div>
-                    <input type="radio" name="val" value="1"/>Poster
-                    <input type="radio" name="val" value="2"/>Archiver
-                    <button type="submit" value="OK" href="../pages/Publications.php" class="btn-fieldset btn btn-primary">Valider</button>
-                </form>
-            </div>
-            <div id="right-panel">
-                <div id="newmessages" >
-                    <h3 class="right-side-h3">Les statistiques</h3>
-                    <div id="stats">
+            <div class="wrap-content" >
+                <h3 style="margin-bottom:30px;">Nouvel article</h3>
+                <div id="left-panel" >
                     <?php
-                    echo "\n\t\t<p> <b>Nombre de publications : </b>".$nbre."</p>";
-                    echo "\n\t\t<p> <b>Dernière publication : </b><br>".$row[0]."</p>";
+                    if (isset($_COOKIE["good"]))
+                        echo " <div class=\"alert alert-success\" role=\"alert\"> Votre publication est insérée avec succès</div>";
+                    if (isset($_COOKIE["echec"]))
+                        echo " <div class= \"alert alert-danger\" role=\"alert\">Echec, veuillez tenter à nouveau</div>";
                     ?>
+                    <form name="insert" action="/pages/traitements/Ajout.php" method="POST">
+                        <div class="form-group">
+                            <label for="titre">Titre</label>
+                            <input type="text" name="titre" class="form-control" id="titre" title="Entrez le Titre de votre article" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contenu">Contenu</label>
+                            <textarea class="form-control" rows="12" name="contenu" title="Entrez le contenu de l'article" required></textarea>
+                        </div>
+                        <input type="radio" name="val" style="margin-left:30px;" value="1"/>Poster
+                        <input type="radio" name="val" value="0" checked="checked"/>Archiver
+                        <button type="submit" value="OK" href="../pages/Publications.php" style="float:right;" class="btn-fieldset btn btn-primary">Valider</button>
+                    </form>
+                </div>
+                <div id="right-panel">
+                    <div id="newmessages" >
+                        <h3 class="right-side-h3">Les statistiques</h3>
+                        <div id="stats">
+                        <?php
+                        echo "\n\t\t<p> <b>Nombre de publications : </b>".$nbre."</p>";
+                        echo "\n\t\t<p> <b>Dernière publication : </b><br>".$row[0]."</p>";
+                        ?>
+                        </div>
+                    </div>
+                    <div id="fieldset-right" >
+                        <a href="publications.php?type=1" style="margin:auto;width:300px;" class="btn-fieldset btn btn-primary">Retour à mes publications</a>
                     </div>
                 </div>
-                <div id="fieldset-right" >
-                    <a href="publications.php" class="btn-fieldset btn btn-primary">Retour à mes publications</a>
-                </div>
             </div>
+            <footer>
+                <h4> © BLANCHET / GARCIA / MEHDIOUI / SARMA</h4>
+                <p>Tous droits réservés.</p>
+            </footer>
         </div>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
