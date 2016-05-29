@@ -4,7 +4,7 @@
   $string = "Latius iam disseminata licentia onerosus bonis omnibus Caesar nullum post haec adhibens modum orientis latera cuncta vexabat nec honoratis parcens nec urbium primatibus nec plebeiis.";
 
 
-  if (!isset($_SESSION["iduser"]) ) {
+  if (!isset($_SESSION["iduser"]) || $_SESSION["statut"]!=1) {
 
   	    setcookie(nonconnecte,1,time()+4,'/');
   	    header('location: connexion.php');
@@ -66,7 +66,7 @@
           <li><a href="messages.php"> Messages </a></li>
           <li class="actif"><a href="annuaire.php"> Annuaire </a></li>
           <?php
-          if ($_SESSION["statut"] = 1)
+          if ($_SESSION["statut"] == 1)
             echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
           ?>
         </ul>
@@ -111,7 +111,7 @@
             <p><input type="file" class="form-control" name='photo' required></p>
             <button type="submit" class="btn btn-default">Enregistrer</button>
             <div class="bouton">
-              <a href="annuaire.php" class="btn-fieldset btn btn-danger">Annuler</a>
+              <a href="annuaire.php" class="btn btn-danger">Annuler</a>
             </div>
           </form>
         </div>

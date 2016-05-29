@@ -20,6 +20,30 @@
   // Stockage des variables extraites de la base dans des variables internes
   $user["description"] = $row[0];
   $user["photo"] = $row[1];
+
+  // Partie tache
+
+  // formulation et execution de la requete
+  $result2 = pg_prepare($bdd,"query2", 'SELECT id_taches, tache, deadline, etat, ideq FROM public.taches WHERE ideq = $1 ORDER BY deadline');
+  // récupération du résultat de la requete
+  $result2 = pg_execute($bdd, "query2", array($_SESSION["ideq"]));
+  $nbresults = pg_num_rows($result2);
+  // On fait une boucle pour afficher toutes les taches
+  for($i=1 ; $i <= $nbresults ; $i++){
+    $row = pg_fetch_row($result2);
+
+    $taches["tache"][$i] = $row[1];
+    $taches["deadline"][$i] = $row[2];
+    $taches["etat"][$i] = $row[3];
+
+    if ($taches["etat"][$i] == 0) {
+      $etat[$i] = "En cours";
+    }
+    if ($taches["etat"][$i] == 1) {
+      $etat[$i] = "Terminée";
+    }
+  }
+
   // On ferme la connexion à la base
   pg_close($bdd);
 ?>
@@ -65,7 +89,7 @@
           <li><a href="messages.php"> Messages </a></li>
           <li><a href="annuaire.php"> Annuaire </a></li>
           <?php
-          if ($_SESSION["statut"] = 1)
+          if ($_SESSION["statut"] == 1)
             echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
           ?>
         </ul>
@@ -91,12 +115,30 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th>Tâche</th>
+                    <th>Tâches</th>
                     <th>Deadline</th>
                     <th>Etat</th>
                     <th>Valider</th>
                   </tr>
                 </thead>
+                <?php
+                  $nbresults=pg_num_rows($result2);
+
+                  for ( $i=1 ; $i <= $nbresults ; $i++ ){
+                          $row=pg_fetch_row($result2);//mettre sous forme de tableau
+                            echo"<tr>\n";
+                                echo "\t\t<td>".$taches["tache"][$i]."</td>\n";
+                                echo "\t\t\t<td>".$taches["deadline"][$i]." </td>\n ";
+                                echo "\t\t\t<td>".$etat[$i]."</td>\n";
+                                if ($taches["etat"][$i] == 0) {
+                                  echo "\t\t\t<td><a><span class=\"glyphicon glyphicon-ok\"></span></a></td>\n";
+                                }
+                                if ($taches["etat"][$i] == 1) {
+                                  echo "\t\t\t<td><a><span class=\"glyphicon glyphicon-ok, disabled\"></span></a></td>\n";
+                                }
+                            echo "\t\t</tr>\n";
+                  }
+                ?>
               </table>
             </div>
         </div>

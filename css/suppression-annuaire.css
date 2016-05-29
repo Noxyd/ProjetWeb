@@ -20,22 +20,35 @@
 .sub-pane1{
   min-height: auto;
   margin-top: 40px;
-  margin-left: 40px;
-  margin-right: 40px;
+  /*margin-left: 40px;
+  margin-right: 40px;*/
+  margin: auto;
+  width: 900px;
 }
 
+h3{
+  margin-left: 60px;
+}
+
+.remove{
+  display: inline-block;
+  width: 50px;
+  margin-left: 100px;
+}
 /*On regroupe l'image et le texte descriptif sous un même conteneur*/
 .wrap-profil{
   padding-top: 20px;
   padding-bottom: 20px;
-  margin-left: auto;
-  margin-right: auto;
+  /*margin-left: auto;
+  margin-right: auto;*/
   width: 700px;
   border-radius: 50px;
   box-shadow: 0px 0px 10px #D5D5D6;
   margin-bottom: 20px;
   background-color: white;
+  display: inline-block;
 }
+
 
 .round-image{
   display: inline-block;
@@ -75,6 +88,10 @@ text-decoration: none;
 }
 
 .btn-default{
-  margin-left: 170px;
-  margin-bottom: 50px;
+  margin-left: 400px;
+}
+
+.bouton{
+  margin-left: 450px;
+  display: inline-block;
 }

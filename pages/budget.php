@@ -116,7 +116,7 @@
           </thead>
           <?php
             //recuperation des dernieres operations
-             $result = pg_prepare($bdd, "query", 'SELECT  distinct  datef, libelle, credit, debit ,nomfinanceur, nomeq,idflux FROM flux AS FL,equipes AS E,financeur AS FIN WHERE FL.idfin=FIN.idfin and FL.ideq = E.ideq order by idflux ');
+             $result = pg_prepare($bdd, "query", 'SELECT  distinct  datef, libelle, credit, debit ,nomfinanceur, nomeq,idflux FROM flux AS FL,equipes AS E,financeur AS FIN WHERE FL.idfin=FIN.idfin and FL.ideq = E.ideq order by idflux desc ');
 
              $result = pg_execute($bdd, "query",array ());
              $nbre_ligne=pg_num_rows($result);
@@ -127,6 +127,8 @@
                 echo"\t<tr>\n";
                 echo "\t\t<td>$row[0] </td>\n";
                 echo "\t\t<td>$row[1] </td>\n";
+                //quand c'est un credit on affiche le financeur 
+                //quand c'est un debit on affiche l'equipe
                 if($row[2]==0){
                   echo "\t\t<td>$row[3] </td>\n";
                   echo "\t\t<td>$row[5] </td>\n";
