@@ -171,7 +171,7 @@
                 }
                 //Affichage du contenu de $month, le tableau résultant
                 if($flag == 1){
-                    echo "\n\t\t<td><a href='pages/detailsevenements.php?id=".$event['ideven'][$idevent]."'>".$month[$i][$days[$j]]."</a></td>";
+                    echo "\n\t\t<td><a href='/pages/detailsevenements.php?id=".$event['ideven'][$idevent]."'>".$month[$i][$days[$j]]."</a></td>";
                 } else if($month[$i][$days[$j]] == $actualDay && $actualMonth == $calculateMonth){
                     echo "\n\t\t<td><strong>".$month[$i][$days[$j]]."</strong></td>";
                 } else {

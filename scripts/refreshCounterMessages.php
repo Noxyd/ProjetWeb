@@ -28,8 +28,7 @@
     //Formattage JSON des données
     $data = '
         {
-            "cptNL": "'.$cptNonLu.'",
-            "cptBR": "'.$cptBrouillons.'"
+            "cptNL": "'.$cptNonLu.'"            
         }
     ';
     //Envoi des données

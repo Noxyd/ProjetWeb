@@ -174,7 +174,6 @@ function readDataCounterRefresh(jsonData){
     var out = "";   // out contiendra le code HTML de sortie
 
     out+="<p><strong>"+count.cptNL+"</strong> message(s) non-lu(s)</p>";
-    out+="<p><strong>"+count.cptBR+"</strong> brouillon(s)</p>";
 
     // console.log(out); Uniquement pour debug
     document.getElementById("messages-stats").innerHTML = out;
