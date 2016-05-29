@@ -217,7 +217,7 @@ ALTER SEQUENCE messages_idmessage_seq OWNED BY messages.idmessage;
 CREATE TABLE publications (
     idpub integer NOT NULL,
     titre character varying(200),
-    datepub date,
+    datepub text,
     contenu text,
     etat integer NOT NULL,
     ideq integer
@@ -255,7 +255,7 @@ CREATE TABLE taches (
     id_taches integer NOT NULL,
     tache text,
     deadline character varying(30),
-    etat text,
+    etat integer,
     ideq integer
 );
 
@@ -486,8 +486,10 @@ SELECT pg_catalog.setval('messages_idmessage_seq', 15, true);
 --
 
 COPY publications (idpub, titre, datepub, contenu, etat, ideq) FROM stdin;
-1	Dossier de conception de la plateforme	2002-05-01	Voici le dossier de conception voici le dossier de conception	1	1
-2	Résultat de teste du prototype	2002-05-01	voici les résultats des recherches voici les résultats des recherches	0	2
+1	Dossier de conception de la plateforme	2016-05-01 12:17:34	Voici le dossier de conception voici le dossier de conception	1	1
+2	Résultat de teste du prototype	2016-05-01 17:17:34	voici les résultats des recherches voici les résultats des recherches	0	2
+4	Encore un article 	2016-05-29 09:55:22	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in auctor enim, eget efficitur massa. Integer feugiat erat quis magna vestibulum, sit amet mattis turpis dignissim. Nulla facilisi. Quisque auctor mi quis enim accumsan pulvinar. Sed aliquet accumsan massa, tristique blandit sem pharetra vel. Sed quis dictum felis. Nulla facilisi. Vivamus est ante, pellentesque a viverra ac, eleifend et quam. Morbi a egestas nunc, aliquam aliquam nulla. Morbi vel malesuada erat, in pellentesque velit. 	1	3
+3	Insertion	2016-05-29 15:17:22	Test de  la rédaction d'un article.	1	3
 \.
 
 
@@ -495,7 +497,7 @@ COPY publications (idpub, titre, datepub, contenu, etat, ideq) FROM stdin;
 -- Name: publications_idpub_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('publications_idpub_seq', 2, true);
+SELECT pg_catalog.setval('publications_idpub_seq', 5, true);
 
 
 --
