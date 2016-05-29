@@ -93,3 +93,7 @@ text-decoration: none;
 .btmodif{
   margin-bottom: 50px;
 }
+
+.alert-info{
+  text-align: center;
+}

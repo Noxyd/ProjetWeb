@@ -11,37 +11,63 @@
 
   $bdd = pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
-	// formulation et execution de la requete
-	$result = pg_prepare($bdd,"query",'select description, photo from utilisateurs where iduser = $1');
-	// récupération du résultat de la requete
-	$result = pg_execute($bdd, "query",array ($_SESSION["iduser"]));
+  // formulation et execution de la requete
+  $result = pg_prepare($bdd,"query",'select description, photo from utilisateurs where iduser = $1');
+  // récupération du résultat de la requete
+  $result = pg_execute($bdd, "query",array ($_SESSION["iduser"]));
   $row = pg_fetch_row($result);
 
   // Stockage des variables extraites de la base dans des variables internes
   $user["description"] = $row[0];
   $user["photo"] = $row[1];
 
-  // Partie tache
+    // Partie tache
+  if ($_SESSION["statut"] == 1) {
+    // formulation et execution de la requete
+    $result2 = pg_prepare($bdd,"query2", 'SELECT id_taches, tache, deadline, etat, nomeq FROM public.taches, public.equipes WHERE taches.ideq = equipes.ideq ORDER BY deadline');
+    // récupération du résultat de la requete
+    $result2 = pg_execute($bdd, "query2", array());
+    $nbresults = pg_num_rows($result2);
+    // On fait une boucle pour afficher toutes les taches
+    for($i=1 ; $i <= $nbresults ; $i++){
+      $row = pg_fetch_row($result2);
 
-  // formulation et execution de la requete
-  $result2 = pg_prepare($bdd,"query2", 'SELECT id_taches, tache, deadline, etat, ideq FROM public.taches WHERE ideq = $1 ORDER BY deadline');
-  // récupération du résultat de la requete
-  $result2 = pg_execute($bdd, "query2", array($_SESSION["ideq"]));
-  $nbresults = pg_num_rows($result2);
-  // On fait une boucle pour afficher toutes les taches
-  for($i=1 ; $i <= $nbresults ; $i++){
-    $row = pg_fetch_row($result2);
+      $taches["idtache"][$i] = $row[0];
+      $taches["tache"][$i] = $row[1];
+      $taches["deadline"][$i] = $row[2];
+      $taches["etat"][$i] = $row[3];
+      $taches["nomeq"][$i] = $row[4];
 
-    $taches["idtache"][$i] = $row[0];
-    $taches["tache"][$i] = $row[1];
-    $taches["deadline"][$i] = $row[2];
-    $taches["etat"][$i] = $row[3];
-
-    if ($taches["etat"][$i] == 0) {
-      $etat[$i] = "En cours";
+      if ($taches["etat"][$i] == 0) {
+        $etat[$i] = "En cours";
+      }
+      if ($taches["etat"][$i] == 1) {
+        $etat[$i] = "Terminée";
+      }
     }
-    if ($taches["etat"][$i] == 1) {
-      $etat[$i] = "Terminée";
+  }
+
+  if ($_SESSION["statut"] != 1){
+    // formulation et execution de la requete
+    $result2 = pg_prepare($bdd,"query2", 'SELECT id_taches, tache, deadline, etat, ideq FROM public.taches WHERE ideq = $1 ORDER BY deadline');
+    // récupération du résultat de la requete
+    $result2 = pg_execute($bdd, "query2", array($_SESSION["ideq"]));
+    $nbresults = pg_num_rows($result2);
+    // On fait une boucle pour afficher toutes les taches
+    for($i=1 ; $i <= $nbresults ; $i++){
+      $row = pg_fetch_row($result2);
+
+      $taches["idtache"][$i] = $row[0];
+      $taches["tache"][$i] = $row[1];
+      $taches["deadline"][$i] = $row[2];
+      $taches["etat"][$i] = $row[3];
+
+      if ($taches["etat"][$i] == 0) {
+        $etat[$i] = "En cours";
+      }
+      if ($taches["etat"][$i] == 1) {
+        $etat[$i] = "Terminée";
+      }
     }
   }
 
@@ -116,35 +142,33 @@
               <div class="bouton">
                 <?php
                   if ($_SESSION["statut"] == 1){
-                    echo "<a href=\"formulaire-tache.php\" class=\"btmodif btn btn-default\">Ajouter une tâche</a>\n";
-                    echo "<a href=\"suppression-tache.php\" class=\"btmodif btn btn-default\">Supprimer une tâche</a>\n";
+                    echo "<a href=\"formulaire-tache.php\" class=\"btmodif btn btn-success\">Ajouter une tâche</a>\n";
+                    echo "\t<a href=\"suppression-tache.php\" class=\"btmodif btn btn-danger\">Supprimer une tâche</a>\n";
                   }
 
                   //affichage d'un message lors d'une insertion reussie
                   if (isset($_COOKIE['success-add'])) {
                     echo '<div class="alert alert-success" role="alert">La tâche a été ajoutée avec succès !</div>';
                   }
-                  //affichage d'un message lors d'une suppression reussie
-                  if (isset($_COOKIE['success-del'])) {
-                    echo '<div class="alert alert-success" role="alert">La tâche a été supprimée avec succès !</div>';
-                  }
-
+                  
                   //affichage d'un message lors d'une validation échouée
                   if (isset($_COOKIE['erreur-val'])) {
                     echo '<div class="alert alert-danger" role="alert"><strong>Attention ! </strong> La tâche n\'a pas pu être validée.</div>';
                   }
-                  //affichage d'un message lors d'une validation échouée
-                  if (isset($_COOKIE['erreur-add'])) {
-                    echo '<div class="alert alert-danger" role="alert"><strong>Attention ! </strong> La tâche n\'a pas pu être ajoutée.</div>';
-                  }
                 ?>
               </div>
+              <div class="alert alert-info" role="alert">Si une tâche est terminée, vous pouvez la marquer comme achevée en cliquant sur le bouton "valider"</div>
               <table class="table">
 
                 <thead>
                   <tr>
                     <th>Tâches</th>
                     <th>Deadline</th>
+                    <?php
+                      if ($_SESSION["statut"] == 1) {
+                        echo "<th>Equipe</th>\n";
+                      }
+                    ?>
                     <th>Etat</th>
                     <th>Valider</th>
                   </tr>
@@ -156,7 +180,10 @@
                           $row=pg_fetch_row($result2);//mettre sous forme de tableau
                             echo"<tr>\n";
                                 echo "\t\t<td>".$taches["tache"][$i]."</td>\n";
-                                echo "\t\t\t<td>".$taches["deadline"][$i]." </td>\n ";
+                                echo "\t\t\t<td>".$taches["deadline"][$i]."</td>\n";
+                                if ($_SESSION["statut"] == 1) {
+                                  echo "\t\t\t<td>".$taches["nomeq"][$i]."</td>\n";
+                                }
                                 echo "\t\t\t<td>".$etat[$i]."</td>\n";
                                 if ($taches["etat"][$i] == 0) {
                                   echo "\t\t\t<td><a href=\"traitements/valider-tache.php?idT=".$taches["idtache"][$i]."\"><span class=\"glyphicon glyphicon-ok\"></span></a></td>\n";

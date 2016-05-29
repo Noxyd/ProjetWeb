@@ -12,16 +12,28 @@
   }
   $bdd = pg_connect("host=localhost port=5432 dbname=projetweb user=postgres password=rayane") or die("impossible de se connecter a la bdd");
 
-  $result = pg_prepare($bdd,"query",'select nomeq from equipes');
-	// recupération du resultat de la requette
-	$result = pg_execute($bdd, "query", array());
-  $nbresults = pg_num_rows($result);
-  // On fait une boucle pour récuperer le nom des équipes
-  for($i=1 ; $i < $nbresults ; $i++){
-    $row=pg_fetch_row($result);
-    // Stockage des variables extraits de la base dans une variable
-    $equipe[$i] = $row[0];
+  // formulation et execution de la requete
+  $result2 = pg_prepare($bdd,"query2", 'SELECT id_taches, tache, deadline, etat, nomeq FROM public.taches, public.equipes WHERE taches.ideq = equipes.ideq ORDER BY deadline');
+  // récupération du résultat de la requete
+  $result2 = pg_execute($bdd, "query2", array());
+  $nbresults = pg_num_rows($result2);
+  // On fait une boucle pour afficher toutes les taches
+  for($i=1 ; $i <= $nbresults ; $i++){
+    $row = pg_fetch_row($result2);
+
+    $taches["idtache"][$i] = $row[0];
+    $taches["tache"][$i] = $row[1];
+    $taches["deadline"][$i] = $row[2];
+    $taches["etat"][$i] = $row[3];
+    $taches["nomeq"][$i] = $row[4];
+
+    if ($taches["etat"][$i] == 0) {
+      $etat[$i] = "En cours";
     }
+    if ($taches["etat"][$i] == 1) {
+      $etat[$i] = "Terminée";
+    }
+  }
   pg_close($bdd);
 ?>
 
@@ -44,7 +56,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link href="../css/squelette.css" rel="stylesheet">
-    <link href="../css/formulaire-evenement.css" rel="stylesheet">
+    <link href="../css/suppression-tache.css" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
   </head>
   <body>
@@ -65,49 +77,53 @@
           <li><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
           <li><a href="annuaire.php"> Annuaire </a></li>
-          <?php
-          if ($_SESSION["statut"] == 1)
-            echo "<li><a href=\"budget.php\"> Budget </a></li>\n"
-          ?>
+          <li><a href=\"budget.php\"> Budget </a></li>
         </ul>
       </nav>
 
       <div class="wrap-content">
-        <?php
-          //affichage d'un message lors d'une suppression reussie
-          if (isset($_COOKIE['success-del'])) {
-            echo '<div class="alert alert-success" role="alert">La tâche a été ajoutée avec succès !</div>';
-          }
+        <div class="notification">
+          <?php
+            //affichage d'un message lors d'une suppression reussie
+            if (isset($_COOKIE['success-del'])) {
+              echo '<div class="alert alert-success" role="alert">La tâche a été supprimée avec succès !</div>';
+            }
+            if (isset($_COOKIE['erreur-del'])) {
+              echo '<div class="alert alert-danger" role="alert"><strong>Attention ! </strong> La tâche n\'a pas pu être supprimée.</div>';
+            }
+          ?>
+        </div>
+        <h2>Suppression d'une tâche</h2>
+        <div class="Tache">
+          <table class="table">
 
-          //affichage d'un message lors d'une suppression reussie
-          if (isset($_COOKIE['erreur-tache'])) {
-            echo '<div class="alert alert-danger" role="alert"><strong>Attention ! </strong> La tâche n\'a pas pu être ajoutée.</div>';
-          }
+            <thead>
+              <tr>
+                <th>Tâches</th>
+                <th>Deadline</th>
+                <th>Equipe</th>
+                <th>Etat</th>
+                <th>Supprimer</th>
+              </tr>
+            </thead>
+            <?php
+              $nbresults=pg_num_rows($result2);
 
-        ?>
-
-        <h2>Création d'une tâche</h2>
-
-        <div class="Formulaire">
-          <form action="traitements/insertion_tache.php" method="post">
-            <label>Descriptif de la tâche :</label>
-            <p> <input type="text" class="form-control" name="descriptif" required></p>
-            <label>Deadline :</label>
-            <p><input type="date" class="form-control" name="date" required></p>
-            <label>Equipe :</label>
-              <?php
-              echo "<p><select name=\"equipe\" class=\"form-control\" required>";
-                // On fait une boucle pour afficher toutes les équipes depuis la table nomeq
-                for($i=1 ; $i < $nbresults ; $i++){
-                  echo "<option value=\"".$i."\">".$equipe[$i]."</option>";
-                }
-                echo "</select></p>";
-              ?>
-            <button type="submit" class="btn btn-default">Enregistrer</button>
-            <div class="bouton">
-              <a href="profil.php" class="btn-fieldset btn btn-danger">Annuler</a>
-            </div>
-          </form>
+              for ( $i=1 ; $i <= $nbresults ; $i++ ){
+                      $row=pg_fetch_row($result2);//mettre sous forme de tableau
+                        echo"<tr>\n";
+                            echo "\t\t<td>".$taches["tache"][$i]."</td>\n";
+                            echo "\t\t\t<td>".$taches["deadline"][$i]."</td>\n";
+                            echo "\t\t\t<td>".ucfirst($taches["nomeq"][$i])."</td>\n";
+                            echo "\t\t\t<td>".$etat[$i]."</td>\n";
+                            echo "\t\t\t<td><a href=\"traitements/supprimer-tache.php?idT=".$taches["idtache"][$i]."\"><span class=\"glyphicon glyphicon-remove\"></span></a></td>\n";
+                        echo "\t\t</tr>\n";
+              }
+            ?>
+          </table>
+          <div class="bouton">
+            <a href="profil.php" class="btn btn-default">Retour au dashboard</a>
+          </div>
         </div>
       </div>
       <footer>

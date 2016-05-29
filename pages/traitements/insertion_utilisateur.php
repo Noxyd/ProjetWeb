@@ -26,8 +26,8 @@
     header('location: ../formulaire-annuaire.php');
   }
 
-  // $new_name = $_POST['prenom'].'_'.$_POST['nom'];
-	$new_name = $_POST['prenom'];
+  $new_name = $_POST['prenom'].'_'.$_POST['nom'];
+	// $new_name = $_POST['prenom'];
   $target_path = "../../images/".$new_name.".".$extension_upload;
   $upload1 = @move_uploaded_file($_FILES['photo']['tmp_name'], $target_path);
 

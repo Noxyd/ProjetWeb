@@ -79,7 +79,7 @@
       </nav>
       <div class="wrap-content">
         <div id="main-panel">
-            <h2 class="inside-panel">Annuaire</h2>
+            <h2 class="inside-panel">Suppression d'un utilisateur</h2>
             <div class="sub-pane1">
               <h3>Veuillez choisir les utilisateurs à supprimer :</h3>
               <br>
@@ -108,7 +108,7 @@
                 }
               ?>
                 <div class="bouton">
-                  <a href="annuaire.php" class="btn btn-danger">Annuler</a>
+                  <a href="annuaire.php" class="btn btn-default">Retour à l'annuaire</a>
                 </div>
 
 

@@ -82,10 +82,12 @@
             <h2 class="inside-panel">Annuaire</h2>
             <div class="sub-pane1">
               <?php
-              if ($_SESSION["statut"] == 1){
-                echo "<a href=\"formulaire-annuaire.php\" class=\"btn-fieldset btn btn-default\">Ajouter un membre</a>\n";
-                echo "<a href=\"suppression-annuaire.php\" class=\"btn-fieldset btn btn-default\">Supprimer un membre</a>\n";
+              echo "<div class='bouton'>\n";
+                if ($_SESSION["statut"] == 1){
+                  echo "\t\t<a href=\"formulaire-annuaire.php\" class=\"btn btn-success\">Ajouter un membre</a>\n";
+                  echo "\t\t<a href=\"suppression-annuaire.php\" class=\"btn btn-danger\">Supprimer un membre</a>\n";
               }
+              echo "\t</div>\n";
 
 
               //affichage d'un message lors d'une insertion reussie
