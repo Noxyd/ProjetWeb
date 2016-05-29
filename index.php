@@ -58,7 +58,7 @@
         <a href="/index.php"><img id="logo" src="images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
           <legend>Bonjour <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
-          <a href="pages/profil.php" class="btn-fieldset btn btn-primary">Mon profil</a>
+          <a href="pages/profil.php" class="btn-fieldset btn btn-primary">Dashboard</a>
           <a href="pages/traitements/deconnexion.php" class="btn-fieldset btn btn-danger">Déconnexion</a>
         </fieldset>
       </header>
@@ -131,11 +131,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <?php echo "<script>var idU = ".$_SESSION['iduser'].";</script>"; ?>
     <script src="js/squelette.js"></script>
     <script src="js/messages.js"></script>
-    <script src="js/xhr.js"></script>
-    <script src="js/getMessage.js"></script>
-    <script src="js/refreshMessages.js"></script>
+    <script src="js/ajaxfunctions.js"></script>
+    <script>
+        function closeMsg(idU){
+            document.getElementById('smoke-background').style.display = 'none';
+            refreshMessages(idU);
+            refreshCounter(idU);
+        }
+    </script>
     <?php
         echo "<script>refreshMessages(".$_SESSION['iduser'].")</script>";
         echo "\n<script type='text/javascript'>";

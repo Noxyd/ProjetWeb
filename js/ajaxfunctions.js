@@ -39,8 +39,8 @@ function request(idM,etatM){
 
     //Test de l'état du xhr
     xhr.onreadystatechange = function() {
-        // console.log("status : "+xhr.status); Uniquement pour debug
-        // console.log("STATE : "+xhr.readyState); Uniquement pour debug
+        // console.log("status : "+xhr.status);
+        // console.log("STATE : "+xhr.readyState);
         if(xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)){
             // console.log("récupération des données"); Uniquement pour debug
             //Récupération des données
@@ -62,7 +62,7 @@ function readData(jsonData){
     var message = JSON.parse(jsonData); //JSON.parse pour lire les données formattées en JSON
     var out = "<div id='theMessage' >";   // out contiendra le code HTML qui sera placé dans la page messages.php
     // console.log("longueur : "+message.length);
-    out += "<h3 style='color:white;'><center>Détails du message</center></h3>"
+    out += "<h3 style='color:white;'><center>Détails du message</center></h3>";
     for(var i = 0; i<message.length; i++){
         //On lit chaque variable JSON, et on les intègre dans du code HTML
         out = out+"<p><strong>Envoyé par : </strong>"+message[i].emetteur+"</p>"+
