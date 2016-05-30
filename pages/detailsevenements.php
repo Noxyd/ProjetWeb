@@ -38,7 +38,7 @@
   <body>
     <div id="wrap-container">
       <header>
-        <a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
+        <a href="../index.php"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a>
         <fieldset id="fieldset-header" >
           <legend>Bonjour  <?php echo ucfirst($_SESSION["prenom"]); ?></legend>
           <a href="profil.php" class="btn-fieldset btn btn-primary">Dashboard</a>
