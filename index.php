@@ -82,7 +82,7 @@
                 for ($i=0; $i < $nbresults; $i++) {
                     echo "<div id=\"un\" class=\"left-sub-panel\">";
                     echo "\n\t\t<h2 class=\"inside-panel\">".$publi['titre'][$i]."</h2>";
-                    echo "\n\t\t<p class=\"inside-panel horodatage\"><i>publié le ".date('d/m/Y',$publi['datepub'][$i])."</i></p>";
+                    echo "\n\t\t<p class=\"inside-panel horodatage\"><i>publié le ".date('d/m/Y à H:i:s',$publi['datepub'][$i])."</i></p>";
                     echo "\n\t\t<p class=\"panel-text\">".substr($publi['contenu'][$i],0,120)."<a href=\"pages/affichagepub.php?id=".$publi['idpub'][$i]."\">...</a></p>";
                     echo "\n\t\t<a href=\"pages/affichagepub.php?id=".$publi['idpub'][$i]."\" class=\"inside-panel btn-lire-plus\">Lire plus</a>";
                     echo "\n\t</div>";

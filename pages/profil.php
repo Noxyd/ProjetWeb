@@ -180,7 +180,7 @@
                           $row=pg_fetch_row($result2);//mettre sous forme de tableau
                             echo"<tr>\n";
                                 echo "\t\t<td>".$taches["tache"][$i]."</td>\n";
-                                echo "\t\t\t<td>".$taches["deadline"][$i]."</td>\n";
+                                echo "\t\t\t<td>".date('d/m/Y',strtotime($taches["deadline"][$i]))."</td>\n";
                                 if ($_SESSION["statut"] == 1) {
                                   echo "\t\t\t<td>".$taches["nomeq"][$i]."</td>\n";
                                 }
