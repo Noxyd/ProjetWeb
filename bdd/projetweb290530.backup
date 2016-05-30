@@ -1,0 +1,688 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.2
+-- Dumped by pg_dump version 9.5.2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: equipes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE equipes (
+    ideq integer NOT NULL,
+    nomeq character varying(25)
+);
+
+
+ALTER TABLE equipes OWNER TO postgres;
+
+--
+-- Name: equipes_ideq_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE equipes_ideq_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE equipes_ideq_seq OWNER TO postgres;
+
+--
+-- Name: equipes_ideq_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE equipes_ideq_seq OWNED BY equipes.ideq;
+
+
+--
+-- Name: evenements; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE evenements (
+    ideven integer NOT NULL,
+    intitule character varying(50) NOT NULL,
+    dateeven date NOT NULL,
+    lieu character varying(100) NOT NULL,
+    description text,
+    statut integer,
+    ideq integer
+);
+
+
+ALTER TABLE evenements OWNER TO postgres;
+
+--
+-- Name: evenements_ideven_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE evenements_ideven_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE evenements_ideven_seq OWNER TO postgres;
+
+--
+-- Name: evenements_ideven_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE evenements_ideven_seq OWNED BY evenements.ideven;
+
+
+--
+-- Name: financeur; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE financeur (
+    idfin integer NOT NULL,
+    nomfinanceur character varying(25),
+    description character varying(150)
+);
+
+
+ALTER TABLE financeur OWNER TO postgres;
+
+--
+-- Name: financeur_idfin_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE financeur_idfin_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE financeur_idfin_seq OWNER TO postgres;
+
+--
+-- Name: financeur_idfin_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE financeur_idfin_seq OWNED BY financeur.idfin;
+
+
+--
+-- Name: flux; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE flux (
+    idflux integer NOT NULL,
+    debit double precision,
+    credit double precision,
+    libelle character varying(50),
+    datef date,
+    idfin integer,
+    ideq integer
+);
+
+
+ALTER TABLE flux OWNER TO postgres;
+
+--
+-- Name: flux_idflux_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE flux_idflux_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE flux_idflux_seq OWNER TO postgres;
+
+--
+-- Name: flux_idflux_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE flux_idflux_seq OWNED BY flux.idflux;
+
+
+--
+-- Name: messages; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE messages (
+    idmessage integer NOT NULL,
+    objet character varying(100),
+    contenu text,
+    dateenvoi text NOT NULL,
+    etat integer,
+    idemetteur integer,
+    idrecepteur integer
+);
+
+
+ALTER TABLE messages OWNER TO postgres;
+
+--
+-- Name: messages_idmessage_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE messages_idmessage_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE messages_idmessage_seq OWNER TO postgres;
+
+--
+-- Name: messages_idmessage_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE messages_idmessage_seq OWNED BY messages.idmessage;
+
+
+--
+-- Name: publications; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE publications (
+    idpub integer NOT NULL,
+    titre character varying(200),
+    datepub text,
+    contenu text,
+    etat integer NOT NULL,
+    ideq integer
+);
+
+
+ALTER TABLE publications OWNER TO postgres;
+
+--
+-- Name: publications_idpub_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE publications_idpub_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE publications_idpub_seq OWNER TO postgres;
+
+--
+-- Name: publications_idpub_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE publications_idpub_seq OWNED BY publications.idpub;
+
+
+--
+-- Name: taches; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE taches (
+    id_taches integer NOT NULL,
+    tache text,
+    deadline character varying(30),
+    etat integer,
+    ideq integer
+);
+
+
+ALTER TABLE taches OWNER TO postgres;
+
+--
+-- Name: taches_id_taches_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE taches_id_taches_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE taches_id_taches_seq OWNER TO postgres;
+
+--
+-- Name: taches_id_taches_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE taches_id_taches_seq OWNED BY taches.id_taches;
+
+
+--
+-- Name: utilisateurs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE utilisateurs (
+    iduser integer NOT NULL,
+    nom character varying(50) NOT NULL,
+    prenom character varying(50) NOT NULL,
+    mail character varying(50) NOT NULL,
+    mdp character varying(16) NOT NULL,
+    description character varying(200),
+    statut integer,
+    photo character varying(50),
+    ideq integer
+);
+
+
+ALTER TABLE utilisateurs OWNER TO postgres;
+
+--
+-- Name: utilisateurs_iduser_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE utilisateurs_iduser_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE utilisateurs_iduser_seq OWNER TO postgres;
+
+--
+-- Name: utilisateurs_iduser_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE utilisateurs_iduser_seq OWNED BY utilisateurs.iduser;
+
+
+--
+-- Name: ideq; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY equipes ALTER COLUMN ideq SET DEFAULT nextval('equipes_ideq_seq'::regclass);
+
+
+--
+-- Name: ideven; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY evenements ALTER COLUMN ideven SET DEFAULT nextval('evenements_ideven_seq'::regclass);
+
+
+--
+-- Name: idfin; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY financeur ALTER COLUMN idfin SET DEFAULT nextval('financeur_idfin_seq'::regclass);
+
+
+--
+-- Name: idflux; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY flux ALTER COLUMN idflux SET DEFAULT nextval('flux_idflux_seq'::regclass);
+
+
+--
+-- Name: idmessage; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY messages ALTER COLUMN idmessage SET DEFAULT nextval('messages_idmessage_seq'::regclass);
+
+
+--
+-- Name: idpub; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY publications ALTER COLUMN idpub SET DEFAULT nextval('publications_idpub_seq'::regclass);
+
+
+--
+-- Name: id_taches; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY taches ALTER COLUMN id_taches SET DEFAULT nextval('taches_id_taches_seq'::regclass);
+
+
+--
+-- Name: iduser; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY utilisateurs ALTER COLUMN iduser SET DEFAULT nextval('utilisateurs_iduser_seq'::regclass);
+
+
+--
+-- Data for Name: equipes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY equipes (ideq, nomeq) FROM stdin;
+1	alpha
+2	beta
+3	gamma
+0	\N
+\.
+
+
+--
+-- Name: equipes_ideq_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('equipes_ideq_seq', 3, true);
+
+
+--
+-- Data for Name: evenements; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY evenements (ideven, intitule, dateeven, lieu, description, statut, ideq) FROM stdin;
+38	Présentation du projet	2016-07-18	Salle des réunions	Objectif de la soirée : recherche de financeurs 	1	2
+36	Soutenance du projet	2016-05-30	Upssitech	Présentation du projet au jury	0	2
+39	Réunion d'équipe	2016-05-31	salle 212	Préparation à la soutenance	1	3
+37	Session de recrutement	2016-06-05	BDE	Recrutement de personnels administratifs.	1	2
+\.
+
+
+--
+-- Name: evenements_ideven_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('evenements_ideven_seq', 39, true);
+
+
+--
+-- Data for Name: financeur; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY financeur (idfin, nomfinanceur, description) FROM stdin;
+0	\N	\N
+1	irit	Institut de recherche
+2	thales	Industriel
+3	région	Région midi-pyrénnées
+\.
+
+
+--
+-- Name: financeur_idfin_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('financeur_idfin_seq', 3, true);
+
+
+--
+-- Data for Name: flux; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY flux (idflux, debit, credit, libelle, datef, idfin, ideq) FROM stdin;
+19	500	0	frais de déplacements	2016-05-30	0	1
+18	0	10000	Fond pour le développement durable	2016-05-24	1	0
+\.
+
+
+--
+-- Name: flux_idflux_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('flux_idflux_seq', 21, true);
+
+
+--
+-- Data for Name: messages; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY messages (idmessage, objet, contenu, dateenvoi, etat, idemetteur, idrecepteur) FROM stdin;
+32	Memo	Pr&eacute;parer les questions relatives &agrave; la pr&eacute;sentation orale.	2016-05-30 16:04:07	0	1	1
+34	Etat d'avancement	Bonjour Florian,\r\n\r\nJ'ai vu que tes pages de publication commencent &agrave; prendre forme. Je vais pour ma part terminer la partie budget. \r\n\r\nCordialement,\r\nNadjim MEHDIOUI	2016-05-30 16:07:04	0	1	4
+23	Validation de la page Annuaire	Bonjour Samuel,\r\n\r\nMerci de bien vouloir valider la page annuaire.php avec son script permettant l'ajout et la suppression d'un membre.\r\n\r\nNB: Normalement, l'indentation des pages a &eacute;t&eacute; respect&eacute;, merci de faire un retour. \r\n\r\nCordialement,\r\nSaidharan SARMA	2016-05-30 15:49:09	0	3	2
+25	Memo	Penser &agrave; prendre l'adaptateur VGA pour la pr&eacute;sentation	2016-05-30 15:51:34	0	3	3
+26	V&eacute;rifier les liens dans tes pages	Bonjour Florian,\r\n\r\nPenses &agrave; bien v&eacute;rifier les liens de redirections dans tes pages et la pr&eacute;sence du favicon pour que le site web soit visuellement le plus abouti.\r\n\r\nCordialement,\r\nSaidharan SARMA	2016-05-30 15:52:56	0	3	4
+27	Memo	Prendre un deuxi&egrave;me vid&eacute;o projecteur pour la pr&eacute;sentation orale du projet WEB.	2016-05-30 15:54:34	0	2	2
+29	Photos dans la rubrique Annuaire	Bonjour Saidharan,\r\n\r\nPenses &agrave; bien v&eacute;rifier que les photos ins&eacute;r&eacute;es pour les cartes d'identit&eacute;s des personnes soit une photo r&eacute;glement&eacute;e (compatible pour papiers officiels).\r\n\r\nCordialement,\r\nSamuel GARCIA	2016-05-30 15:57:40	0	2	3
+28	Traitement de la page budget.php	Bonjour Nadjim,\r\n\r\nLes d&eacute;bits et les cr&eacute;dits fonctionnent-ils comme voulu ?\r\n\r\nCordialement,\r\nSamuel GARCIA	2016-05-30 15:56:01	2	2	1
+24	V&eacute;rification des requ&ecirc;tes PHP	Bonjour Nadjim,\r\n\r\nJ'ai effectu&eacute; quelques requ&ecirc;tes PHP dans la page equipe.php. Merci d'en v&eacute;rifier l&rsquo;exactitude et la concondance par rapport au dossier de conception.\r\n\r\nCordialement, \r\nSaidharan SARMA	2016-05-30 15:50:59	2	3	1
+31	Re : Traitement de la page budget.php	Bonjour Samuel,\r\n\r\nLes requ&ecirc;tes fonctionnent &agrave; merveille ! Tu peux les tester et me dire si cela fonctionne pour toi aussi.\r\n\r\nCordialement,\r\nNadjim MEHDIOUI	2016-05-30 16:02:17	0	1	2
+30	Pages publications.php	Bonjour Florian,\r\n\r\nLes pages de publications sont-elles termin&eacute;es ?\r\n\r\nCordialement,\r\nSamuel GARCIA	2016-05-30 15:58:25	0	2	4
+33	Aide sur la partie SQL	Bonjour Saidharan,\r\n\r\nTu peux me demander des questions concernant la partie SQL si jamais tu bloques pour une requ&ecirc;te quelconque.\r\n\r\nCordialement,\r\nNadjim MEHDIOUI	2016-05-30 16:05:37	0	1	3
+36	Requ&ecirc;tes SQL	Bonjour Nadjim,\r\n\r\nPour l'instant je me d&eacute;brouille plut&ocirc;t bien, je te contacterai si besoin est, merci.\r\n\r\nCordialement,\r\nFlorian BLANCHET	2016-05-30 16:13:52	0	4	1
+35	Re : pages publications	Bonjour Samuel,\r\n\r\nOui, ils sont fonctionnels.\r\n\r\nCordialement,\r\nFlorian BLANCHET	2016-05-30 16:13:01	0	4	2
+37	Re : les liens	Bonjour Saidharan,\r\n\r\nJe viens de v&eacute;rifier les liens et ils semblent &ecirc;tre tous corrects.\r\n\r\nCordialement,\r\nFlorian BLANCHET	2016-05-30 16:17:35	0	4	3
+38	Memo	Demander quand est-ce que je dois m'installer sur le PC pour la pr&eacute;sentation.	2016-05-30 16:18:26	0	4	4
+\.
+
+
+--
+-- Name: messages_idmessage_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('messages_idmessage_seq', 38, true);
+
+
+--
+-- Data for Name: publications; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY publications (idpub, titre, datepub, contenu, etat, ideq) FROM stdin;
+1	Dossier de conception de la plateforme	2016-05-01 12:17:34	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in auctor enim, eget efficitur massa. Integer feugiat erat quis magna vestibulum, sit amet mattis turpis dignissim. Nulla facilisi. Quisque auctor mi quis enim accumsan pulvinar. Sed aliquet accumsan massa, tristique blandit sem pharetra vel. Sed quis dictum felis. Nulla facilisi. Vivamus est ante, pellentesque a viverra ac, eleifend et quam. Morbi a egestas nunc, aliquam aliquam nulla. Morbi vel malesuada erat, in pellentesque velit. 	1	1
+4	Dossier de conception IHM	2016-05-29 09:55:22	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in auctor enim, eget efficitur massa. Integer feugiat erat quis magna vestibulum, sit amet mattis turpis dignissim. Nulla facilisi. Quisque auctor mi quis enim accumsan pulvinar. Sed aliquet accumsan massa, tristique blandit sem pharetra vel. Sed quis dictum felis. Nulla facilisi. Vivamus est ante, pellentesque a viverra ac, eleifend et quam. Morbi a egestas nunc, aliquam aliquam nulla. Morbi vel malesuada erat, in pellentesque velit. 	1	3
+3	Résultats des élections	2016-05-29 15:17:22	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in auctor enim, eget efficitur massa. Integer feugiat erat quis magna vestibulum, sit amet mattis turpis dignissim. Nulla facilisi. Quisque auctor mi quis enim accumsan pulvinar. Sed aliquet accumsan massa, tristique blandit sem pharetra vel. Sed quis dictum felis. Nulla facilisi. Vivamus est ante, pellentesque a viverra ac, eleifend et quam. Morbi a egestas nunc, aliquam aliquam nulla. Morbi vel malesuada erat, in pellentesque velit. 	1	3
+2	Résultat du prototype	2016-05-01 17:17:34	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in auctor enim, eget efficitur massa. Integer feugiat erat quis magna vestibulum, sit amet mattis turpis dignissim. Nulla facilisi. Quisque auctor mi quis enim accumsan pulvinar. Sed aliquet accumsan massa, tristique blandit sem pharetra vel. Sed quis dictum felis. Nulla facilisi. Vivamus est ante, pellentesque a viverra ac, eleifend et quam. Morbi a egestas nunc, aliquam aliquam nulla. Morbi vel malesuada erat, in pellentesque velit. 	0	2
+\.
+
+
+--
+-- Name: publications_idpub_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('publications_idpub_seq', 6, true);
+
+
+--
+-- Data for Name: taches; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY taches (id_taches, tache, deadline, etat, ideq) FROM stdin;
+1	Création de la page de traitement de l'ajout d'utilisateur	2016-05-27	1	2
+9	Création de l'annuaire	2016-04-22	0	1
+10	Coordination des activités externes	2016-05-20	0	3
+\.
+
+
+--
+-- Name: taches_id_taches_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('taches_id_taches_seq', 10, true);
+
+
+--
+-- Data for Name: utilisateurs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY utilisateurs (iduser, nom, prenom, mail, mdp, description, statut, photo, ideq) FROM stdin;
+2	garcia	samuel	samuel.garcia@sciencehub.com	samuel	Etudiant en L3 STRI, issu d'un BTS SIO. 	0	../images/sam.jpg	3
+1	mehdioui	nadjim	nadjim.mehdioui@sciencehub.com	nadjim	Etudiant en L3 STRI, issu d'une L2 informatique. Participant au projet de développement web.	1	../images/nadjim.jpg	3
+3	sarma	saidharan	saidharan.sarma@sciencehub.com	saidharan	Etudiant en L3 STRI, issu d'un DUT Réseaux et Télécommunications.	0	../images/said.jpg	2
+4	blanchet	florian	florian.blanchet@sciencehub.com	florian	Etudiant en L3 STRI, issu d'un DUT Réseaux et Télécommunications.	0	../images/florian.jpg	2
+\.
+
+
+--
+-- Name: utilisateurs_iduser_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('utilisateurs_iduser_seq', 5, true);
+
+
+--
+-- Name: equipes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY equipes
+    ADD CONSTRAINT equipes_pkey PRIMARY KEY (ideq);
+
+
+--
+-- Name: evenements_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY evenements
+    ADD CONSTRAINT evenements_pkey PRIMARY KEY (ideven);
+
+
+--
+-- Name: financeur_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY financeur
+    ADD CONSTRAINT financeur_pkey PRIMARY KEY (idfin);
+
+
+--
+-- Name: flux_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY flux
+    ADD CONSTRAINT flux_pkey PRIMARY KEY (idflux);
+
+
+--
+-- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT messages_pkey PRIMARY KEY (idmessage);
+
+
+--
+-- Name: publications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY publications
+    ADD CONSTRAINT publications_pkey PRIMARY KEY (idpub);
+
+
+--
+-- Name: taches_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY taches
+    ADD CONSTRAINT taches_pkey PRIMARY KEY (id_taches);
+
+
+--
+-- Name: utilisateurs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY utilisateurs
+    ADD CONSTRAINT utilisateurs_pkey PRIMARY KEY (iduser);
+
+
+--
+-- Name: fk_evenements_ideq; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY evenements
+    ADD CONSTRAINT fk_evenements_ideq FOREIGN KEY (ideq) REFERENCES equipes(ideq);
+
+
+--
+-- Name: fk_flux_ideq; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY flux
+    ADD CONSTRAINT fk_flux_ideq FOREIGN KEY (ideq) REFERENCES equipes(ideq);
+
+
+--
+-- Name: fk_flux_idfin; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY flux
+    ADD CONSTRAINT fk_flux_idfin FOREIGN KEY (idfin) REFERENCES financeur(idfin);
+
+
+--
+-- Name: fk_messages_iduser; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT fk_messages_iduser FOREIGN KEY (idemetteur) REFERENCES utilisateurs(iduser);
+
+
+--
+-- Name: fk_messages_iduser_utilisateurs; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT fk_messages_iduser_utilisateurs FOREIGN KEY (idrecepteur) REFERENCES utilisateurs(iduser);
+
+
+--
+-- Name: fk_publications_ideq; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY publications
+    ADD CONSTRAINT fk_publications_ideq FOREIGN KEY (ideq) REFERENCES equipes(ideq);
+
+
+--
+-- Name: fk_taches_ideq; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY taches
+    ADD CONSTRAINT fk_taches_ideq FOREIGN KEY (ideq) REFERENCES equipes(ideq);
+
+
+--
+-- Name: fk_utilisateurs_ideq; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY utilisateurs
+    ADD CONSTRAINT fk_utilisateurs_ideq FOREIGN KEY (ideq) REFERENCES equipes(ideq);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

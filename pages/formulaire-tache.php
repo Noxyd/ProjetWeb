@@ -105,7 +105,7 @@
               ?>
             <button type="submit" class="btn btn-default">Enregistrer</button>
             <div class="bouton">
-              <a href="profil.php" class="btn-fieldset btn btn-danger">Annuler</a>
+              <a href="profil.php" class="btn btn-danger">Annuler</a>
             </div>
           </form>
         </div>
