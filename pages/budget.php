@@ -140,7 +140,7 @@
                         echo "<td>".$flux['credit'][$i]."</td>";
                     else
                         echo "<td>-</td>";
-                    echo "<td>".$flux['nomfinanceur'][$i].$flux['nomeq'][$i]."</td>";
+                    echo "<td>".ucfirst($flux['nomfinanceur'][$i]).ucfirst($flux['nomeq'][$i])."</td>";
                     echo "</tr>";
                     }
                     ?>

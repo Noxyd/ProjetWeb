@@ -74,7 +74,7 @@ function readData(jsonData){
     // console.log(out); Uniquement pour debug
     //On inclu le code contenu dans out dans le #right-panel du fichier messages.php
 
-    $("body").addClass("body-fixed");
+    //$("body").addClass("body-fixed");
     document.getElementById("smoke-background").style.display = "block";
     document.getElementById("wrap-message").innerHTML = out;
 }
@@ -270,7 +270,7 @@ function dataSentMail(jsonData){
     out +="<button class='btn btn-warning btn-message-close' onclick='closeSmoke()'>Fermer</button>";
     out +="</div>";
 
-    $("body").addClass("body-fixed");
+    //$("body").addClass("body-fixed");
     document.getElementById("smoke-background").style.display = "block";
     document.getElementById("wrap-message").innerHTML = out;
 }
