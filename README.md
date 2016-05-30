@@ -5,4 +5,4 @@
 Fournir un outil de partage et de centralisation de connaissances pour une équipe de recherche.
 
 ####Avancement du codage
-95%[###################_]100%
+100%[####################]100%
