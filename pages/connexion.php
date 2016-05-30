@@ -27,15 +27,16 @@ session_start();
     <![endif]-->
     <link href="../css/squelette.css" rel="stylesheet">
     <link href="../css/connexion.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
   </head>
   <body>
     <div id="wrap-container">
       <header>
-        <center><a href="#"><img id="logo" src="../images/logo/logo-transparent-nom.png"/></a></center>
+
       </header>
       <div id="wrap-content">
         <form id="form-cnx" method="post" action="traitements/verifauth.php">
-          <h1>Connectez-vous</h1>
+            <center><img id="logo" src="../images/logo/logo-transparent-nom.png"/></center>
 
           <table>
           <tr>
@@ -63,10 +64,10 @@ session_start();
         </form>
 
       </div>
-      <footer>
+      <!-- <footer id="footer">
           <h4> © BLANCHET / GARCIA / MEHDIOUI / SARMA</h4>
           <p>Tous droits réservés.</p>
-      </footer>
+      </footer> -->
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

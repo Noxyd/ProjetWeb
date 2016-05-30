@@ -1,10 +1,18 @@
+body{
+    background-image: url('../images/Team Sciencehub-cropped2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
 #form-cnx{
   width:600px;
-  background-color: white;
+  background-color: rgba(255,255,255,0.5);
   box-shadow: 1px 1px 7px ;
   margin: auto;
   padding-top: 20px;
   padding-bottom: 40px;
+  margin-top: 50px;
 }
 
 #form-cnx h1{
@@ -27,4 +35,21 @@
   margin-left: 50px;
   margin-right: 50px;
   text-align: center;
+}
+
+#footer h4{
+    color: white;
+}
+
+#footer p{
+    color: white;
+}
+
+#logo{
+  display: inline-block;
+  margin-left: 20px;
+  width: 300px;
+  height: auto;
+  vertical-align:bottom;
+  margin-bottom: 30px;
 }

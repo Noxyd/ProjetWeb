@@ -83,6 +83,7 @@ pg_close($bdd);
     <![endif]-->
     <link href="../css/squelette.css" rel="stylesheet">
     <link href="../css/Publications.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="96x96" href="../images/logo/favicon.png">
   </head>
   <body>
     <div id="wrap-container">
