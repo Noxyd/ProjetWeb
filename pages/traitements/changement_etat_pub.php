@@ -26,12 +26,12 @@ echo "le result vaut $result";
 if ($result)
 {
     setcookie("good1",1,time()+4, '/');
-    header('location: ../publications.php');
+    header('location: ../publications.php?type=1');
 }
 else
 {
     setcookie("echec2",1,time()+4, '/');
-    header('location: ../publications.php');
+    header('location: ../publications.php?type=1');
 }
 
 

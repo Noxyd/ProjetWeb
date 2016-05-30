@@ -82,7 +82,7 @@
             <h2 class="inside-panel">Annuaire</h2>
             <div class="sub-pane1">
               <?php
-              echo "<div class='bouton'>\n";
+              echo "<div class='bouton' >\n";
                 if ($_SESSION["statut"] == 1){
                   echo "\t\t<a href=\"formulaire-annuaire.php\" class=\"btn btn-success\">Ajouter un membre</a>\n";
                   echo "\t\t<a href=\"suppression-annuaire.php\" class=\"btn btn-danger\">Supprimer un membre</a>\n";
@@ -91,11 +91,11 @@
 
               //affichage d'un message lors d'une insertion reussie
               if (isset($_COOKIE['success-even'])) {
-                echo '<div class="alert alert-success" role="alert">La personne a été ajoutée avec succès !</div>';
+                echo '<div style="margin-top:20px;" class="alert alert-success" role="alert">La personne a été ajoutée avec succès !</div>';
               }
               //affichage d'un message lors d'une suppression reussie
               if (isset($_COOKIE['success-del'])) {
-                echo '<div class="alert alert-success" role="alert">La personne a été supprimée avec succès !</div>';
+                echo '<div style="margin-top:20px;" class="alert alert-success" role="alert">La personne a été supprimée avec succès !</div>';
               }
               echo "\t</div>\n";
 

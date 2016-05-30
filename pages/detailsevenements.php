@@ -49,7 +49,7 @@
         <ul id="wrap-li">
           <li><a href="../index.php">Accueil</a></li>
           <li><a href="presentation.php" >Présentation</a></li>
-          <li><a href="publication.php"> Publications </a></li>
+          <li><a href="publications.php"> Publications </a></li>
           <li class="actif"><a href="evenements.php"> Evénements </a></li>
           <li><a href="messages.php"> Messages </a></li>
           <li><a href="annuaire.php"> Annuaire </a></li>

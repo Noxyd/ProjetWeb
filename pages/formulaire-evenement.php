@@ -64,7 +64,7 @@
                         <label>Titre :</label>
                         <p> <input type="text" class="form-control" name="titre" required></p>
                         <label>Date :</label>
-                        <p><input type="date" class="form-control" name="date" placeholder="ex: 2016-05-30"required></p>
+                        <p><input type="date" class="form-control" name="date" placeholder="ex: 30/05/2016"required></p>
                         <label>Lieu :</label>
                         <p><input type="text" class="form-control" name="lieu" required></p>
                         <label>Description :</label>
